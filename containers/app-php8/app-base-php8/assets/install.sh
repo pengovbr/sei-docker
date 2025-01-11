@@ -26,12 +26,13 @@ localedef pt_BR.ISO8859-1 -i pt_BR -f ISO-8859-1
 
 dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm
 dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
-dnf install -y ffmpeg
+dnf  config-manager --set-enabled crb && \
+dnf -y install ffmpeg
 
 
 cd /tmp/assets/pacotes
 
-# Instalação do componentes UploadProgress
+# Instalaï¿½ï¿½o do componentes UploadProgress
 tar -zxvf uploadprogress-2.0.2.tgz
 cd uploadprogress-2.0.2
 phpize
