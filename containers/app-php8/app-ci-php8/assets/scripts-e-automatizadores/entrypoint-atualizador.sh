@@ -194,22 +194,22 @@ echo "***************************************************"
 
 
 if [ ! -f /sei/controlador-instalacoes/instalado.ok ]; then
-	# Atualização do endereço de host da aplicação
-	echo "Atualizando Banco de Dados com as informacoes de orgao e sistema..."
+    # Atualização do endereço de host da aplicação
+    echo "Atualizando Banco de Dados com as informacoes de orgao e sistema..."
 
-	php -r "
-	require_once '/opt/sip/web/Sip.php';
-	\$conexao = BancoSip::getInstance();
-	\$conexao->abrirConexao();
-	\$conexao->executarSql(\"update orgao set sigla='$APP_ORGAO', descricao='$APP_ORGAO_DESCRICAO' where id_orgao=0\");
-	\$conexao->executarSql(\"update sistema set pagina_inicial='$APP_HOST_URL/sip' where sigla='SIP'\");
-	\$conexao->executarSql(\"update sistema set pagina_inicial='$APP_HOST_URL/sei/inicializar.php', web_service='$APP_HOST_URL/sei/controlador_ws.php?servico=sip' where sigla='SEI'\");"
+    php -r "
+    require_once '/opt/sip/web/Sip.php';
+    \$conexao = BancoSip::getInstance();
+    \$conexao->abrirConexao();
+    \$conexao->executarSql(\"update orgao set sigla='$APP_ORGAO', descricao='$APP_ORGAO_DESCRICAO' where id_orgao=0\");
+    \$conexao->executarSql(\"update sistema set pagina_inicial='$APP_HOST_URL/sip' where sigla='SIP'\");
+    \$conexao->executarSql(\"update sistema set pagina_inicial='$APP_HOST_URL/sei/inicializar.php', web_service='$APP_HOST_URL/sei/controlador_ws.php?servico=sip' where sigla='SEI'\");"
 
-	php -r "
-	require_once '/opt/sei/web/SEI.php';
-	\$conexao = BancoSEI::getInstance();
-	\$conexao->abrirConexao();
-	\$conexao->executarSql(\"update orgao set sigla='$APP_ORGAO', descricao='$APP_ORGAO_DESCRICAO'\");"
+    php -r "
+    require_once '/opt/sei/web/SEI.php';
+    \$conexao = BancoSEI::getInstance();
+    \$conexao->abrirConexao();
+    \$conexao->executarSql(\"update orgao set sigla='$APP_ORGAO', descricao='$APP_ORGAO_DESCRICAO' where id_orgao=0\");"
 fi
 
 echo "***************************************************"
@@ -349,19 +349,19 @@ fi
 
 # multiorgaos
 if [ ! -f /sei/controlador-instalacoes/instalado.ok ]; then
-	
-	# multiorgaos
-	echo "Vamos verificar se passou multiorgaos para instalar"
-	
-	if [ "$APP_ORGAOS_ADICIONAIS_SIGLA" == "" ] || [ "$APP_ORGAOS_ADICIONAIS_NOME" == "" ]; then
-	    echo "Arrays multiorgaos vazios ou preenchidos incorretamente, pulando instalacao multiorgaos"
+
+    # multiorgaos
+    echo "Vamos verificar se passou multiorgaos para instalar"
+
+    if [ "$APP_ORGAOS_ADICIONAIS_SIGLA" == "" ] || [ "$APP_ORGAOS_ADICIONAIS_NOME" == "" ]; then
+        echo "Arrays multiorgaos vazios ou preenchidos incorretamente, pulando instalacao multiorgaos"
     else
 
-	    /usr/sbin/php-fpm && /usr/sbin/httpd -DFOREGROUND &
+        /usr/sbin/php-fpm && /usr/sbin/httpd -DFOREGROUND &
 
-	    echo "Vamos executar agora o script para cadastrar multiorgaos"
-	    php /sei/files/scripts-e-automatizadores/misc/cadastrarMultiorgao.php
-	    echo "Script multiorgaos executado verifique se houve observacoes acima"
+        echo "Vamos executar agora o script para cadastrar multiorgaos"
+        php /sei/files/scripts-e-automatizadores/misc/cadastrarMultiorgao.php
+        echo "Script multiorgaos executado verifique se houve observacoes acima"
 
     fi
 
@@ -458,8 +458,8 @@ if [ "$MODULO_ESTATISTICAS_INSTALAR" == "true" ]; then
 
         if [ -z "$MODULO_ESTATISTICAS_VERSAO" ] || \
            [ -z "$MODULO_ESTATISTICAS_URL" ] || \
-	         [ -z "$MODULO_ESTATISTICAS_SIGLA" ] || \
-	         [ -z "$MODULO_ESTATISTICAS_CHAVE" ]; then
+             [ -z "$MODULO_ESTATISTICAS_SIGLA" ] || \
+             [ -z "$MODULO_ESTATISTICAS_CHAVE" ]; then
             echo "Informe as seguinte variaveis de ambiente no container:"
             echo "MODULO_ESTATISTICAS_VERSAO, MODULO_ESTATISTICAS_URL, MODULO_ESTATISTICAS_SIGLA, MODULO_ESTATISTICAS_CHAVE"
 
@@ -467,7 +467,7 @@ if [ "$MODULO_ESTATISTICAS_INSTALAR" == "true" ]; then
             echo "Sincronizando nova versão do módulo de estatísticas"
 
             cd /sei-modulos/mod-sei-estatisticas
-            git pull
+            git pull || true
 
             cp -Rf /sei-modulos/mod-sei-estatisticas /opt/sei/web/modulos/
 
@@ -511,8 +511,8 @@ if [ "$MODULO_REST_INSTALAR" == "true" ]; then
 
         if [ -z "$MODULO_REST_VERSAO" ] || \
            [ -z "$MODULO_REST_URL_NOTIFICACAO" ] || \
-	       [ -z "$MODULO_REST_ID_APP" ] || \
-	       [ -z "$MODULO_REST_CHAVE" ]; then
+           [ -z "$MODULO_REST_ID_APP" ] || \
+           [ -z "$MODULO_REST_CHAVE" ]; then
             echo "Informe as seguinte variaveis de ambiente no container:"
             echo "MODULO_REST_VERSAO, MODULO_REST_URL_NOTIFICACAO, MODULO_REST_ID_APP, MODULO_REST_CHAVE"
 
@@ -521,7 +521,7 @@ if [ "$MODULO_REST_INSTALAR" == "true" ]; then
             echo "Sincronizando nova versão do módulo de WSSEI"
             rm -rf /opt/sei/web/modulos/mod-wssei/
             cd /sei-modulos/mod-wssei
-            git pull
+            git pull || true
 
             cp -Rf /sei-modulos/mod-wssei /opt/sei/web/modulos/
             cd /opt/sei/web/modulos/mod-wssei/
@@ -557,7 +557,7 @@ if [ "$MODULO_REST_INSTALAR" == "true" ]; then
             sed -i "s#MOD_WSSEI_ID_APP#MODULO_REST_ID_APP#g" ConfiguracaoMdWSSEI.php
             sed -i "s#MOD_WSSEI_CHAVE_AUTORIZACAO#MODULO_REST_CHAVE#g" ConfiguracaoMdWSSEI.php
             sed -i "s#MOD_WSSEI_TOKEN_SECRET#MODULO_REST_TOKEN_SECRET#g" ConfiguracaoMdWSSEI.php
-            
+
             cd /opt/sei/scripts/mod-wssei/
             echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sei_atualizar_versao_modulo_wssei.php
 
@@ -596,7 +596,7 @@ if [ "$MODULO_RESPOSTA_INSTALAR" == "true" ]; then
           echo "Sincronizando nova versão do módulo de resposta"
           rm -rf /opt/sei/web/modulos/mod-sei-resposta/
           cd /sei-modulos/mod-sei-resposta
-          git pull
+          git pull || true
 
           cp -Rf /sei-modulos/mod-sei-resposta /opt/sei/web/modulos/
           cd /opt/sei/web/modulos/mod-sei-resposta/
@@ -675,7 +675,8 @@ if [ "$MODULO_GESTAODOCUMENTAL_INSTALAR" == "true" ]; then
                 cp -Rf /sei-modulos/mod-gestao-documental /opt/sei/web/modulos/
 
                 cd /opt/sei/web/modulos/mod-gestao-documental/
-		git pull
+                git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-gestao-documental.git
+                git pull || true
 
                 git checkout $MODULO_GESTAODOCUMENTAL_VERSAO
                 echo "Versao do Gestao Documental eh agora: $MODULO_GESTAODOCUMENTAL_VERSAO"
@@ -770,6 +771,8 @@ if [ "$MODULO_LOGINUNICO_INSTALAR" == "true" ]; then
               cp -Rf /sei-modulos/mod-sei-loginunico /opt/sei/web/modulos/
 
               cd /opt/sei/web/modulos/mod-sei-loginunico/
+              git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-loginunico.git
+              git pull || true
               git checkout $MODULO_LOGINUNICO_VERSAO
               echo "Versao do LoginÚnico é agora: $MODULO_LOGINUNICO_VERSAO"
 
@@ -861,6 +864,8 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-assinatura-avancada .
                 cd mod-sei-assinatura-avancada/
+                    git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-assinatura-avancada.git
+                  git pull || true
                 git checkout $MODULO_ASSINATURAVANCADA_VERSAO
                 echo "Versao do LoginUnico eh agora: $MODULO_ASSINATURAVANCADA_VERSAO"
 
@@ -933,7 +938,7 @@ if [ "$MODULO_PEN_INSTALAR" == "true" ]; then
 
         if [ -z "$MODULO_PEN_VERSAO" ] || \
            [ -z "$MODULO_PEN_WEBSERVICE" ] || \
-	         [ -z "$MODULO_PEN_CERTIFICADO_BASE64" ]; then
+             [ -z "$MODULO_PEN_CERTIFICADO_BASE64" ]; then
             echo "Informe as seguinte variaveis de ambiente no container:"
             echo "MODULO_PEN_VERSAO, MODULO_PEN_WEBSERVICE, MODULO_PEN_CERTIFICADO"
 
@@ -943,7 +948,7 @@ if [ "$MODULO_PEN_INSTALAR" == "true" ]; then
                 rm -rf /opt/sei/web/modulos/mod-sei-pen /opt/sei/web/modulos/pen
 
                 cd /sei-modulos/mod-sei-pen
-                git pull
+                git pull || true
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-pen mod-sei-pen
@@ -951,7 +956,7 @@ if [ "$MODULO_PEN_INSTALAR" == "true" ]; then
                 cd mod-sei-pen
                 git checkout $MODULO_PEN_VERSAO
                 echo "Versao do PEN agora: $MODULO_PEN_VERSAO"
-                
+
                 make clean
                 make dist
                 cd dist
@@ -985,9 +990,9 @@ if [ "$MODULO_PEN_INSTALAR" == "true" ]; then
                 cd /opt
                 echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sip/scripts/mod-pen/sip_atualizar_versao_modulo_pen.php
                 echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sei/scripts/mod-pen/sei_atualizar_versao_modulo_pen.php
-                
+
                 rm -rf /opt/sei/web/modulos/mod-sei-pen.old
-                
+
                 echo "Iniciar Configuracao automatica do modulo"
                 source /sei/files/scripts-e-automatizadores/modulos/mod-sei-pen/mod-sei-pen.sh
 
@@ -1081,7 +1086,7 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 rm -rf /opt/sei/web/modulos/mod-sei-protocolo-integrado /opt/sei/web/modulos/protocolo-integrado
 
                 cd /sei-modulos/mod-sei-protocolo-integrado
-                git pull
+                git pull || true
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-protocolo-integrado mod-sei-protocolo-integrado
@@ -1089,7 +1094,7 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 cd mod-sei-protocolo-integrado
                 git checkout $MODULO_PI_VERSAO
                 echo "Versao do PEN agora: $MODULO_PI_VERSAO"
-                
+
                 make clean
                 make dist
                 cd dist
@@ -1119,9 +1124,9 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 cd /opt
                 echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sip/scripts/mod-protocolo-integrado/sip_atualizar_versao_modulo_protocolo_integrado.php
                 echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sei/scripts/mod-protocolo-integrado/sei_atualizar_versao_modulo_protocolo_integrado.php
-                
+
                 rm -rf /opt/sei/web/modulos/mod-sei-protocolo-integrado.old
-                
+
                 touch /sei/controlador-instalacoes/instalado-modulo-pi.ok
 
         fi
@@ -1158,7 +1163,8 @@ if [ "$MODULO_INCOM_INSTALAR" == "true" ]; then
                 rm -rf /opt/sei/web/modulos/mod-sei-incom /opt/sei/web/modulos/incom
 
                 cd /sei-modulos/mod-sei-incom
-                git pull
+                git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-incom.git
+                git pull || true
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-incom mod-sei-incom
