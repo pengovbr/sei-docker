@@ -9,9 +9,6 @@ FROM ${IMAGEM_BASE}
 ############################# INÍCIO DA INSTALAÇÃO #############################
 ENV TERM=xterm
 
-RUN groupadd jodconverter && \
-    useradd --create-home --home-dir /home/jodconverter --shell /bin/bash --gid jodconverter --groups jodconverter --uid 1001 jodconverter
-
 ADD assets/install.sh \
     assets/entrypoint.sh \
     https://github.com/spbgovbr/sei-docker-binarios/raw/main/pacoteslinux/jodconverter-tomcat-2.2.2.zip \

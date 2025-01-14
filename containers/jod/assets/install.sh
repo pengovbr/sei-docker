@@ -12,6 +12,11 @@ sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/CentOS-*.repo
 # Instalação do utilitários necessários para o provisionamento
 yum -y install unzip java-1.7.0-openjdk wget unzip libreoffice libreoffice-headless
 
+# Cria grupo jodconverter e usuário jodconverter para rodar como não-root
+groupadd jodconverter
+useradd --create-home --home-dir /home/jodconverter --shell /bin/bash --gid jodconverter --groups jodconverter --uid 1001 jodconverter
+
+
 # Instalação da api de serviços de conversão de documentos
 unzip /jodconverter-tomcat-2.2.2.zip -d /opt
 rm -rf /jodconverter-tomcat-2.2.2.zip
