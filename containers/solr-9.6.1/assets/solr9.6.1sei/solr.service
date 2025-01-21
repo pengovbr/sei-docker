@@ -1,0 +1,15 @@
+[Unit]
+Description=Apache SOLR
+After=syslog.target network.target remote-fs.target nss-lookup.target
+[Service]
+PIDFile=/opt/solr/bin/solr-8983.pid
+ExecStart=/opt/solr/bin/solr -p 8983
+User=solr
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/opt/solr/bin/solr stop -p 8983
+PrivateTmp=true
+LimitNPROC=65000
+LimitNOFILE=65000
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<schema name="sei-publicacoes" version="1.6">
+
+  <field name="id_pub" type="int" indexed="true" stored="true" />
+  <field name="id_pub_leg" type="int" indexed="true" stored="true" />
+  <field name="id_doc" type="long" indexed="true" stored="true" />
+  <field name="id_proc" type="long" indexed="true" stored="true" />
+  <field name="id_prot_agrup" type="long" indexed="true" stored="true" />
+  <field name="id_org_resp" type="int" indexed="true" stored="true" />
+  <field name="id_uni_resp" type="int" indexed="true" stored="true" />
+  <field name="id_serie" type="int" indexed="true" stored="true" />
+  <field name="numero" type="text_general" indexed="true" stored="true" />
+  <field name="prot_proc" type="string" indexed="true" stored="true" />
+  <field name="prot_pesq" type="string" indexed="true" stored="true" />
+  <field name="prot_doc" type="string" indexed="true" stored="true" />
+  <field name="dta_doc" type="date" indexed="true" stored="true" />
+  <field name="dta_pub" type="date" indexed="true" stored="true" />
+  <field name="num_pub" type="string" indexed="true" stored="true" />
+  <field name="id_veic_pub" type="int" indexed="true" stored="true" />
+  <field name="resumo" type="text_general" indexed="true" stored="true" />
+  <field name="id_veic_io" type="int" indexed="true" stored="true" />
+  <field name="dta_pub_io" type="date" indexed="true" stored="true" />
+  <field name="id_sec_io" type="int" indexed="true" stored="true" />
+  <field name="pag_io" type="string" indexed="true" stored="true" />
+  <field name="id_tipo_proc" type="int" indexed="true" stored="true" />
+  <field name="dth_idx" type="date" indexed="true" stored="true" />
+  <field name="aux1" type="string" indexed="true" stored="true" />
+  <field name="aux2" type="string" indexed="true" stored="true" />
+  <field name="aux3" type="int" indexed="true" stored="true" />
+
+
+  <!-- Common metadata fields, named specifically to match up with
+       SolrCell metadata when parsing rich documents such as Word, PDF.
+       Some fields are multiValued only because Tika currently may return
+       multiple values for them. Some metadata is parsed from the documents,
+       but there are some which come from the client context:
+         "content_type": From the HTTP headers of incoming stream
+         "resourcename": From SolrCell request param resource.name
+     -->
+  <field name="title" type="text_general" indexed="true" stored="true" multiValued="true"/>
+  <field name="subject" type="text_general" indexed="true" stored="true"/>
+  <field name="description" type="text_general" indexed="true" stored="true"/>
+  <field name="comments" type="text_general" indexed="true" stored="true"/>
+  <field name="author" type="text_general" indexed="true" stored="true"/>
+  <field name="keywords" type="text_general" indexed="true" stored="true"/>
+  <field name="category" type="text_general" indexed="true" stored="true"/>
+  <field name="resourcename" type="text_general" indexed="true" stored="true"/>
+  <field name="url" type="text_general" indexed="true" stored="true"/>
+  <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="last_modified" type="date" indexed="true" stored="true"/>
+  <field name="links" type="string" indexed="true" stored="true" multiValued="true"/>
+
+  <!-- Main body of document extracted by SolrCell.
+         NOTE: This field is not indexed by default, since it is also copied to "text"
+         using copyField below. This is to save space. Use this field for returning and
+         highlighting document content. Use the "text" field to search the content. -->
+
+  <field name="content" type="text_general" indexed="false" stored="true" multiValued="true" />
+
+  <!-- catchall field, containing all other searchable text fields (implemented
+       via copyField further on in this schema  -->
+
+  <field name="text" type="text_general" indexed="true" stored="false" multiValued="true" termVectors="true" />
+
+  <!-- If you remove this field, you must _also_ disable the update log in solrconfig.xml
+       or Solr won't start. _version_ and update log are required for SolrCloud
+    -->
+
+  <field name="_version_" type="long" indexed="true" stored="true"/>
+
+  <!-- points to the root document of a block of nested documents. Required for nested
+       document support, may be removed otherwise
+    -->
+  <field name="_root_" type="string" indexed="true" stored="false"/>
+
+  <!-- Only remove the "id" field if you have a very good reason to. While not strictly
+     required, it is highly recommended. A <uniqueKey> is present in almost all Solr
+     installations. See the <uniqueKey> declaration below where <uniqueKey> is set to "id".
+     Do NOT change the type and apply index-time analysis to the <uniqueKey> as it will likely
+     make routing in SolrCloud and document replacement in general fail. Limited _query_ time
+     analysis is possible as long as the indexing process is guaranteed to index the term
+     in a compatible way. Any analysis applied to the <uniqueKey> should _not_ produce multiple
+     tokens
+   -->
+  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+
+  <!-- Field to use to determine and enforce document uniqueness.
+         Unless this field is marked with required="false", it will be a required field
+      -->
+  <uniqueKey>id</uniqueKey>
+
+  <!-- copyField commands copy one field to another at the time a document
+          is added to the index.  It's used either to index the same field differently,
+          or to add multiple fields to the same field for easier/faster searching.  -->
+
+  <!-- Text fields from SolrCell to search by default in our catch-all field -->
+
+  <copyField source="title" dest="text"/>
+  <copyField source="author" dest="text"/>
+  <copyField source="description" dest="text"/>
+  <copyField source="keywords" dest="text"/>
+  <copyField source="content" dest="text"/>
+  <copyField source="content_type" dest="text"/>
+  <copyField source="resourcename" dest="text"/>
+  <copyField source="url" dest="text"/>
+  <copyField source="prot_proc" dest="text"/>
+  <copyField source="prot_pesq" dest="text"/>
+  <copyField source="prot_doc" dest="text"/>
+
+
+  <!-- field type definitions. The "name" attribute is
+     just a label to be used by field definitions.  The "class"
+     attribute and any other attributes determine the real
+     behavior of the fieldType.
+       Class names starting with "solr" refer to java classes in a
+     standard package such as org.apache.solr.analysis
+  -->
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+  <fieldType name="int" class="solr.IntPointField" docValues="true"/>
+  <fieldType name="float" class="solr.FloatPointField" docValues="true"/>
+  <fieldType name="long" class="solr.LongPointField" docValues="true"/>
+  <fieldType name="double" class="solr.DoublePointField" docValues="true"/>
+  <fieldType name="date" class="solr.DatePointField" docValues="true"/>
+
+  <fieldType name="ignored" class="solr.StrField" indexed="false" stored="false" multiValued="true"/>
+  <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+  <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+  <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+  <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+  <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+
+  <!-- A general text field that has reasonable, generic
+         cross-language defaults: it tokenizes with StandardTokenizer,
+   removes stop words from case-insensitive "stopwords.txt"
+   (empty by default), and down cases.  At query time only, it
+   also applies synonyms. -->
+
+  <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_pt.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="0" splitOnCaseChange="1" splitOnNumerics="0"  catenateWords="1" catenateNumbers="1" catenateAll="1" />
+      <filter class="solr.FlattenGraphFilterFactory" />
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_pt.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="0" splitOnCaseChange="1" splitOnNumerics="0"  catenateWords="1" catenateNumbers="1" catenateAll="1" />
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+
+</schema>
