@@ -26,6 +26,7 @@ localedef pt_BR.ISO8859-1 -i pt_BR -f ISO-8859-1
 
 dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm
 dnf install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
+dnf config-manager --set-enabled crb
 dnf install -y ffmpeg
 
 
@@ -79,16 +80,17 @@ if [ "$IMAGEM_APP_PACOTEORACLE_PRESENTE" == "true" ]; then
 
     # ORACLE oci
 
-    yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el9.x86_64.rpm
-    yum install -y oracle-instantclient-devel-21.12.0.0.0-1.el9.x86_64.rpm
+    #yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el9.x86_64.rpm
+    #yum install -y oracle-instantclient-devel-21.12.0.0.0-1.el9.x86_64.rpm
+	yum install -y oracle-instantclient-basic-23.6.0.24.10-1.el9.x86_64.rpm
 
-    rm -rf oracle-instantclient-basic-21.12.0.0.0-1.el9.x86_64.rpm oracle-instantclient-devel-21.12.0.0.0-1.el9.x86_64.rpm
+    rm -rf oracle-instantclient-basic-23.6.0.24.10-1.el9.x86_64.rpm
 
     #yum install -y systemtap-sdt-devel
     #pecl channel-update pecl.php.net
     #export PHP_DTRACE=yes && echo "" | pecl install oci8-3.3.0 && unset PHP_DTRACE
     #echo "extension=oci8.so" > /etc/php.d/oci8.ini
-    
+
     yum install -y php-oci8
 
 fi
