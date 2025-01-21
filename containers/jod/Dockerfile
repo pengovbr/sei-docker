@@ -7,7 +7,7 @@ ARG IMAGEM_BASE=processoeletronico/base-centos7:latest
 FROM ${IMAGEM_BASE}
 
 ############################# INÍCIO DA INSTALAÇÃO #############################
-ENV TERM xterm
+ENV TERM=xterm
 
 ADD assets/install.sh \
     assets/entrypoint.sh \
@@ -16,6 +16,8 @@ ADD assets/install.sh \
 
 RUN sh /install.sh && rm -rf /install.sh
 ############################## FIM DA INSTALACAO ###############################
+
+USER jodconverter
 
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE 8080
