@@ -15,7 +15,7 @@ sleep 30
 mv /tmp/sip_4_1_0_BD_Ref_Exec.bak /tmp/sip_sqlserver.bak
 mv /tmp/sei_4_1_0_BD_Ref_Exec.bak /tmp/sei_sqlserver.bak
 
-tsql -S localhost -U sa -P $SA_PASSWORD < /tmp/restore.sql
+/opt/mssql-tools18//bin/sqlcmd -S localhost -U sa -C -P $SA_PASSWORD < /tmp/restore.sql
 
 # Remover arquivos temporários
 rm -rf /tmp/*
