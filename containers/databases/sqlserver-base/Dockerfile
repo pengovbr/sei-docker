@@ -2,5 +2,5 @@
 # SqlServer Imagem Alternativa - apenas redundancia do repo oficial
 ################################################################################
 
-FROM processoeletronico/sei4-sqlserver:1.0
+FROM liaisonintl/mssql-server-linux:v2019
 #liaisonintl/mssql-server-linux

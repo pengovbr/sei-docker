@@ -13,7 +13,7 @@ FROM ${IMAGEM_BASE}
 
 ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/master
 
-ENV TERM xterm \
+ENV TERM=xterm \
     ACCEPT_EULA=Y \
     SA_PASSWORD='yourStrong(!)Password'
 
