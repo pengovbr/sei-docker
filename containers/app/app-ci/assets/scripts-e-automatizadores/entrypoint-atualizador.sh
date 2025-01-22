@@ -570,6 +570,7 @@ if [ "$MODULO_RESPOSTA_INSTALAR" == "true" ]; then
           echo "Sincronizando nova versão do módulo de resposta"
           rm -rf /opt/sei/web/modulos/mod-sei-resposta/
           cd /sei-modulos/mod-sei-resposta
+		  git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-resposta.git
           git pull || true
 
           cp -Rf /sei-modulos/mod-sei-resposta /opt/sei/web/modulos/
