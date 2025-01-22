@@ -29,7 +29,9 @@ $objUsuarioDTO->setStrNome($SIGLA_SISTEMA);
 $objUsuarioDTO->setNumIdContato(null);
 $objUsuarioDTO->setStrStaTipo(UsuarioRN::$TU_SISTEMA);
 $objUsuarioDTO->setStrSenha(null);
+try{
 $objUsuarioDTO->setStrSinAcessibilidade('N');
+}catch(Exception $e){;}
 $objUsuarioDTO->setStrSinAtivo('S');
 
 $objUsuarioRN = new UsuarioRN();
