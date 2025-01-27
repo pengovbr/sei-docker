@@ -5,7 +5,7 @@ include envcontainers-test.env
 endif
 
 
-CONTAINERS_LIST=base-centos7 base-rocky93 haproxy traefik memcached jod mailcatcher base-mariadb10.5 mariadb10.5-sei40 base-mysql8 mysql8-sei41 base-sqlserver2017 sqlserver2017-sei40 sqlserver2017-sei41 base-oracle11g oracle11g-sei40 oracle11g-sei41 base-postgres15 postgres15-sei40 postgres15-sei41 solr8.2.0 solr9.4.0 base-app base-app-php8 app-dev app-dev-php8 app-ci app-ci-php8 app-ci-agendador app-ci-php8-agendador
+CONTAINERS_LIST=base-centos7 base-rocky93 haproxy traefik memcached jod mailcatcher base-mariadb10.5 mariadb10.5-sei40 base-mysql8 mysql8-sei41 base-sqlserver2019 sqlserver2019-sei40 sqlserver2019-sei41 base-oracle11g oracle11g-sei40 oracle11g-sei41 base-postgres15 postgres15-sei40 postgres15-sei41 solr8.2.0 solr9.4.0 solr9.6.1 base-app base-app-php8 app-dev app-dev-php8 app-ci app-ci-php8 app-ci-agendador app-ci-php8-agendador
 
 help: ## Mostra essa ajuda. Voce pode usar tab para completar os comandos
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's|^\ ||'
@@ -27,7 +27,7 @@ envcontainers-test.env: ## target de apoio para verificar se existe o arquivo en
 
 verificar-arquivo-env-containers: ## target de apoio para verificar se existe um arquivo no diretorio containers e parar a execucao
 		@if test -f ../envcontainers.env; then \
-		    echo "Um arquivo envcontainers.env foi encontrado em ../"; \
+			echo "Um arquivo envcontainers.env foi encontrado em ../"; \
 				echo "Apague esse arquivo antes de prosseguir, pois o teste usa o seu env proprio (envcontainers-test.env)"; \
 				exit 1; \
 		fi
@@ -46,11 +46,11 @@ containers-erase: verificar-test-envs
 		@echo "Imagens apagadas. Vamos verificar se as imagens nao se encontram presentes"
 		@for i in $(CONTAINERS_LIST); \
 		do \
-		    echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
+			echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
 				if test -z "$$(docker images -q $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO))"; then \
-				    echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe."; \
+					echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe."; \
 				else \
-				    echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) continua existindo"; \
+					echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) continua existindo"; \
 						exit 1; \
 				fi; \
 		done
@@ -64,12 +64,12 @@ containers-build: verificar-test-envs
 		@echo "Imagens criadas. Vamos verificar se as imagens encontram-se presentes"
 		@for i in $(CONTAINERS_LIST); \
 		do \
-		    echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
+			echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
 				if test -z "$$(docker images -q $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO))"; then \
-				    echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe"; \
+					echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe"; \
 						exit 1; \
 				else \
-				    echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe."; \
+					echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe."; \
 				fi; \
 		done
 
@@ -89,18 +89,18 @@ containers-download: verificar-test-envs
 		@echo "Vamos agora tentar fazer o download das imagens de teste"
 		@for i in $(CONTAINERS_LIST); \
 		do \
-		    echo "Baixando a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO)"; \
+			echo "Baixando a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO)"; \
 				docker pull $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO); \
 		done
 		@echo "Imagens baixadas. Vamos verificar se as imagens encontram-se presentes"
 		@for i in $(CONTAINERS_LIST); \
 		do \
-		    echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
+			echo "Verificando se a imagem: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe"; \
 				if test -z "$$(docker images -q $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO))"; then \
-				    echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe"; \
+					echo "Falha: $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) nao existe"; \
 						exit 1; \
 				else \
-				    echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe."; \
+					echo "ok! Imagem $(DOCKER_REGISTRY)/$$i:$(DOCKER_CONTAINER_VERSAO_PRODUTO) existe."; \
 				fi; \
 		done
 

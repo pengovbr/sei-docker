@@ -37,11 +37,11 @@ verificar-parametro-imagemtmp-path: ## target de apoio para verificar se o param
 ## verificar-conteiner-imagem-rodando: target de apoio para verificar se ha conteiner rodando com determinada imagem
 verificar-conteiner-imagem-rodando: verificar-parametro-imagemtmp verificar-parametro-imagemtmp-versao
 		@echo "Verificando se a imagem: $(IMAGEMTMP_FULL) esta rodando ou parada no pool"; \
-    if test "$$(docker ps -a | grep $(IMAGEMTMP_FULL))"; then \
-      echo "Imagem $(IMAGEMTMP_FULL) está sendo usada ou ainda persiste no pool docker stopada."; \
+	if test "$$(docker ps -a | grep $(IMAGEMTMP_FULL))"; then \
+	  echo "Imagem $(IMAGEMTMP_FULL) está sendo usada ou ainda persiste no pool docker stopada."; \
 						echo "Pare e remova antes o conteiner. Abandonando execucao..."; \
 						echo ""; echo ""; \
-      exit 1; \
+	  exit 1; \
 		fi
 
 
@@ -145,10 +145,10 @@ envcontainers.env: ## target de apoio para verificar se existe arquivo envcontan
 ## erase-conteiner-generic: target generico para apagar imagem passada por parametro
 erase-conteiner-generic: verificar-conteiner-imagem-rodando
 		@if test -z "$$(docker images -q $(IMAGEMTMP_FULL))"; then \
-		    echo "Imagem $(IMAGEMTMP_FULL) nao existe. Pulando para o proximo passo"; \
+			echo "Imagem $(IMAGEMTMP_FULL) nao existe. Pulando para o proximo passo"; \
 		else \
-		    echo "Apagando a imagem: $(IMAGEMTMP_FULL)"; \
-		    docker rmi $(IMAGEMTMP_FULL); \
+			echo "Apagando a imagem: $(IMAGEMTMP_FULL)"; \
+			docker rmi $(IMAGEMTMP_FULL); \
 		fi;
 
 
@@ -177,24 +177,33 @@ erase-conteiner-base-mariadb: ## apagar a imagem base-mariadb
 erase-conteiner-base-mysql8: ## apagar a imagem base-mysql8
 		@make IMAGEMTMP=base-mysql8 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
-
 erase-conteiner-mariadb-sei40: ## apagar a imagem mariadb-sei40
 		@make IMAGEMTMP=mariadb10.5-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
+erase-conteiner-mariadb-sei41: ## apagar a imagem mariadb-sei41
+		@make IMAGEMTMP=mariadb10.5-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
+erase-conteiner-mariadb-sei50: ## apagar a imagem mariadb-sei50
+		@make IMAGEMTMP=mariadb10.5-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-mysql8-sei41: ## apagar a imagem mysql8-sei41
 		@make IMAGEMTMP=mysql8-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
+erase-conteiner-mysql8-sei50: ## apagar a imagem mysql8-sei50
+		@make IMAGEMTMP=mysql8-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
 erase-conteiner-base-sqlserver: ## apagar a imagem base-sqlserver
-		@make IMAGEMTMP=base-sqlserver2017 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+		@make IMAGEMTMP=base-sqlserver2019 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 
 erase-conteiner-sqlserver-sei40: ## apagar a imagem sqlserver-sei40
-		@make IMAGEMTMP=sqlserver2017-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
-
+		@make IMAGEMTMP=sqlserver2019-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-sqlserver-sei41: ## apagar a imagem sqlserver-sei41
-		@make IMAGEMTMP=sqlserver2017-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+		@make IMAGEMTMP=sqlserver2019-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
+erase-conteiner-sqlserver-sei50: ## apagar a imagem sqlserver-sei50
+		@make IMAGEMTMP=sqlserver2019-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-base-oracle: ## apagar a imagem base-oracle
 		@make IMAGEMTMP=base-oracle11g IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
@@ -206,6 +215,9 @@ erase-conteiner-oracle-sei40: ## apagar a imagem oracle-sei40
 erase-conteiner-oracle-sei41: ## apagar a imagem oracle-sei41
 		@make IMAGEMTMP=oracle11g-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
+erase-conteiner-oracle-sei50: ## apagar a imagem oracle-sei50
+		@make IMAGEMTMP=oracle11g-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
 erase-conteiner-base-postgres: ## apagar a imagem base-postgres
 		@make IMAGEMTMP=base-postgres15 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
@@ -216,6 +228,8 @@ erase-conteiner-postgres-sei40: ## apagar a imagem postgres-sei40
 erase-conteiner-postgres-sei41: ## apagar a imagem postgres-sei41
 		@make IMAGEMTMP=postgres15-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
+erase-conteiner-postgres-sei50: ## apagar a imagem postgres-sei50
+		@make IMAGEMTMP=postgres15-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-solr: ## apagar a imagem solr
 		@make IMAGEMTMP=solr8.2.0 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
@@ -223,9 +237,11 @@ erase-conteiner-solr: ## apagar a imagem solr
 erase-conteiner-solr-9.4.0: ## apagar a imagem solr-9.4.0
 		@make IMAGEMTMP=solr-9.4.0 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
+erase-conteiner-solr-9.6.1: ## apagar a imagem solr-9.6.1
+		@make IMAGEMTMP=solr-9.6.1 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
 erase-conteiner-base-app: ## apagar a imagem base-app
 		@make IMAGEMTMP=base-app IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
-
 
 erase-conteiner-base-app-php8: ## apagar a imagem base-app-php8
 		@make IMAGEMTMP=base-app-php8 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
@@ -289,7 +305,7 @@ erase-conteiner-dbadminer: ## apagar a imagem dbadminer
 		@make IMAGEMTMP=dbadminer IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 ## erase-conteiners-local: target que chama todos os outros targets para apagar as imagens do projeto
-erase-conteiners-local: erase-conteiner-app-ci-agendador erase-conteiner-app-ci-php8-agendador erase-conteiner-app-ci erase-conteiner-app-ci-php8 erase-conteiner-app-dev erase-conteiner-app-dev-php8 erase-conteiner-base-app erase-conteiner-base-app-php8 erase-conteiner-solr erase-conteiner-memcached erase-conteiner-jod erase-conteiner-mailcatcher erase-conteiner-mariadb-sei40 erase-conteiner-mysql8-sei41 erase-conteiner-base-mariadb erase-conteiner-base-mysql8 erase-conteiner-sqlserver-sei40 erase-conteiner-sqlserver-sei41 erase-conteiner-base-sqlserver erase-conteiner-oracle-sei40 erase-conteiner-oracle-sei41 erase-conteiner-base-oracle erase-conteiner-postgres-sei40 erase-conteiner-postgres-sei41 erase-conteiner-base-postgres erase-conteiner-base-centos erase-conteiner-phpmemcachedadmin erase-conteiner-phpmemcachedadmin-base erase-conteiner-openldap erase-conteiner-openldap-base erase-conteiner-haproxy erase-conteiner-haproxy-base erase-conteiner-traefik erase-conteiner-traefik-base erase-conteiner-phpldapadmin erase-conteiner-dbadminer
+erase-conteiners-local: erase-conteiner-app-ci-agendador erase-conteiner-app-ci-php8-agendador erase-conteiner-app-ci erase-conteiner-app-ci-php8 erase-conteiner-app-dev erase-conteiner-app-dev-php8 erase-conteiner-base-app erase-conteiner-base-app-php8 erase-conteiner-solr erase-conteiner-solr-9.4.0 erase-conteiner-solr-9.6.1 erase-conteiner-memcached erase-conteiner-jod erase-conteiner-mailcatcher erase-conteiner-mariadb-sei40 erase-conteiner-mariadb-sei41 erase-conteiner-mariadb-sei50 erase-conteiner-mysql8-sei41 erase-conteiner-mysql8-sei50 erase-conteiner-base-mariadb erase-conteiner-base-mysql8 erase-conteiner-sqlserver-sei40 erase-conteiner-sqlserver-sei41 erase-conteiner-sqlserver-sei50 erase-conteiner-base-sqlserver erase-conteiner-oracle-sei40 erase-conteiner-oracle-sei41 erase-conteiner-oracle-sei50 erase-conteiner-base-oracle erase-conteiner-postgres-sei40 erase-conteiner-postgres-sei41 erase-conteiner-postgres-sei50 erase-conteiner-base-postgres erase-conteiner-base-centos erase-conteiner-phpmemcachedadmin erase-conteiner-phpmemcachedadmin-base erase-conteiner-openldap erase-conteiner-openldap-base erase-conteiner-haproxy erase-conteiner-haproxy-base erase-conteiner-traefik erase-conteiner-traefik-base erase-conteiner-phpldapadmin erase-conteiner-dbadminer
 
 
 #*****************************************************
@@ -307,21 +323,21 @@ build-conteiner-generic: verificar-docker-registry verificar-parametro-imagemtmp
 
 build-conteiner-base-centos: ## construir imagem base-centos
 		@make IMAGEMTMP=base-centos7 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=base-centos \
 					build-conteiner-generic
 
 
 build-conteiner-base-rocky93: ## construir imagem base-rocky93
 		@make IMAGEMTMP=base-rocky93 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=base-rocky93 \
 					build-conteiner-generic
 
 
 build-conteiner-memcached: ## construir imagem memcached
 		@make IMAGEMTMP=memcached \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=memcached \
 					build-conteiner-generic
 
@@ -329,7 +345,7 @@ build-conteiner-memcached: ## construir imagem memcached
 ## build-conteiner-jod: construir imagem jod
 build-conteiner-jod: verificar-imagem-base-centos
 		@make IMAGEMTMP=jod \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=jod \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_CENTOS):$(IMAGEM_BASE_CENTOS_VERSAO) \
 					build-conteiner-generic
@@ -337,67 +353,98 @@ build-conteiner-jod: verificar-imagem-base-centos
 
 build-conteiner-mailcatcher: ## construir imagem mailcatcher
 		@make IMAGEMTMP=mailcatcher \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=mailcatcher \
 					build-conteiner-generic
 
 
 build-conteiner-base-mariadb: ## construir imagem base-mariadb
 		@make IMAGEMTMP=base-mariadb10.5 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/mariadb-base \
 					build-conteiner-generic
 
 build-conteiner-base-mysql8: ## construir imagem base-mysql8
 		@make IMAGEMTMP=base-mysql8 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/mysql8-base \
 					build-conteiner-generic
 
 ## build-conteiner-mariadb-sei40 construir imagem mariadb-sei40
 build-conteiner-mariadb-sei40: verificar-imagem-base-mariadb
 		@make IMAGEMTMP=mariadb10.5-sei40 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/mariadb-sei40 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_MARIADB):$(IMAGEM_BASE_MARIADB_VERSAO) \
 					build-conteiner-generic
 
+## build-conteiner-mariadb-sei41 construir imagem mariadb-sei41
+build-conteiner-mariadb-sei41: verificar-imagem-base-mariadb
+		@make IMAGEMTMP=mariadb10.5-sei41 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/mariadb-sei41 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_MARIADB):$(IMAGEM_BASE_MARIADB_VERSAO) \
+					build-conteiner-generic
+
+## build-conteiner-mariadb-sei50 construir imagem mariadb-sei50
+build-conteiner-mariadb-sei50: verificar-imagem-base-mariadb
+		@make IMAGEMTMP=mariadb10.5-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/mariadb-sei50 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_MARIADB):$(IMAGEM_BASE_MARIADB_VERSAO) \
+					build-conteiner-generic
+
+
 ## build-conteiner-mysql8-sei41 construir imagem mysql8-sei41
 build-conteiner-mysql8-sei41: verificar-imagem-base-mysql8
 		@make IMAGEMTMP=mysql8-sei41 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/mysql8-sei41 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_MYSQL8):$(IMAGEM_BASE_MYSQL8_VERSAO) \
 					build-conteiner-generic
 
+## build-conteiner-mysql8-sei50 construir imagem mysql8-sei50
+build-conteiner-mysql8-sei50: verificar-imagem-base-mysql8
+		@make IMAGEMTMP=mysql8-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/mysql8-sei50 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_MYSQL8):$(IMAGEM_BASE_MYSQL8_VERSAO) \
+					build-conteiner-generic
 
 build-conteiner-base-sqlserver:  ## construir imagem base-sqlserver
-		@make IMAGEMTMP=base-sqlserver2017 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+		@make IMAGEMTMP=base-sqlserver2019 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/sqlserver-base \
 					build-conteiner-generic
 
 
 ## build-conteiner-sqlserver-sei40 construir imagem sqlserver-sei40
 build-conteiner-sqlserver-sei40: verificar-imagem-base-sqlserver
-		@make IMAGEMTMP=sqlserver2017-sei40 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+		@make IMAGEMTMP=sqlserver2019-sei40 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/sqlserver-sei40 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_SQLSERVER):$(IMAGEM_BASE_SQLSERVER_VERSAO) \
 					build-conteiner-generic
 
 ## build-conteiner-sqlserver-sei41 construir imagem sqlserver-sei41
 build-conteiner-sqlserver-sei41: verificar-imagem-base-sqlserver
-		@make IMAGEMTMP=sqlserver2017-sei41 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+		@make IMAGEMTMP=sqlserver2019-sei41 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/sqlserver-sei41 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_SQLSERVER):$(IMAGEM_BASE_SQLSERVER_VERSAO) \
 					build-conteiner-generic
 
+## build-conteiner-sqlserver-sei50 construir imagem sqlserver-sei50
+build-conteiner-sqlserver-sei50: verificar-imagem-base-sqlserver
+		@make IMAGEMTMP=sqlserver2019-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/sqlserver-sei50 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_SQLSERVER):$(IMAGEM_BASE_SQLSERVER_VERSAO) \
+					build-conteiner-generic
 
 build-conteiner-base-oracle: ## construir imagem base-oracle
 		@make IMAGEMTMP=base-oracle11g \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/oracle-base \
 					build-conteiner-generic
 
@@ -405,7 +452,7 @@ build-conteiner-base-oracle: ## construir imagem base-oracle
 ## build-conteiner-oracle-sei40 construir imagem oracle-sei40
 build-conteiner-oracle-sei40: verificar-imagem-base-oracle
 		@make IMAGEMTMP=oracle11g-sei40 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/oracle-sei40 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE):$(IMAGEM_BASE_ORACLE_VERSAO) \
 					build-conteiner-generic
@@ -413,16 +460,23 @@ build-conteiner-oracle-sei40: verificar-imagem-base-oracle
 ## build-conteiner-oracle-sei41 construir imagem oracle-sei41
 build-conteiner-oracle-sei41: verificar-imagem-base-oracle
 		@make IMAGEMTMP=oracle11g-sei41 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/oracle-sei41 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE):$(IMAGEM_BASE_ORACLE_VERSAO) \
 					build-conteiner-generic
 
+## build-conteiner-oracle-sei50 construir imagem oracle-sei50
+build-conteiner-oracle-sei50: verificar-imagem-base-oracle
+		@make IMAGEMTMP=oracle11g-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/oracle-sei50 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE):$(IMAGEM_BASE_ORACLE_VERSAO) \
+					build-conteiner-generic
 
 
 build-conteiner-base-postgres: ## construir imagem base-postgres
 		@make IMAGEMTMP=base-postgres15 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/postgres-base \
 					build-conteiner-generic
 
@@ -430,7 +484,7 @@ build-conteiner-base-postgres: ## construir imagem base-postgres
 ## build-conteiner-postgres-sei40 construir imagem postgres-sei40
 build-conteiner-postgres-sei40: verificar-imagem-base-postgres
 		@make IMAGEMTMP=postgres15-sei40 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/postgres-sei40 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_POSTGRES):$(IMAGEM_BASE_POSTGRES_VERSAO) \
 					build-conteiner-generic
@@ -438,8 +492,16 @@ build-conteiner-postgres-sei40: verificar-imagem-base-postgres
 ## build-conteiner-postgres-sei41 construir imagem postgres-sei41
 build-conteiner-postgres-sei41: verificar-imagem-base-postgres
 		@make IMAGEMTMP=postgres15-sei41 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/postgres-sei41 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_POSTGRES):$(IMAGEM_BASE_POSTGRES_VERSAO) \
+					build-conteiner-generic
+
+## build-conteiner-postgres-sei50 construir imagem postgres-sei50
+build-conteiner-postgres-sei50: verificar-imagem-base-postgres
+		@make IMAGEMTMP=postgres15-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/postgres-sei50 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_POSTGRES):$(IMAGEM_BASE_POSTGRES_VERSAO) \
 					build-conteiner-generic
 
@@ -447,7 +509,7 @@ build-conteiner-postgres-sei41: verificar-imagem-base-postgres
 ## build-conteiner-solr construir imagem solr
 build-conteiner-solr: verificar-imagem-base-centos
 		@make IMAGEMTMP=solr8.2.0 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=solr \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_CENTOS):$(IMAGEM_BASE_CENTOS_VERSAO) \
 					build-conteiner-generic
@@ -455,16 +517,23 @@ build-conteiner-solr: verificar-imagem-base-centos
 ## build-conteiner-solr construir imagem solr
 build-conteiner-solr-9.4.0: verificar-imagem-base-rocky93
 		@make IMAGEMTMP=solr9.4.0 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=solr-9.4.0 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ROCKY93):$(IMAGEM_BASE_ROCKY93_VERSAO) \
 					build-conteiner-generic
 
+## build-conteiner-solr construir imagem solr
+build-conteiner-solr-9.6.1: verificar-imagem-base-rocky93
+		@make IMAGEMTMP=solr9.6.1 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=solr-9.6.1 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ROCKY93):$(IMAGEM_BASE_ROCKY93_VERSAO) \
+					build-conteiner-generic
 
 ## build-conteiner-base-app construir imagem base-app
 build-conteiner-base-app: verificar-imagem-base-centos
 		@make IMAGEMTMP=base-app \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app/app-base \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_CENTOS):$(IMAGEM_BASE_CENTOS_VERSAO) \
 					build-conteiner-generic
@@ -473,7 +542,7 @@ build-conteiner-base-app: verificar-imagem-base-centos
 ## build-conteiner-base-app construir imagem base-app
 build-conteiner-base-app-php8: verificar-imagem-base-rocky93
 		@make IMAGEMTMP=base-app-php8 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app-php8/app-base-php8 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ROCKY93):$(IMAGEM_BASE_ROCKY93_VERSAO) \
 					build-conteiner-generic
@@ -481,7 +550,7 @@ build-conteiner-base-app-php8: verificar-imagem-base-rocky93
 ## build-conteiner-app-dev construir imagem app-dev
 build-conteiner-app-dev: verificar-imagem-base-app
 		@make IMAGEMTMP=app-dev \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app/app-dev \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP):$(IMAGEM_BASE_APP_VERSAO) \
 					build-conteiner-generic
@@ -489,7 +558,7 @@ build-conteiner-app-dev: verificar-imagem-base-app
 ## build-conteiner-app-dev-php8 construir imagem app-dev-php8
 build-conteiner-app-dev-php8: verificar-imagem-base-app
 		@make IMAGEMTMP=app-dev-php8 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app-php8/app-dev-php8 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP_PHP8):$(IMAGEM_BASE_APP_PHP8_VERSAO) \
 					build-conteiner-generic
@@ -497,7 +566,7 @@ build-conteiner-app-dev-php8: verificar-imagem-base-app
 ## build-conteiner-app-ci construir imagem app-ci
 build-conteiner-app-ci: verificar-imagem-base-app verificar-git-parameters
 		@make IMAGEMTMP=app-ci \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app/app-ci \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP):$(IMAGEM_BASE_APP_VERSAO)\ --build-arg\ GITUSER_REPO_MODULOS=$(GITUSER_REPO_MODULOS)\ --build-arg\ GITPASS_REPO_MODULOS=$(GITPASS_REPO_MODULOS) \
 					build-conteiner-generic
@@ -506,7 +575,7 @@ build-conteiner-app-ci: verificar-imagem-base-app verificar-git-parameters
 ## build-conteiner-app-ci-php8 construir imagem app-ci-php8
 build-conteiner-app-ci-php8: verificar-imagem-base-app-php8 verificar-git-parameters
 		@make IMAGEMTMP=app-ci-php8 \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app-php8/app-ci-php8 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP_PHP8):$(IMAGEM_BASE_APP_PHP8_VERSAO)\ --build-arg\ GITUSER_REPO_MODULOS=$(GITUSER_REPO_MODULOS)\ --build-arg\ GITPASS_REPO_MODULOS=$(GITPASS_REPO_MODULOS) \
 					build-conteiner-generic
@@ -515,7 +584,7 @@ build-conteiner-app-ci-php8: verificar-imagem-base-app-php8 verificar-git-parame
 ## build-conteiner-app-ci-agendador construir imagem app-ci-agendador
 build-conteiner-app-ci-agendador: verificar-imagem-base-app-agendador
 		@make IMAGEMTMP=app-ci-agendador \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app/app-ci-agendador \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP_AGENDADOR):$(IMAGEM_BASE_APP_AGENDADOR_VERSAO) \
 					build-conteiner-generic
@@ -523,7 +592,7 @@ build-conteiner-app-ci-agendador: verificar-imagem-base-app-agendador
 ## build-conteiner-app-ci-php8-agendador construir imagem app-ci-php8-agendador
 build-conteiner-app-ci-php8-agendador: verificar-imagem-base-app-php8-agendador
 		@make IMAGEMTMP=app-ci-php8-agendador \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=app-php8/app-ci-php8-agendador \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_APP_PHP8_AGENDADOR):$(IMAGEM_BASE_APP_PHP8_AGENDADOR_VERSAO) \
 					build-conteiner-generic
@@ -531,7 +600,7 @@ build-conteiner-app-ci-php8-agendador: verificar-imagem-base-app-php8-agendador
 ## build-conteiner-haproxy-base construir imagem haproxy-base
 build-conteiner-haproxy-base:
 		@make IMAGEMTMP=haproxy-base \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=haproxy/haproxy-base \
 					build-conteiner-generic
 
@@ -539,7 +608,7 @@ build-conteiner-haproxy-base:
 ## build-conteiner-haproxy construir imagem haproxy
 build-conteiner-haproxy: verificar-imagem-base-haproxy
 		@make IMAGEMTMP=haproxy \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=haproxy/haproxy \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_HAPROXY):$(IMAGEM_BASE_HAPROXY_VERSAO) \
 					build-conteiner-generic
@@ -547,7 +616,7 @@ build-conteiner-haproxy: verificar-imagem-base-haproxy
 ## build-conteiner-traefik-base construir imagem traefik-base
 build-conteiner-traefik-base:
 		@make IMAGEMTMP=traefik-base \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=traefik/traefik-base \
 					build-conteiner-generic
 
@@ -555,7 +624,7 @@ build-conteiner-traefik-base:
 ## build-conteiner-traefik construir imagem traefik
 build-conteiner-traefik: verificar-imagem-base-traefik
 		@make IMAGEMTMP=traefik \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=traefik/traefik \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_TRAEFIK):$(IMAGEM_BASE_TRAEFIK_VERSAO) \
 					build-conteiner-generic
@@ -563,7 +632,7 @@ build-conteiner-traefik: verificar-imagem-base-traefik
 
 build-conteiner-openldap-base: ## construir imagem openldap-base
 		@make IMAGEMTMP=openldap-base \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=openldap/openldap-base \
 					build-conteiner-generic
 
@@ -571,7 +640,7 @@ build-conteiner-openldap-base: ## construir imagem openldap-base
 ## build-conteiner-openldap construir imagem openldap
 build-conteiner-openldap: verificar-imagem-base-openldap
 		@make IMAGEMTMP=openldap \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=openldap/openldap \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_OPENLDAP):$(IMAGEM_BASE_OPENLDAP_VERSAO) \
 					build-conteiner-generic
@@ -579,7 +648,7 @@ build-conteiner-openldap: verificar-imagem-base-openldap
 
 build-conteiner-phpmemcachedadmin-base:  ## construir imagem phpmemcachedadmin-base
 		@make IMAGEMTMP=phpmemcachedadmin-base \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=phpmemcachedadmin/phpmemcachedadmin-base \
 					build-conteiner-generic
 
@@ -587,7 +656,7 @@ build-conteiner-phpmemcachedadmin-base:  ## construir imagem phpmemcachedadmin-b
 ## build-conteiner-phpmemcachedadmin construir imagem phpmemcachedadmin
 build-conteiner-phpmemcachedadmin: verificar-imagem-base-phpmemcachedadmin
 		@make IMAGEMTMP=phpmemcachedadmin \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=phpmemcachedadmin/phpmemcachedadmin \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_PHPMEMCACHEDADMIN):$(IMAGEM_BASE_PHPMEMCACHEDADMIN_VERSAO) \
 					build-conteiner-generic
@@ -595,19 +664,19 @@ build-conteiner-phpmemcachedadmin: verificar-imagem-base-phpmemcachedadmin
 
 build-conteiner-phpldapadmin: ## construir imagem phpldapadmin
 		@make IMAGEMTMP=phpldapadmin \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=phpldapadmin \
 					build-conteiner-generic
 
 build-conteiner-dbadminer: ## construir imagem dbadminer
 		@make IMAGEMTMP=dbadminer \
-		      IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=dbadminer \
 					build-conteiner-generic
 
 
 ## build-conteiners: roda todos os outros targets de build na sequencia
-build-conteiners: verificar-git-parameters build-conteiner-base-centos build-conteiner-base-rocky93 build-conteiner-memcached build-conteiner-jod build-conteiner-mailcatcher build-conteiner-traefik-base build-conteiner-traefik build-conteiner-base-mariadb build-conteiner-base-mysql8 build-conteiner-mariadb-sei40 build-conteiner-mysql8-sei41 build-conteiner-base-sqlserver build-conteiner-sqlserver-sei40 build-conteiner-sqlserver-sei41 build-conteiner-base-oracle build-conteiner-oracle-sei40 build-conteiner-oracle-sei41 build-conteiner-base-postgres build-conteiner-postgres-sei40 build-conteiner-postgres-sei41 build-conteiner-solr build-conteiner-solr-9.4.0 build-conteiner-base-app build-conteiner-base-app-php8 build-conteiner-app-dev build-conteiner-app-dev-php8 build-conteiner-app-ci build-conteiner-app-ci-php8 build-conteiner-app-ci-agendador build-conteiner-app-ci-php8-agendador build-conteiner-phpmemcachedadmin-base build-conteiner-phpmemcachedadmin build-conteiner-openldap-base build-conteiner-openldap build-conteiner-haproxy-base build-conteiner-haproxy build-conteiner-phpldapadmin build-conteiner-dbadminer
+build-conteiners: verificar-git-parameters build-conteiner-base-centos build-conteiner-base-rocky93 build-conteiner-memcached build-conteiner-jod build-conteiner-mailcatcher build-conteiner-traefik-base build-conteiner-traefik build-conteiner-base-mariadb build-conteiner-base-mysql8 build-conteiner-mariadb-sei40 build-conteiner-mariadb-sei41 build-conteiner-mariadb-sei50 build-conteiner-mysql8-sei41 build-conteiner-mysql8-sei50 build-conteiner-base-sqlserver build-conteiner-sqlserver-sei40 build-conteiner-sqlserver-sei41 build-conteiner-sqlserver-sei50 build-conteiner-base-oracle build-conteiner-oracle-sei40 build-conteiner-oracle-sei41 build-conteiner-oracle-sei50 build-conteiner-base-postgres build-conteiner-postgres-sei40 build-conteiner-postgres-sei41 build-conteiner-postgres-sei50 build-conteiner-solr build-conteiner-solr-9.4.0 build-conteiner-solr-9.6.1 build-conteiner-base-app build-conteiner-base-app-php8 build-conteiner-app-dev build-conteiner-app-dev-php8 build-conteiner-app-ci build-conteiner-app-ci-php8 build-conteiner-app-ci-agendador build-conteiner-app-ci-php8-agendador build-conteiner-phpmemcachedadmin-base build-conteiner-phpmemcachedadmin build-conteiner-openldap-base build-conteiner-openldap build-conteiner-haproxy-base build-conteiner-haproxy build-conteiner-phpldapadmin build-conteiner-dbadminer
 
 #*****************************************************
 #*******PUBLISH CONTAINERS TARGETS********************
@@ -616,15 +685,15 @@ build-conteiners: verificar-git-parameters build-conteiner-base-centos build-con
 ## publish-container-generic: target generico para publicar imagem passada via parametro
 publish-container-generic: verificar-docker-registry verificar-parametro-imagemtmp
 		@if test -z "$$(docker images -q $(IMAGEMTMP_FULL))"; then \
-		    echo "Imagem $(IMAGEMTMP_FULL) nao existe. Rode o build respectivo antes"; \
+			echo "Imagem $(IMAGEMTMP_FULL) nao existe. Rode o build respectivo antes"; \
 				exit 1; \
 		else \
-		    echo "Publicando a imagem: $(IMAGEMTMP_FULL)"; \
+			echo "Publicando a imagem: $(IMAGEMTMP_FULL)"; \
 				echo "Caso nao publique verifique se vc esta logado no registry informado no seu env"; echo ""; \
 				set -e; \
-		    docker push $(IMAGEMTMP_FULL); \
+			docker push $(IMAGEMTMP_FULL); \
 				if [ "$(IMAGEMTMP_VERSAO)" != "test" ]; then \
-    				docker push $(DOCKER_REGISTRY)/$(IMAGEMTMP):latest; \
+					docker push $(DOCKER_REGISTRY)/$(IMAGEMTMP):latest; \
 				fi; \
 		fi;
 
@@ -653,25 +722,32 @@ publish-container-base-mariadb: ## publicar imagem base-mariadb
 publish-container-base-mysql8: ## publicar imagem base-mysql8
 		@make IMAGEMTMP=base-mysql8 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
-
 publish-container-mariadb-sei40: ## publicar imagem mariadb-sei40
 		@make IMAGEMTMP=mariadb10.5-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
+
+publish-container-mariadb-sei41: ## publicar imagem mariadb-sei41
+		@make IMAGEMTMP=mariadb10.5-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
+
+publish-container-mariadb-sei50: ## publicar imagem mariadb-sei50
+		@make IMAGEMTMP=mariadb10.5-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-mysql8-sei41: ## publicar imagem mysql8-sei41
 		@make IMAGEMTMP=mysql8-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
+publish-container-mysql8-sei50: ## publicar imagem mysql8-sei50
+		@make IMAGEMTMP=mysql8-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-base-sqlserver: ## publicar imagem base-sqlserver
-		@make IMAGEMTMP=base-sqlserver2017 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
-
+		@make IMAGEMTMP=base-sqlserver2019 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-sqlserver-sei40: ## publicar imagem sqlserver
-		@make IMAGEMTMP=sqlserver2017-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
-
+		@make IMAGEMTMP=sqlserver2019-sei40 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-sqlserver-sei41: ## publicar imagem sqlserver-sei41
-		@make IMAGEMTMP=sqlserver2017-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
+		@make IMAGEMTMP=sqlserver2019-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
+publish-container-sqlserver-sei50: ## publicar imagem sqlserver-sei50
+		@make IMAGEMTMP=sqlserver2019-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-base-oracle: ## publicar imagem base-oracle
 		@make IMAGEMTMP=base-oracle11g IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
@@ -683,6 +759,9 @@ publish-container-oracle-sei40: ## publicar imagem oracle-sei40
 publish-container-oracle-sei41: ## publicar imagem oracle-sei41
 		@make IMAGEMTMP=oracle11g-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
+publish-container-oracle-sei50: ## publicar imagem oracle-sei50
+		@make IMAGEMTMP=oracle11g-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
+
 publish-container-base-postgres: ## publicar imagem base-postgres
 		@make IMAGEMTMP=base-postgres15 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
@@ -693,12 +772,17 @@ publish-container-postgres-sei40: ## publicar imagem postgres-sei40
 publish-container-postgres-sei41: ## publicar imagem postgres-sei41
 		@make IMAGEMTMP=postgres15-sei41 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
+publish-container-postgres-sei50: ## publicar imagem postgres-sei50
+		@make IMAGEMTMP=postgres15-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-solr: ## publicar imagem solr
 		@make IMAGEMTMP=solr8.2.0 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-solr-9.4.0: ## publicar imagem solr9.4.0
 		@make IMAGEMTMP=solr9.4.0 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
+
+publish-container-solr-9.6.1: ## publicar imagem solr9.6.1
+		@make IMAGEMTMP=solr9.6.1 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
 
 publish-container-base-app: ## publicar imagem base-app
 		@make IMAGEMTMP=base-app IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) publish-container-generic
@@ -765,4 +849,4 @@ publish-container-dbadminer: ## publicar imagem dbadminer
 
 
 ## publish-containers: executa todos os targets de publicacao de imagem na sequencia
-publish-containers: publish-container-base-centos publish-container-base-rocky93 publish-container-memcached publish-container-jod publish-container-mailcatcher publish-container-base-mariadb publish-container-mariadb-sei40 publish-container-mysql8-sei41 publish-container-base-sqlserver publish-container-sqlserver-sei40 publish-container-sqlserver-sei41 publish-container-base-oracle publish-container-oracle-sei40 publish-container-oracle-sei41 publish-container-base-postgres publish-container-postgres-sei40 publish-container-postgres-sei41 publish-container-solr publish-container-solr-9.4.0 publish-container-base-app publish-container-base-app-php8 publish-container-app-dev publish-container-app-dev-php8 publish-container-app-ci publish-container-app-ci-php8 publish-container-app-ci-agendador publish-container-app-ci-php8-agendador publish-container-phpmemcachedadmin-base publish-container-phpmemcachedadmin publish-container-openldap-base publish-container-openldap publish-container-haproxy-base publish-container-traefik-base publish-container-traefik publish-container-haproxy publish-container-phpldapadmin publish-container-dbadminer
+publish-containers: publish-container-base-centos publish-container-base-rocky93 publish-container-memcached publish-container-jod publish-container-mailcatcher publish-container-base-mariadb publish-container-mariadb-sei40 publish-container-mariadb-sei41 publish-container-mariadb-sei50 publish-container-mysql8-sei41 publish-container-mysql8-sei50 publish-container-base-sqlserver publish-container-sqlserver-sei40 publish-container-sqlserver-sei41 publish-container-sqlserver-sei50 publish-container-base-oracle publish-container-oracle-sei40 publish-container-oracle-sei41 publish-container-oracle-sei50 publish-container-base-postgres publish-container-postgres-sei40 publish-container-postgres-sei41 publish-container-postgres-sei50 publish-container-solr publish-container-solr-9.4.0 publish-container-solr-9.6.1 publish-container-base-app publish-container-base-app-php8 publish-container-app-dev publish-container-app-dev-php8 publish-container-app-ci publish-container-app-ci-php8 publish-container-app-ci-agendador publish-container-app-ci-php8-agendador publish-container-phpmemcachedadmin-base publish-container-phpmemcachedadmin publish-container-openldap-base publish-container-openldap publish-container-haproxy-base publish-container-traefik-base publish-container-traefik publish-container-haproxy publish-container-phpldapadmin publish-container-dbadminer

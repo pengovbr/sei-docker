@@ -323,14 +323,14 @@ test_verificar_app_url: ## target de apoio verifica se a url do sei responde a p
 	@echo "*****************************************************";
 
 	@for i in {1..15}; do \
-	    echo 'Tentando acessar...'; \
+		echo 'Tentando acessar...'; \
 		var=$$(echo $$($(CURLCMDSEI_LOGIN))); \
 		if [ "$$var" != "" ]; then \
-		    echo 'Pagina respondeu com tela de login'; \
+			echo 'Pagina respondeu com tela de login'; \
 			break; \
 		else \
-		    echo 'Aguardando resposta ...'; \
-	    fi; \
+			echo 'Aguardando resposta ...'; \
+		fi; \
 		sleep 10; \
 	done
 	@var=$$(echo $$($(CURLCMDSEI_LOGIN)));  if [ "$$var" = "" ]; then echo 'Nao respondeu tela de login. Saindo do teste'; exit 1; fi

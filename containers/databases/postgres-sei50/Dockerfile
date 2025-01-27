@@ -12,7 +12,7 @@ FROM ${IMAGEM_BASE} as builder
 ARG VERSAO_BASE=5.0.0
 ARG NOME_FILE=5_0_0
 #ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/feat/master
-ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/feat/atualizacoes_inclusao_5.0
+ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/master
 
 
 ############################# INÍCIO DA INSTALACAO #############################
@@ -36,7 +36,7 @@ RUN mv /tmp/postgres.conf /etc/postgresql/postgresql.conf && \
     chmod 644 /etc/postgresql/postgresql.conf && \
     sed -i '1i \\\c sei; \n' /docker-entrypoint-initdb.d/2_sei.sql && \
     sed -i '1i \\\c sip; \n' /docker-entrypoint-initdb.d/3_sip.sql
-    
+
 # RUN su postgres -c "initdb -D /initialized-db"
 RUN ["sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/usr/local/bin/docker-entrypoint.sh"]
 RUN ["/usr/local/bin/docker-entrypoint.sh", "postgres"]

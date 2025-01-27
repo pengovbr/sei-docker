@@ -8,7 +8,7 @@ ARG IMAGEM_BASE=processoeletronico/base-mariadb10.5:latest
 FROM ${IMAGEM_BASE} as builder
 
 #ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/feat/master
-ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/feat/atualizacoes_inclusao_5.0
+ARG GIT_DB_REF=https://github.com/spbgovbr/sei-db-ref-executivo/raw/master
 
 ############################# INÍCIO DA INSTALAÇÃO #############################
 ENV MYSQL_ROOT_PASSWORD=P@ssword
