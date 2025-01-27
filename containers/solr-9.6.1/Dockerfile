@@ -12,7 +12,7 @@ ENV TERM xterm
 
 ADD assets/ \
    https://archive.apache.org/dist/solr/solr/9.6.1/solr-9.6.1.tgz \
-   https://github.com/spbgovbr/sei-docker-binarios/raw/main/pacoteslinux/msttcore-fonts-2.0-3.noarch.rpm \ 
+   https://github.com/spbgovbr/sei-docker-binarios/raw/main/pacoteslinux/msttcore-fonts-2.0-3.noarch.rpm \
    /tmp/
 
 RUN ls -lh /tmp && sh /tmp/install.sh && rm -rf /tmp/*

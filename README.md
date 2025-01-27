@@ -3,6 +3,16 @@
 ```
 Atenção. Mudanças Importantes
 
+01/2025
+
+Agora, a partir da versão 3.6.0, a imagem base para o SqlServer será a 2019. Havia problemas com versões do kernel específicas.
+Caso tenha um ambiente em uso nesse projeto com SqlSserver2017, não atualize a versão. Mantenha na 3.5.2 desse projeto.
+Caso use um banco de dados externo ou use outro banco de dados não precisa se preocupar.
+Verificar as alterações nas notas de release:
+https://github.com/pengovbr/sei-docker/releases
+
+=========
+
 05/2024
 Incluído suporte ao SEI5
 Algumas mudanças estruturais nos arquivos envlocal.env para o ecossitema de dev e infra.
@@ -10,6 +20,8 @@ Verifique os detalhes na nota de release:
 https://github.com/spbgovbr/sei-docker/releases/tag/3.5.0
 
 Considere essas alterações ao ler os manuais e Readme(s), pois os mesmos ainda não foram atualizados.
+
+=========
 
 04/2024
 Incluímos o traefik como balanceador do ecossistema. Ele está substituindo o haproxy-cloud que usávamos e parou de receber atualização, o que prejudicava o uso em versões docker mais recentes.
@@ -21,6 +33,7 @@ Esta v3 também conta com a possibilidade do SEI5, verificar notas de release.
 Observção importante: para o SEI5 foram cridas novas imagens de app, agendador, banco Mysql e Solr. Portanto será necessário alterar o envlocal.env apontando para as respectivas imagens antes de subir o SEI5.
 
 =========
+
 Mudanças Importantes - 07/2023
 
 Desde 07/2023 fizemos uma adaptação nesse projeto trazendo diversas melhorias que foram implementadas no projeto super-docker.

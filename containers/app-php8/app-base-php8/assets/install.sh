@@ -82,7 +82,7 @@ if [ "$IMAGEM_APP_PACOTEORACLE_PRESENTE" == "true" ]; then
 
     #yum install -y oracle-instantclient-basic-21.12.0.0.0-1.el9.x86_64.rpm
     #yum install -y oracle-instantclient-devel-21.12.0.0.0-1.el9.x86_64.rpm
-	yum install -y oracle-instantclient-basic-23.6.0.24.10-1.el9.x86_64.rpm
+    yum install -y oracle-instantclient-basic-23.6.0.24.10-1.el9.x86_64.rpm
 
     rm -rf oracle-instantclient-basic-23.6.0.24.10-1.el9.x86_64.rpm
 

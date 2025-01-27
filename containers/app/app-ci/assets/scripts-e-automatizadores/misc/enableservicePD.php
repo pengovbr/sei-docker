@@ -68,6 +68,6 @@ foreach($arrOperacoes as $o){
     $objOperacaoServicoDTO->setNumIdUnidade(null);
     $objOperacaoServicoRN = new OperacaoServicoRN();
     $objOperacaoServicoDTO = $objOperacaoServicoRN->cadastrar($objOperacaoServicoDTO);
-}    
+}
 
 ?>

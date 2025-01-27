@@ -69,13 +69,13 @@ check-sei-isalive: ## Target de apoio. Verifica se o SEI respondeu a tela de log
 	@echo ""
 	@echo "Vamos tentar acessar a pagina de login do SEI, vamos aguardar por 45 segs."
 	@for number in 1 2 3 4 5 6 7 8 9 ; do \
-	    echo 'Tentando acessar...'; var=$$(echo $$($(CMD_CURL_SEI_LOGIN))); \
+		echo 'Tentando acessar...'; var=$$(echo $$($(CMD_CURL_SEI_LOGIN))); \
 			if [ "$$var" != "" ]; then \
 					echo 'Pagina respondeu com tela de login' ; \
 					echo 'Acesse com $(HOST_URL)/sei ou $(HOST_URL)/sip' ; \
 					break ; \
 			else \
-			    echo 'Aguardando resposta ...'; \
+				echo 'Aguardando resposta ...'; \
 			fi; \
 			sleep 5; \
 	done
@@ -85,12 +85,12 @@ check-sei-ispinging: ## Target de apoio. Verifica se algo apareceu na tela de lo
 	@echo ""
 	@echo "Verificando se apache subiu..."
 	@for number in 1 2 3 4 5 6 7 8 9 ; do \
-	    echo 'Tentando acessar...'; var=$$(echo $$($(CMD_CURL_APACHE))); \
+		echo 'Tentando acessar...'; var=$$(echo $$($(CMD_CURL_APACHE))); \
 			if [ "$$var" != "" ]; then \
 					echo 'Apache respondeu com algo' ; \
 					break ; \
 			else \
-			    echo 'Aguardando resposta ...'; \
+				echo 'Aguardando resposta ...'; \
 			fi; \
 			sleep 5; \
 	done
@@ -131,7 +131,7 @@ config: ## sobreescreve o arquivo env.env para uma nova base de dados / versao d
 		cp -f envs/env-$(base).env env.env; \
 		echo "Ambiente configurado para utilizar a base de dados/versao SEI $(base)"; \
 	else \
-	    echo "Valor invalido para o parametro base, verifique acima os valores possiveis"; \
+		echo "Valor invalido para o parametro base, verifique acima os valores possiveis"; \
 	fi;
 
 down: ## apenas para o projeto com possibilidade de subir novamente mais tarde

@@ -7,7 +7,7 @@
 # construa antes a imagem base
 ################################################################################
 
-ARG IMAGEM_BASE=processoeletronico/base-sqlserver2017:latest
+ARG IMAGEM_BASE=processoeletronico/base-sqlserver2019:latest
 
 FROM ${IMAGEM_BASE}
 
