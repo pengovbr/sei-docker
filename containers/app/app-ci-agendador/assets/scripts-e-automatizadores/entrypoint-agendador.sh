@@ -119,15 +119,15 @@ do
     echo "Esperando a base de dados ficar disponivel... Vamos tentar chama-la ...."
 
     php -r "
-    require_once '/opt/sip/web/Sip.php';    
+    require_once '/opt/sip/web/Sip.php';
     \$conexao = BancoSip::getInstance();
     \$conexao->abrirConexao();
     \$conexao->executarSql('select sigla from sistema');"
-    
+
     RET=$?
     sleep 3
-    
-done  
+
+done
 
 set -e
 
@@ -146,14 +146,14 @@ fi
 echo "Verificando se certificados existem no diretorio /certs...."
 if [ ! -f /sei/certs/seiapp/sei-ca.pem ] || [ ! -f /sei/certs/seiapp/sei.crt ]; then
     echo "Arquivos de cert nao encontrados criando auto assinados ..."
-    
+
     cd /sei/certs/seiapp
 
-    echo "Criando CA"  
+    echo "Criando CA"
     openssl genrsa -out sei-ca-key.pem 2048
     openssl req -x509 -new -nodes -key sei-ca-key.pem \
         -days 10000 -out sei-ca.pem -subj "/CN=sei-dev"
-    
+
     echo "Criando certificados para o dominio: $APP_HOST"
     openssl genrsa -out sei.key 2048
     openssl req -new -nodes -key sei.key \
@@ -171,7 +171,7 @@ fi
 cd /sei/certs/seiapp
 cp sei.crt /etc/pki/tls/certs/sei.crt
 cp sei-ca.pem /etc/pki/tls/certs/sei-ca.pem
-cp sei.key /etc/pki/tls/private/sei.key 
+cp sei.key /etc/pki/tls/private/sei.key
 cat sei.crt sei.key >> /etc/pki/tls/certs/sei.pem
 
 echo "Incluindo TrustStore no sistema"
@@ -265,7 +265,7 @@ if [ "$MODULO_REST_INSTALAR" == "true" ]; then
 
             cd /opt/sei/
             sed -i "s#/\*novomodulo\*/#'MdWsSeiRest' => 'wssei/', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
-            
+
             cd /opt/sei/config/mod-wssei/
             cp -f /opt/sei/web/modulos/mod-wssei/src/config/ConfiguracaoMdWSSEI.php .
             sed -i "s#MOD_WSSEI_URL_SERVICO_NOTIFICACAO#MODULO_REST_URL_NOTIFICACAO#g" ConfiguracaoMdWSSEI.php
@@ -585,7 +585,13 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
               sed -i "s#ASSINATURA_URL_PROVIDER#MODULO_ASSINATURAVANCADA_URLPROVIDER#g" ConfiguracaoModAssinaturaAvancada.php
               sed -i "s#ASSINATURA_CLIENT_ID#MODULO_ASSINATURAVANCADA_CLIENTID#g" ConfiguracaoModAssinaturaAvancada.php
               sed -i "s#ASSINATURA_SECRET#MODULO_ASSINATURAVANCADA_SECRET#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#ASSINATURA_URL_SERVICOS#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php 
+              sed -i "s#ASSINATURA_URL_SERVICOS#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php
+
+              sed -i "s#VALIDAR_API_URL#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#VALIDAR_API_KEY#MODULO_ASSINATURAVANCADA_VALIDAR_API_KEY#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#INTEGRA_ICP_URL#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#INTEGRA_ICP_URL_CLEARINGS#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_CLEARINGS#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#INTEGRA_ICP_URL_ASSINAR#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_ASSINAR#g" ConfiguracaoModAssinaturaAvancada.php
 
               rm -rf /opt/sei/web/modulos/mod-sei-assinatura-avancada.old
 
@@ -864,10 +870,10 @@ echo "Atualizador finalizado procedendo com a subida dos agendamentos..."
 
 
 if [ "$MODULO_PEN_INSTALAR" = "true" ] && [ ! -z "$MODULO_PEN_GEARMAN_IP" ]; then
-    
+
     sed -i "s#\"Servidor\" => \"\"#'Servidor' => \"$MODULO_PEN_GEARMAN_IP\"#g" /opt/sei/config/mod-pen/ConfiguracaoModPEN.php
     sed -i "s#\"Porta\" => \"\"#'Porta' => \"$MODULO_PEN_GEARMAN_PORTA\"#g" /opt/sei/config/mod-pen/ConfiguracaoModPEN.php
-    
+
     WORKERS=${MODULO_PEN_QTD_WORKER_PROC:-1}
     sed "s#<<MODULO_PEN_QTD_WORKER_PROC>>#$WORKERS#g" /etc/supervisor/supervisor.ini.template > /etc/supervisor/supervisor.ini
 
