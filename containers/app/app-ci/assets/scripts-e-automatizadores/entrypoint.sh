@@ -594,11 +594,11 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
               sed -i "s#ASSINATURA_SECRET#MODULO_ASSINATURAVANCADA_SECRET#g" ConfiguracaoModAssinaturaAvancada.php
               sed -i "s#ASSINATURA_URL_SERVICOS#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php
 
-              sed -i "s#VALIDAR_API_URL#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#VALIDAR_API_KEY#MODULO_ASSINATURAVANCADA_VALIDAR_API_KEY#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#INTEGRA_ICP_URL#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#INTEGRA_ICP_URL_CLEARINGS#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_CLEARINGS#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#INTEGRA_ICP_URL_ASSINAR#MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_ASSINAR#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#'VALIDAR_API_URL'#'MODULO_ASSINATURAVANCADA_VALIDAR_API_URL'#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#'VALIDAR_API_KEY'#'MODULO_ASSINATURAVANCADA_VALIDAR_API_KEY'#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#'INTEGRA_ICP_URL'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL'#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#'INTEGRA_ICP_URL_CLEARINGS'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_CLEARINGS'#g" ConfiguracaoModAssinaturaAvancada.php
+              sed -i "s#'INTEGRA_ICP_URL_ASSINAR'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_ASSINAR'#g" ConfiguracaoModAssinaturaAvancada.php
 
               rm -rf /opt/sei/web/modulos/mod-sei-assinatura-avancada.old
 
