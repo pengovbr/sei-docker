@@ -4,7 +4,7 @@ metadata:
   name: sei-inicializador
   namespace: ${KUBERNETES_NAMESPACE}
 spec:
-  backoffLimit: 6
+  backoffLimit: 2
   completions: 1
   parallelism: 1
   template:
