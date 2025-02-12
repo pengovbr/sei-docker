@@ -32,15 +32,8 @@ dnf install -y ffmpeg
 
 cd /tmp/assets/pacotes
 
-# InstalaÁ„o do componentes UploadProgress
-tar -zxvf uploadprogress-2.0.2.tgz
-cd uploadprogress-2.0.2
-phpize
-./configure --enable-uploadprogress
-make
-make install
-echo "extension=uploadprogress.so" > /etc/php.d/uploadprogress.ini
-cd -
+# Instala√ß√£o do componentes UploadProgress
+dnf install -y php-pecl-uploadprogress
 
 # fonts libraries
 rpm -Uvh msttcore-fonts-2.0-3.noarch.rpm
