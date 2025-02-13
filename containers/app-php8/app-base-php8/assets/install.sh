@@ -11,7 +11,7 @@ dnf module install -y php:remi-8.2
 yum install --skip-broken -y httpd memcached openssl wget zip unzip gcc \
                              java-1.8.0-openjdk libxml2 cabextract fontconfig mod_ssl vim procps
 
-dnf install --skip-broken -y php php-cli php-common php-pear php-bcmath php-gd php-gmp php-imap php-intl     php-ldap     php-mbstring     php-odbc     php-pdo     php-pecl-apcu     php-pspell     php-zlib     php-snmp     php-soap     php-xml     php-xmlrpc     php-zts     php-devel     php-pecl-apcu-devel     php-pecl-memcache     php-calendar     php-shmop     php-intl     php-mcrypt     php-zip     php-pecl-zip
+dnf install --skip-broken -y php php-cli php-common php-pear php-bcmath php-gd php-gmp php-imap php-intl     php-ldap     php-mbstring     php-odbc     php-pdo     php-pecl-apcu     php-pspell     php-zlib     php-snmp     php-soap     php-xml     php-xmlrpc     php-zts     php-devel     php-pecl-apcu-devel     php-pecl-memcache     php-calendar     php-shmop     php-intl     php-mcrypt     php-zip     php-pecl-zip php-pecl-uploadprogress
 dnf install -y php-pecl-gearman
 dnf install --skip-broken -y libgearman libgearman-devel php-sodium  git gearmand libgearman-dev libgearman-devel
 
@@ -33,7 +33,7 @@ dnf install -y ffmpeg
 cd /tmp/assets/pacotes
 
 # Instalação do componentes UploadProgress
-dnf install -y php-pecl-uploadprogress
+#dnf install -y php-pecl-uploadprogress
 
 # fonts libraries
 rpm -Uvh msttcore-fonts-2.0-3.noarch.rpm
