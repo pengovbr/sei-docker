@@ -50,7 +50,12 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
 				'NomeSistema' => 'SEI',
 				'NomeSistemaComplemento' => SEI_VERSAO,
 				'LogoMenu' => '',
-				'OrgaoTopoJanela' => 'S',
+                'Login' => true,
+                'Ouvidoria' => true,
+                'PublicacaoInterna' => true,
+                'UsuariosExternos' => true,
+                'ValidacaoDocumentos' => true,
+                'ConsultaProcessual' => true
 			),
 
 			'BancoSEI'  => array(
@@ -63,15 +68,25 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
 				'PesquisaCaseInsensitive' => false,
 			),
 
-//			'BancoAuditoriaSEI'  => array(
-//                'Servidor' => getenv('DATABASE_HOST'),
-//                'Porta' => getenv('DATABASE_PORT'),
-//                'Banco' => getenv('SEI_DATABASE_NAME'),
-//                'Usuario' => getenv('SEI_DATABASE_USER'),
-//                'Senha' => getenv('SEI_DATABASE_PASSWORD'),
-//                'Tipo' => getenv('DATABASE_TYPE'), //MySql, SqlServer ou Oracle
-//                'PesquisaCaseInsensitive' => false,
-//			),
+            /*
+                 'BancoAuditoriaSEI'  => array(
+                      'Servidor' => '[servidor BD]',
+                      'Porta' => '',
+                      'Banco' => '',
+                      'Usuario' => '',
+                      'Senha' => '',
+                      'Tipo' => ''), //MySql, SqlServer, Oracle ou PostgreSql
+                 */
+
+                  /*
+                 'BancoReplicaSEI'  => array(
+                      'Servidor' => '[servidor BD]',
+                      'Porta' => '',
+                      'Banco' => '',
+                      'Usuario' => '',
+                      'Senha' => '',
+                      'Tipo' => ''), //MySql, SqlServer, Oracle ou PostgreSql
+                 */
 
 			'CacheSEI' => array(
 				'Servidor' => 'memcached',
@@ -89,6 +104,34 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
                 'NumMaxProtocolosConsulta' => 100,  //Número máximo de protocolos do processo que serão retornados quando outra instituição consultar pelo SEI Federação (acima deste valor será realizada paginação).
                 'NumMaxAndamentosConsulta' => 100,  //Número máximo de andamentos do processo que serão retornados quando outra instituição consultar pelo SEI Federação (acima deste valor será realizada paginação).
             ),
+            
+            'Manutencao' => array(
+                        'Ativada' => false,
+                        'Usuarios' => array('siglaUsuario1/siglaOrgao1', 'siglaUsuario2/siglaOrgao2'),
+                        'Mensagem' => 'Sistema em Manutenção',
+                        'Detalhes' => 'Previsão de retorno até as <b>XXhs.</b>'
+                    ),
+
+                    'hCaptcha' => array(
+                        'ChaveSecreta' => '',
+                        'ChaveSite' => ''
+                    ),
+
+                    'ReCaptchaV2' => array(
+                        'ChaveSecreta' => '',
+                        'ChaveSite' => ''
+                    ),
+
+                    'ReCaptchaV3' => array(
+                        'ChaveSecreta' => '',
+                        'ChaveSite' => '',
+                        'Score' => 0.5
+                    ),
+
+                    'Cloudflare' => array(
+                        'ChaveSecreta' => '',
+                        'ChaveSite' => ''
+                    ),
 
             'XSS' => array(
                 'NivelVerificacao' => 'A', //B=Básico, A=Avançado, N=Nenhum
@@ -120,6 +163,8 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
 
 			'Solr' => array(
 				'Servidor' => 'http://solr:8983/solr',
+                'Usuario' => 'sei',
+                'Senha' => 'SolrSei123$',
 				'CoreProtocolos' => 'sei-protocolos',
 				'CoreBasesConhecimento' => 'sei-bases-conhecimento',
 				'CorePublicacoes' => 'sei-publicacoes',
@@ -129,7 +174,7 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
 			),				
 			
 			'JODConverter' => array(
-				'Servidor' => 'http://jod/converter/service'
+				'Servidor' => 'http://jod:8080/conversion?format=pdf'
 			),
 
             'InfraMail' => array(

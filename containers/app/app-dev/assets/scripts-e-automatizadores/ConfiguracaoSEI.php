@@ -129,7 +129,7 @@ class ConfiguracaoSEI extends InfraConfiguracao  {
 			),				
 			
 			'JODConverter' => array(
-				'Servidor' => 'http://jod/converter/service'
+				'Servidor' => 'http://jod:8080/converter/service'
 			),
 
             'InfraMail' => array(

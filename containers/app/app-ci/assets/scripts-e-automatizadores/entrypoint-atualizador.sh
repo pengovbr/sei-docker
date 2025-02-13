@@ -442,6 +442,7 @@ if [ "$MODULO_ESTATISTICAS_INSTALAR" == "true" ]; then
 
             cd /sei-modulos/mod-sei-estatisticas
             git pull || true
+            git pull --tags || true
 
             cp -Rf /sei-modulos/mod-sei-estatisticas /opt/sei/web/modulos/
 
@@ -496,6 +497,7 @@ if [ "$MODULO_REST_INSTALAR" == "true" ]; then
             rm -rf /opt/sei/web/modulos/mod-wssei/
             cd /sei-modulos/mod-wssei
             git pull || true
+            git pull --tags || true
 
             cp -Rf /sei-modulos/mod-wssei /opt/sei/web/modulos/
             cd /opt/sei/web/modulos/mod-wssei/
@@ -572,6 +574,7 @@ if [ "$MODULO_RESPOSTA_INSTALAR" == "true" ]; then
           cd /sei-modulos/mod-sei-resposta
 		  git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-resposta.git
           git pull || true
+          git pull --tags || true
 
           cp -Rf /sei-modulos/mod-sei-resposta /opt/sei/web/modulos/
           cd /opt/sei/web/modulos/mod-sei-resposta/
@@ -652,6 +655,7 @@ if [ "$MODULO_GESTAODOCUMENTAL_INSTALAR" == "true" ]; then
                 cd /opt/sei/web/modulos/mod-gestao-documental/
                 git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-gestao-documental.git
                 git pull || true
+                git pull --tags || true
 
                 git checkout $MODULO_GESTAODOCUMENTAL_VERSAO
                 echo "Versao do Gestao Documental eh agora: $MODULO_GESTAODOCUMENTAL_VERSAO"
@@ -749,6 +753,7 @@ if [ "$MODULO_LOGINUNICO_INSTALAR" == "true" ]; then
               cd /opt/sei/web/modulos/mod-sei-loginunico/
               git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-loginunico.git
               git pull || true
+              git pull --tags || true
 
               git checkout $MODULO_LOGINUNICO_VERSAO
               echo "Versao do LoginÚnico é agora: $MODULO_LOGINUNICO_VERSAO"
@@ -841,8 +846,9 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-assinatura-avancada .
                 cd mod-sei-assinatura-avancada/
-                    git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-assinatura-avancada.git
-                  git pull || true
+                git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-assinatura-avancada.git
+                git pull || true
+                git pull --tags || true
                 git checkout $MODULO_ASSINATURAVANCADA_VERSAO
                 echo "Versao do LoginUnico eh agora: $MODULO_ASSINATURAVANCADA_VERSAO"
 
@@ -932,6 +938,7 @@ if [ "$MODULO_PEN_INSTALAR" == "true" ]; then
 
                 cd /sei-modulos/mod-sei-pen
                 git pull || true
+                git pull --tags || true
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-pen mod-sei-pen
@@ -1070,6 +1077,7 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
 
                 cd /sei-modulos/mod-sei-protocolo-integrado
                 git pull || true
+                git pull --tags || true
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-protocolo-integrado mod-sei-protocolo-integrado
@@ -1148,6 +1156,8 @@ if [ "$MODULO_INCOM_INSTALAR" == "true" ]; then
                 cd /sei-modulos/mod-sei-incom
                 git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-incom.git
                 git pull || true
+                git pull --tags || true
+
 
                 cd /opt/sei/web/modulos
                 cp -R /sei-modulos/mod-sei-incom mod-sei-incom

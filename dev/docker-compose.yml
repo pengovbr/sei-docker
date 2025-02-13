@@ -1,7 +1,7 @@
 version: '2'
 services:
   jod:  
-    image: ${DOCKER_REGISTRY}/jod:${ENVIRONMENT_VERSION}
+    image: ${DOCKER_REGISTRY}/${JOD_IMAGE}:${ENVIRONMENT_VERSION}
     container_name: jod
 
   smtp:

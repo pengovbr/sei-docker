@@ -1,0 +1,17 @@
+# amount of libreOffice instances to start - one for each given port. So this means 2
+jodconverter:
+  local:
+    port-numbers:
+      - 2002
+      - 2003
+    # change the tmp folder
+    working-dir: /tmp
+# change upload sizes
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+# change the server port (where the REST app is listenting)
+server:
+  port: 8080
