@@ -5,7 +5,7 @@ include envcontainers-test.env
 endif
 
 
-CONTAINERS_LIST=base-centos7 base-rocky93 haproxy traefik memcached jod mailcatcher base-mariadb10.5 mariadb10.5-sei40 base-mysql8 mysql8-sei41 base-sqlserver2019 sqlserver2019-sei40 sqlserver2019-sei41 base-oracle11g oracle11g-sei40 oracle11g-sei41 base-postgres15 postgres15-sei40 postgres15-sei41 solr8.2.0 solr9.4.0 solr9.6.1 base-app base-app-php8 app-dev app-dev-php8 app-ci app-ci-php8 app-ci-agendador app-ci-php8-agendador
+CONTAINERS_LIST=base-centos7 base-rocky93 haproxy traefik memcached jod jod4.4.8 mailcatcher base-mariadb10.5 mariadb10.5-sei40 base-mysql8 mysql8-sei41 base-sqlserver2019 sqlserver2019-sei40 sqlserver2019-sei41 base-oracle11g oracle11g-sei40 oracle11g-sei41 base-postgres15 postgres15-sei40 postgres15-sei41 solr8.2.0 solr9.4.0 solr9.6.1 base-app base-app-php8 app-dev app-dev-php8 app-ci app-ci-php8 app-ci-agendador app-ci-php8-agendador
 
 help: ## Mostra essa ajuda. Voce pode usar tab para completar os comandos
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's|^\ ||'

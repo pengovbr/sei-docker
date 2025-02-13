@@ -87,8 +87,8 @@ class ConfiguracaoSEI extends InfraConfiguracao
         'Manutencao' => array(
             'Ativada' => false,
             'Usuarios' => array('siglaUsuario1/siglaOrgao1', 'siglaUsuario2/siglaOrgao2'),
-            'Mensagem' => 'Sistema em Manuten��o',
-            'Detalhes' => 'Previs�o de retorno at� as <b>XXhs.</b>'
+            'Mensagem' => 'Sistema em Manutenção',
+            'Detalhes' => 'Previsão de retorno até as <b>XXhs.</b>'
         ),
 
         'hCaptcha' => array(
@@ -107,7 +107,7 @@ class ConfiguracaoSEI extends InfraConfiguracao
             'Score' => 0.5
         ),
 
-        'JODConverter' => array('Servidor' => 'http://jod:8080/converter/service'),
+        'JODConverter' => array('Servidor' => 'http://jod:8080/conversion?format=pdf'),
 
         'Solr' => array(
             'Servidor' => getenv('APP_SOLR_URL'),
