@@ -32,9 +32,6 @@ dnf install -y ffmpeg
 
 cd /tmp/assets/pacotes
 
-# Instalação do componentes UploadProgress
-#dnf install -y php-pecl-uploadprogress
-
 # fonts libraries
 rpm -Uvh msttcore-fonts-2.0-3.noarch.rpm
 
