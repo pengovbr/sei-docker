@@ -15,7 +15,7 @@ yum -y update
 
 # Instalação de ferramentas utilitárias e dependências do SEI
 yum -y groupinstall 'Development Tools'
-yum install -y crontabs mysql net-tools nc
+yum install -y cronie mysql net-tools nc
 
 
 # Instalação do XDebug, versão 3
@@ -27,15 +27,14 @@ chmod -R 777 /var/sei/arquivos
 
 # Configuração dos serviços de background do Cron
 mkdir /var/log/sei
-#sed -i '/session    required   pam_loginuid.so/c\#session    required   pam_loginuid.so' /etc/pam.d/crond
-
-mkdir -p /etc/cron.d/sei
 
 cp /tmp/assets/conf/info.php /var/www/html/
 cp /tmp/assets/conf/sei.ini /etc/php.d/
 cp /tmp/assets/conf/sei.conf /etc/httpd/conf.d/
 cp /tmp/assets/conf/deflate.conf /etc/httpd/conf.d/
-#cp /tmp/assets/conf/cron.conf /etc/cron.d/
+cp /tmp/assets/conf/cron.conf /etc/cron.d/sei
+chown -R root:root /etc/cron.d/
+chmod 0644 /etc/cron.d/sei
 cp /tmp/assets/conf/xdebug.ini /etc/php.d/
 
 sed -i "s|^SSLCertificateFile |#SSLCertificateFile|" /etc/httpd/conf.d/ssl.conf
