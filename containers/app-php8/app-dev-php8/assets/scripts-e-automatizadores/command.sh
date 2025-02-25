@@ -27,10 +27,10 @@ chmod -R 777 /opt/sip/temp
 chmod -R 777 /var/sei/arquivos
 
 # Inicialização das rotinas de agendamento
-printenv | sed 's/^\(.*\)$$/export \1/g' > /crond_env.sh	
-chown root:root /etc/cron.d/sei
+printenv | sed 's|^|export |' | sed 's|=|="|' | sed 's|$|"|' > /root/cronenv.sh
+chown -R root:root /etc/cron.d/
 chmod 0644 /etc/cron.d/sei
-crond 
+/usr/sbin/crond start -p
 
 \cp /opt2/remi.tgz /opt/
 cd /opt && tar -xvzf remi.tgz
