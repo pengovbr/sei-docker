@@ -5,7 +5,7 @@
 # construa antes a imagem base
 ################################################################################
 
-ARG IMAGEM_BASE=processoeletronico/base-postgres15:latest
+ARG IMAGEM_BASE=processoeletronico/base-postgres14:latest
 
 FROM ${IMAGEM_BASE} as builder
 
