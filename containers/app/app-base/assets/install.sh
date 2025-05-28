@@ -145,6 +145,20 @@ if [ "$IMAGEM_APP_PACOTEORACLE_PRESENTE" == "true" ]; then
 
     echo "extension=oci8.so" > /etc/php.d/oci8.ini
 
+    mkdir /orapdo
+    cd /orapdo
+    mv /tmp/assets/pacotes/php-7.3.33.tar.gz .
+    tar -xvzf php-7.3.33.tar.gz
+    rm -rf php-7.3.33.tar.gz
+    cd php-7.3.33
+    cd ext/pdo_oci
+    phpize
+    ./configure --with-pdo-oci=instantclient,/usr/lib/oracle/12.2/client64/lib,12.2
+    make
+    make install
+    echo extension=pdo_oci.so > /etc/php.d/pdo_oci.ini
+    cd /tmp/assets/pacotes
+
 fi
 
 if [ "$IMAGEM_APP_PACOTEPOSTGRES_PRESENTE" == "true" ]; then
