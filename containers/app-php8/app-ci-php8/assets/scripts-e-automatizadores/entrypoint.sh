@@ -212,7 +212,12 @@ rm -f localhost.csr
 update-ca-trust extract
 update-ca-trust enable
 
-
+# ajustar sessao do php
+if [ "${APP_MEMCACHED_SESSION}" == "true" ]; then
+    echo "Ajustando sessao do php para rodar no memcached"
+    sed -i "s|php_value\[session.save_handler\].*|php_value[session.save_handler] = memcached|g" /etc/php-fpm.d/www.conf
+    sed -i "s|php_value\[session.save_path\].*|php_value[session.save_path] = \"${APP_MEMCACHED_HOST}:11211\"|g" /etc/php-fpm.d/www.conf
+fi
 
 echo "Atualizador finalizado procedendo com a subida do apache..."
 
