@@ -97,8 +97,7 @@ mkdir -p /opt/sip/temp
 chmod -R 777 /opt/sei/temp
 chmod -R 777 /opt/sip/temp
 
-
-
+# aguarda a instalacao antes de prosseguir
 while [ ! -f /sei/controlador-instalacoes/instalado.ok ]
 do
     echo "Aguardando conteiner atualizador instalar e atualizar o SEI e modulos"

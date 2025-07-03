@@ -345,14 +345,26 @@ ifeq ("$(APP_PROTOCOLO)",  "https")
 	@sed -i'' -e "s|#traefik.http.routers.app.tls: true #app-traefik|traefik.http.routers.app.tls: true #app-traefik|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#traefik.http.services.app.loadbalancer.server.scheme: https #app-traefik|traefik.http.services.app.loadbalancer.server.scheme: https #app-traefik|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#traefik.http.services.app.loadbalancer.server.port: 443 #app-traefik|traefik.http.services.app.loadbalancer.server.port: 443 #app-traefik|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#traefik.http.services.app.loadBalancer.sticky.cookie: true #app-traefik|traefik.http.services.app.loadBalancer.sticky.cookie: true #app-traefik|" orquestrators/docker-compose/docker-compose.yml
+	@set +e; echo $$DOCKER_IMAGE_APP |  grep "php8" > /dev/null; e1=$$?; set -e; \
+    if [ "$$e1" = "0" ] && [ "$$APP_MEMCACHED_SESSION" = "true" ]; then \
+        echo ""; \
+    else \
+        echo "altera"; \
+        sed -i'' -e "s|#traefik.http.services.app.loadBalancer.sticky.cookie: true #app-traefik|traefik.http.services.app.loadBalancer.sticky.cookie: true #app-traefik|" orquestrators/docker-compose/docker-compose.yml; \
+    fi;
 
 else
 	@sed -i'' -e "s|#traefik.http.routers.httpapp.rule: Host(\`${APP_HOST}\`) && (PathPrefix(\`/sei\`) \|\| PathPrefix(\`/sip\`) \|\| PathPrefix(\`/infra\`)) #app-traefik|traefik.http.routers.httpapp.rule: Host(\`${APP_HOST}\`) \&\& (PathPrefix(\`/sei\`) \|\| PathPrefix(\`/sip\`) \|\| PathPrefix(\`/infra\`)) #app-traefik|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#traefik.http.routers.httpapp.entrypoints: web #app-traefik|traefik.http.routers.httpapp.entrypoints: web #app-traefik|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#traefik.http.services.httpapp.loadbalancer.server.scheme: http #app-traefik|traefik.http.services.httpapp.loadbalancer.server.scheme: http #app-traefik|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#traefik.http.services.httpapp.loadbalancer.server.port: 80 #app-traefik|traefik.http.services.httpapp.loadbalancer.server.port: 80 #app-traefik|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#traefik.http.services.httpapp.loadBalancer.sticky.cookie: true #app-traefik|traefik.http.services.httpapp.loadBalancer.sticky.cookie: true #app-traefik|" orquestrators/docker-compose/docker-compose.yml
+	@set +e; echo $$DOCKER_IMAGE_APP |  grep "php8" > /dev/null; e1=$$?; set -e; \
+    if [ "$$e1" = "0" ] && [ "$$APP_MEMCACHED_SESSION" = "true" ]; then \
+        echo ""; \
+    else \
+        echo "altera"; \
+        sed -i'' -e "s|#traefik.http.services.httpapp.loadBalancer.sticky.cookie: true #app-traefik|traefik.http.services.httpapp.loadBalancer.sticky.cookie: true #app-traefik|" orquestrators/docker-compose/docker-compose.yml; \
+    fi;
 endif
 
 
