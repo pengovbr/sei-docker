@@ -1101,12 +1101,12 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 cd /opt/sei/web/modulos
                 mv mod-sei-protocolo-integrado mod-sei-protocolo-integrado.old
 
-                if [ -d "/opt/sei/config/mod-protocolo-integrado/" ]; then		
-                    cd /opt/sei/config/mod-protocolo-integrado/		
-                elif [ -d "/opt/sei/config/protocolo-integrado/" ]; then		
-                    cd /opt/sei/config/protocolo-integrado/		
+                if [ -d "/opt/sei/config/mod-protocolo-integrado/" ]; then
+                    cd /opt/sei/config/mod-protocolo-integrado/
+                elif [ -d "/opt/sei/config/protocolo-integrado/" ]; then
+                    cd /opt/sei/config/protocolo-integrado/
 		fi
-  
+
                 mv ./ConfiguracaoModProtocoloIntegrado.exemplo.php ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"WebService\" => \"\"#'WebService' => \"$MODULO_PI_URL\"#g" ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"UsuarioWebService\" => \"\"#'UsuarioWebService' => \"$MODULO_PI_USUARIO\"#g" ConfiguracaoModProtocoloIntegrado.php
@@ -1118,10 +1118,10 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 sed -i "s#/\*novomodulo\*/#'ProtocoloIntegradoIntegracao' => 'protocolo-integrado', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
 
                 cd /opt
-                if [ -d "sip/scripts/mod-protocolo-integrado" ]; then		
+                if [ -d "sip/scripts/mod-protocolo-integrado" ]; then
                    echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php sip/scripts/mod-protocolo-integrado/sip_atualizar_versao_modulo_protocolo_integrado.php
                    echo -ne "$APP_DB_SEI_USERNAME\n$APP_DB_SEI_PASSWORD\n" | php sei/scripts/mod-protocolo-integrado/sei_atualizar_versao_modulo_protocolo_integrado.php
-                elif [ -d "sip/scripts/protocolo-integrado" ]; then		
+                elif [ -d "sip/scripts/protocolo-integrado" ]; then
 		   echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php sip/scripts/protocolo-integrado/sip_atualizar_versao_modulo_protocolo_integrado.php
                    echo -ne "$APP_DB_SEI_USERNAME\n$APP_DB_SEI_PASSWORD\n" | php sei/scripts/protocolo-integrado/sei_atualizar_versao_modulo_protocolo_integrado.php
                 fi
