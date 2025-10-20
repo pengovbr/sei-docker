@@ -1103,9 +1103,10 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
 
                 if [ -d "/opt/sei/config/mod-protocolo-integrado/" ]; then
                     DIRPI="mod-protocolo-integrado"
-                elif [ -d "/opt/sei/config/protocolo-integrado/" ]; then
+                else
                     DIRPI="protocolo-integrado"
                 fi
+                cd /opt/sei/config/${DIRPI}/
 
                 mv ./ConfiguracaoModProtocoloIntegrado.exemplo.php ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"WebService\" => \"\"#'WebService' => \"$MODULO_PI_URL\"#g" ConfiguracaoModProtocoloIntegrado.php

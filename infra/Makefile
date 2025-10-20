@@ -454,7 +454,7 @@ scale: ## escala os nohs de aplicacao do SEI para 2. Caso vc queira mais de 2 ba
 
 ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 
-ifneq ($(shell docker-compose --help | grep scale 2>/dev/null),)
+ifneq ($(shell $(CMDCOMPOSE) --help | grep scale 2>/dev/null),)
 	$(CMDCOMPOSE) scale app=$(qtd)
 else
 	$(CMDCOMPOSE) up -d app --scale app=$(qtd) --no-recreate
