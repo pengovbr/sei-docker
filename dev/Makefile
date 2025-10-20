@@ -1,5 +1,14 @@
 SHELL := /bin/bash
 
+ifneq ($(shell docker compose version 2>/dev/null),)
+DC=docker compose
+else ifneq ($(shell docker-compose --version 2>/dev/null),)
+DC=docker-compose
+else
+$(error ************  docker compose ou docker-compose nao encontrado. Ou inexistente para o usuario do make. Verifique... ************)
+endif
+
+
 ifneq ("$(wildcard env.env)","")
 include env.env
 endif
@@ -101,21 +110,21 @@ prerequisites-up: env.env check-sei-path
 
 ## up: Sobe o projeto, mas antes verifica os pre-requisitos
 up: prerequisites-up
-	docker-compose --env-file env.env up -d
+	$(DC) --env-file env.env up -d
 	make check-sei-ispinging
 
 ## up-update: Sobe o projeto, e roda o update na sequencia
 up-update: prerequisites-up
-	docker-compose --env-file env.env up -d
+	$(DC) --env-file env.env up -d
 	make check-sei-ispinging
 	make update
 	make check-sei-isalive
 
 ## update: Roda arquivos de update de versao para o sei e sip. Caso fonte na v4.1 e bd na 4.0, rode este target apos o up
 update: prerequisites-up
-	docker-compose --env-file env.env run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_SIP)"; true
-	docker-compose --env-file env.env run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_RECURSOS_SEI)"; true
-	docker-compose --env-file env.env run --rm -w /opt/sei/scripts/ httpd bash -c "$(CMD_INSTALACAO_SEI)"; true
+	$(DC) --env-file env.env run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_SIP)"; true
+	$(DC) --env-file env.env run --rm -w /opt/sip/scripts/ httpd bash -c "$(CMD_INSTALACAO_RECURSOS_SEI)"; true
+	$(DC) --env-file env.env run --rm -w /opt/sei/scripts/ httpd bash -c "$(CMD_INSTALACAO_SEI)"; true
 	make check-sei-isalive
 
 config: ## sobreescreve o arquivo env.env para uma nova base de dados / versao do sei. Ex: make base=mysql-sei4. Digite make config para listar os valores possiveis
@@ -135,7 +144,7 @@ config: ## sobreescreve o arquivo env.env para uma nova base de dados / versao d
 	fi;
 
 down: ## apenas para o projeto com possibilidade de subir novamente mais tarde
-	docker-compose --env-file env.env down
+	$(DC) --env-file env.env down
 
 
 ## restart: Roda os targets down e up na sequencia
@@ -144,4 +153,4 @@ restart: down up
 
 ## destroy: destroi os componentes e também apaga os volumes de dados
 destroy: env.env
-	docker-compose --env-file env.env down --volumes
+	$(DC) --env-file env.env down --volumes
