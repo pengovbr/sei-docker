@@ -52,6 +52,40 @@ if [ -z "$APP_PROTOCOLO" ] || \
     exit 1
 fi
 
+github_checkexists(){
+
+    url="https://api.github.com/repos/pengovbr/sei"
+
+    set +e
+    curl -H "Authorization: token ${APP_FONTES_GITHUB_TOKEN}" \
+         "${url}${1}" | grep '"sha":' > /dev/null
+    e=$?
+    set -e
+
+    if [ "$e" = "0" ]; then
+
+        echo "ok"
+        return 0
+
+    fi
+
+    echo "nok"
+    #return 1
+
+}
+
+github_download(){
+
+    echo "Vamos fazer o download do fonte no github"
+    echo "Vamos usar a referencia ${1}"
+
+    url="https://api.github.com/repos/pengovbr/sei"
+
+    curl -s -H "Authorization: token ${APP_FONTES_GITHUB_TOKEN}" \
+         -L -o /temp/sei.tgz "${url}${1}"
+
+
+}
 
 echo "***************************************************"
 echo "***************************************************"
@@ -59,36 +93,92 @@ echo "**INICIANDO CONFIGURACOES BASICAS DO APACHE E SEI**"
 echo "***************************************************"
 echo "***************************************************"
 
-if [ -z "$APP_FONTES_GIT_PATH" ] || \
-   [ -z "$APP_FONTES_GIT_PRIVKEY_BASE64" ] || \
-   [ -z "$APP_FONTES_GIT_CHECKOUT" ]; then
-    echo "Vamos tentar usar o codigo fonte fornecido na pasta /opt (via volume)."
-else
-    echo "Vamos tentar baixar o fonte do git com os parametros fornecidos"
 
-    cd /tmp
-    echo -n "$APP_FONTES_GIT_PRIVKEY_BASE64" | base64 -d > /tmp/lhave.key
-    chmod 500 lhave.key
 
-    echo '#!/bin/bash' > /tmp/gitwrap.sh
-    echo 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/lhave.key "$@"' >> /tmp/gitwrap.sh
-    chmod +x gitwrap.sh
+if [ -z "$APP_FONTES_GITHUB_TOKEN" ]; then
 
-    echo "Fazendo o clone dos fontes. Aguarde..."
-    export GIT_SSH=/tmp/gitwrap.sh
-    git clone $APP_FONTES_GIT_PATH spe
-    export GIT_SSH=ssh
+    if [ -z "$APP_FONTES_GIT_PATH" ] || \
+       [ -z "$APP_FONTES_GIT_PRIVKEY_BASE64" ] || \
+       [ -z "$APP_FONTES_GIT_CHECKOUT" ]; then
+        echo "Vamos tentar usar o codigo fonte fornecido na pasta /opt (via volume)."
+    else
+        echo "Vamos tentar baixar o fonte do git com os parametros fornecidos"
 
-    echo "Fazendo a copia dos fontes. Aguarde..."
-    cd spe
-    git checkout $APP_FONTES_GIT_CHECKOUT
-    if [ -d "src" ] ; then
-        cd src
+        cd /tmp
+        echo -n "$APP_FONTES_GIT_PRIVKEY_BASE64" | base64 -d > /tmp/lhave.key
+        chmod 500 lhave.key
+
+        echo '#!/bin/bash' > /tmp/gitwrap.sh
+        echo 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /tmp/lhave.key "$@"' >> /tmp/gitwrap.sh
+        chmod +x gitwrap.sh
+
+        echo "Fazendo o clone dos fontes. Aguarde..."
+        export GIT_SSH=/tmp/gitwrap.sh
+        git clone $APP_FONTES_GIT_PATH spe
+        export GIT_SSH=ssh
+
+        echo "Fazendo a copia dos fontes. Aguarde..."
+        cd spe
+        git checkout $APP_FONTES_GIT_CHECKOUT
+        if [ -d "src" ] ; then
+            cd src
+        fi
+        cp -R * /opt/
+        cd /
+        rm -rf /tmp/sei /tmp/lhave.key
     fi
-    cp -R * /opt/
-    cd /
-    rm -rf /tmp/sei /tmp/lhave.key
+
+else
+
+    mkdir -p /temp
+
+    echo "Vamos checar se existe a versao do fonte no github"
+    echo "Vamos tentar buscar por branch, tag ou commit"
+
+    r=$(github_checkexists "/git/refs/heads/${APP_FONTES_GIT_CHECKOUT}")
+    if [ "$r" = "ok" ]; then
+        github_download "/tarball/refs/heads/${APP_FONTES_GIT_CHECKOUT}"
+
+    else
+        r=$(github_checkexists "/git/refs/tags/${APP_FONTES_GIT_CHECKOUT}")
+        if [ "$r" = "ok" ]; then
+            github_download "/tarball/refs/tags/${APP_FONTES_GIT_CHECKOUT}"
+
+        else
+            r=$(github_checkexists "/commits/${APP_FONTES_GIT_CHECKOUT}")
+            if [ "$r" = "ok" ]; then
+                github_download "/tarball/${APP_FONTES_GIT_CHECKOUT}"
+
+            else
+
+                echo "Nao foi possível achar a versao: ${APP_FONTES_GIT_CHECKOUT} no github utilizando"
+                echo "as credenciais informadas"
+
+            fi
+        fi
+    fi
+
+    tar -xvzf /temp/sei.tgz -C /temp/
+    rm -rf /temp/sei.tgz
+
+    d=$(ls /temp)
+    dcomp=""
+    if [ -d /temp/${d}/src ]; then
+        dcomp="/src"
+    fi
+
+    mkdir -p /temp/fontes
+    mv /temp/${d}${dcomp}/* /temp/fontes/
+    rm -rf /temp/${d}
+    mkdir -p /temp/fontes/sei/config/ /temp/fontes/sip/config/
+    rm -rf /temp/fontes/sei/config/ConfiguracaoSEI.php
+    rm -rf /temp/fontes/sip/config/ConfiguracaoSip.php
+
+    mv /temp/fontes/* /opt/
+    rm -rf /temp
+
 fi
+
 
 #todo melhorar isso
 mkdir -p /opt/sip/config ; mkdir -p /opt/sei/config
