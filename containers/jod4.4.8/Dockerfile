@@ -17,6 +17,7 @@ RUN apk add -f --no-cache \
         font-noto-cjk \
         font-awesome \
         font-noto-extra 
+RUN chown -R jodconverter:jodconverter /opt/app
 
 USER jodconverter
 
