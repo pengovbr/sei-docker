@@ -30,7 +30,7 @@ cd mod-sei-loginunico
 git remote set-url origin https://github.com/pengovbr/mod-sei-loginunico.git
 cd ..
 
-git clone https://${GITUSER_REPO_MODULOS}:${GITPASS_REPO_MODULOS}@github.com/pengovbr/mod-sei-assinatura-avancada.git
-cd mod-sei-assinatura-avancada
-git remote set-url origin https://github.com/pengovbr/mod-sei-assinatura-avancada.git
+git clone https://${GITUSER_REPO_MODULOS}:${GITPASS_REPO_MODULOS}@github.com/pengovbr/mod-sei-assinatura-eletronica.git
+cd mod-sei-assinatura-eletronica
+git remote set-url origin https://github.com/pengovbr/mod-sei-assinatura-eletronica.git
 cd ..
