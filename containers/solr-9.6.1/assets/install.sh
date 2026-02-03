@@ -25,6 +25,9 @@ cd /tmp
 /tmp/sei-solr-9.6.1.sh
 
 echo "" >> /opt/solr/bin/solr.in.sh
+## https://developers.redhat.com/articles/2024/03/14/how-use-java-container-awareness-openshift-4#openshift_container_platform_limits_versus_requests
+## https://developers.redhat.com/articles/2022/04/19/java-17-whats-new-openjdks-container-awareness#tuning_defaults_for_containers
+echo 'SOLR_JAVA_MEM="-XX:MaxRAMPercentage=80"' >> /opt/solr/bin/solr.in.sh
 echo 'SOLR_OPTS="$SOLR_OPTS -Dsolr.allowPaths=/dados"' >> /opt/solr/bin/solr.in.sh
 echo 'SOLR_JETTY_HOST="0.0.0.0"' >> /opt/solr/bin/solr.in.sh
 
