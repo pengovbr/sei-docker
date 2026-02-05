@@ -1,5 +1,5 @@
 [program:monitoramento_tarefas_pen]
-command=/usr/bin/php -c /etc/php.ini /opt/sei/scripts/mod-pen/MonitoramentoTarefasPEN.php --monitorar --segundo-plano
+command=/usr/bin/php -c /etc/php.ini /opt/sei/scripts/mod-pen/MonitoramentoRecebimentoTarefasPEN.php --monitorar --segundo-plano
 directory=/opt/sei/web
 user=root
 numprocs=1
@@ -15,6 +15,26 @@ logfile=/proc/1/fd/1
 stdout_logfile=/proc/1/fd/1
 stderr_logfile=/proc/1/fd/2
 stderr_events_enabled=true
+
+
+[program:monitoramento_envio_tarefas_pen]
+command=/usr/bin/php -c /etc/php.ini /opt/sei/scripts/mod-pen/MonitoramentoEnvioTarefasPEN.php --monitorar --segundo-plano
+directory=/opt/sei/web
+user=root
+numprocs=1
+autostart=true
+autorestart=true
+startsecs=5
+startretries=10000000
+log_stdout=true
+log_stderr=true
+logfile_maxbytes=0
+logfile_backups=50
+logfile=/proc/1/fd/1
+stdout_logfile=/proc/1/fd/1
+stderr_logfile=/proc/1/fd/2
+stderr_events_enabled=true
+
 
 [program:processamento_tarefas_pen]
 command=/usr/bin/php -c /etc/php.ini /opt/sei/scripts/mod-pen/ProcessamentoTarefasPEN.php --worker=%(process_num)02d

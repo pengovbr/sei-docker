@@ -2,4 +2,4 @@
 # Traefik - apenas redundancia do repo original
 ################################################################################
 
-FROM traefik:v3.0
+FROM traefik:v3.6.7

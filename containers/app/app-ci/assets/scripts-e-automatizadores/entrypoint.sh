@@ -530,46 +530,42 @@ else
 fi
 
 
-echo "***************************************************"
-echo "***************************************************"
+echo "**********************************************************"
+echo "**********************************************************"
 echo "INICIANDO CONFIGURACOES DO MODULO ASSINATURA AVANCADA*****"
-echo "***************************************************"
-echo "***************************************************"
+echo "**********************************************************"
+echo "**********************************************************"
 
-if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
+if [ "$MODULO_ASSINATURA_INSTALAR" == "true" ]; then
 
-    if [ -f /sei/controlador-instalacoes/instalado-modulo-assinaturavancada.ok ]; then
+    if [ -f /sei/controlador-instalacoes/instalado-modulo-assinatura.ok ]; then
 
-        if [ -z "$MODULO_ASSINATURAVANCADA_VERSAO" ] || \
-           [ -z "$MODULO_ASSINATURAVANCADA_CLIENTID" ] || \
-           [ -z "$MODULO_ASSINATURAVANCADA_SECRET" ] || \
-           [ -z "$MODULO_ASSINATURAVANCADA_URLPROVIDER" ] || \
-           [ -z "$MODULO_ASSINATURAVANCADA_URL_SERVICOS" ]; then
-            echo "Informe as seguinte variaveis de ambiente no container:"
-            echo "MODULO_ASSINATURAVANCADA_VERSAO, MODULO_ASSINATURAVANCADA_CLIENTID, MODULO_LOGINUNICO_SECRET, MODULO_LOGINUNICO_URLPROVIDER, MODULO_ASSINATURAVANCADA_URL_SERVICOS"
+        if [ -z "$MODULO_ASSINATURA_VERSAO" ]; then
+            echo "Informe as variaveis de ambiente no container para o modulo de assinatura:"
+            echo "MODULO_ASSINATURA_VERSAO e demais."
 
         else
 
-            echo "Verificando existencia do modulo de assinatura avancada"
-            if [ -d "/opt/sei/web/modulos/assinatura-avancada" ]; then
-                echo "Ja existe um diretorio para o modulo de assinatura avancada. Vamos assumir que o codigo la esteja integro"
+            echo "Verificando existencia do modulo de assinatura"
+            if [ -d "/opt/sei/web/modulos/assinatura-eletronica" ]; then
+                echo "Ja existe um diretorio para o modulo de assinatura. Vamos assumir que o codigo la esteja integro"
 
             else
-              echo "Copiando o módulo de assinatura avancada"
+              echo "Copiando o módulo de assinatura"
 
               cd /opt/sei/web/modulos
-              cp -R /sei-modulos/mod-sei-assinatura-avancada .
-              cd mod-sei-assinatura-avancada/
-              git checkout $MODULO_ASSINATURAVANCADA_VERSAO
-              echo "Versao do LoginUnico eh agora: $MODULO_ASSINATURAVANCADA_VERSAO"
+              cp -R /sei-modulos/mod-sei-assinatura-eletronica .
+              cd mod-sei-assinatura-eletronica/
+              git checkout $MODULO_ASSINATURA_VERSAO
+              echo "Versao do LoginUnico eh agora: $MODULO_ASSINATURA_VERSAO"
 
               cp envs/mysql.env .env
               cp envs/modulo.env .modulo.env
               make all
               cd ..
-              mv mod-sei-assinatura-avancada mod-sei-assinatura-avancada.old
+              mv mod-sei-assinatura-eletronica mod-sei-assinatura-eletronica.old
 
-              cd mod-sei-assinatura-avancada.old/dist/
+              cd mod-sei-assinatura-eletronica.old/dist/
 
               files=( *.zip )
               f="${files[0]}"
@@ -583,24 +579,13 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
               yes | cp -Rf sei sip /opt/
 
               cd /opt/sei/
-              sed -i "s#/\*novomodulo\*/#'AssinaturaAvancadaIntegracao' => 'assinatura-avancada', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
+              sed -i "s#/\*novomodulo\*/#'AssinaturaAvancadaIntegracao' => 'assinatura-eletronica', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
 
-              cd /opt/sei/config/mod-assinatura-avancada/
-              #cp ConfiguracaoModAssinaturaAvancada.exemplo.php ConfiguracaoModAssinaturaAvancada.php
-              #nao quero o config de exemplo vou usar o config com as vars de ambiente e mudar o nome das vars
-              cp /opt/sei/web/modulos/mod-sei-assinatura-avancada.old/src/config/ConfiguracaoModAssinaturaAvancada.php .
-              sed -i "s#ASSINATURA_URL_PROVIDER#MODULO_ASSINATURAVANCADA_URLPROVIDER#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#ASSINATURA_CLIENT_ID#MODULO_ASSINATURAVANCADA_CLIENTID#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#ASSINATURA_SECRET#MODULO_ASSINATURAVANCADA_SECRET#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#ASSINATURA_URL_SERVICOS#MODULO_ASSINATURAVANCADA_URL_SERVICOS#g" ConfiguracaoModAssinaturaAvancada.php
+              cd /opt/sei/config/mod-assinatura-eletronica/
+              cp /sei/files/scripts-e-automatizadores/modulos/mod-sei-assinatura/ConfiguracaoModAssinaturaEletronica.php \
+                   /opt/sei/config/mod-assinatura-eletronica/ConfiguracaoModAssinaturaEletronica.php
 
-              sed -i "s#'VALIDAR_API_URL'#'MODULO_ASSINATURAVANCADA_VALIDAR_API_URL'#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#'VALIDAR_API_KEY'#'MODULO_ASSINATURAVANCADA_VALIDAR_API_KEY'#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#'INTEGRA_ICP_URL'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL'#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#'INTEGRA_ICP_URL_CLEARINGS'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_CLEARINGS'#g" ConfiguracaoModAssinaturaAvancada.php
-              sed -i "s#'INTEGRA_ICP_URL_ASSINAR'#'MODULO_ASSINATURAVANCADA_INTEGRA_ICP_URL_ASSINAR'#g" ConfiguracaoModAssinaturaAvancada.php
-
-              rm -rf /opt/sei/web/modulos/mod-sei-assinatura-avancada.old
+              rm -rf /opt/sei/web/modulos/mod-sei-assinatura-eletronica.old
 
             fi
 
@@ -609,13 +594,13 @@ if [ "$MODULO_ASSINATURAVANCADA_INSTALAR" == "true" ]; then
 
     else
 
-        echo "Arquivo de controle do Modulo de Assinatura Avancada encontrado, provavelmente ja foi instalado, pulando configuracao do modulo"
+        echo "Arquivo de controle do Modulo de Assinatura encontrado, provavelmente ja foi instalado, pulando configuracao do modulo"
 
     fi
 
 else
 
-    echo "Variavel MODULO_ASSINATURAVANCADA_INSTALAR nao setada para true, pulando configuracao..."
+    echo "Variavel MODULO_ASSINATURA_INSTALAR nao setada para true, pulando configuracao..."
 
 fi
 
