@@ -964,7 +964,7 @@ if [ "$MODULO_ASSINATURA_INSTALAR" == "true" ]; then
                 cp envs/modulo.env .modulo.env
                 VERSAO_MA=$(grep 'const VERSAO_MODULO' src/AssinaturaEletronicaIntegracao.php | cut -d'"' -f2)
                 touch docs/changelogs/CHANGELOG-${VERSAO_MA}.md
-                if [ ! -f compatibilidade.json ]; then 
+                if [ ! -f compatibilidade.json ]; then
                     echo -n '"name":"Módulo Assinatura Avançada", "version": "1.3.0", "compatible_with": ["4.2.0","5.1.0"]}' > compatibilidade.json
                 fi
                 make all
@@ -990,7 +990,7 @@ if [ "$MODULO_ASSINATURA_INSTALAR" == "true" ]; then
                 cd /opt/sei/config/mod-assinatura-eletronica/
                 cp /sei/files/scripts-e-automatizadores/modulos/mod-sei-assinatura/ConfiguracaoModAssinaturaEletronica.php \
                    /opt/sei/config/mod-assinatura-eletronica/ConfiguracaoModAssinaturaEletronica.php
-                    
+
                 cd /opt/sip/scripts/mod-assinatura-eletronica/
 
                 echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php sip_atualizar_versao_modulo_assinatura.php
