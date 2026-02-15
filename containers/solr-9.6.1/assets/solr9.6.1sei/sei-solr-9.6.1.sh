@@ -43,9 +43,14 @@ mkdir -v /dados/sei-protocolos/conteudo
 mkdir -v /dados/sei-bases-conhecimento/conteudo
 mkdir -v /dados/sei-publicacoes/conteudo
 
+# Copia o conteudo modelo para o diretório /dados-modelo
+# Util para inicializar o diretório /dados quando mapeando um volume vazio em /dados
+cp -Rfv /dados /dados-modelo
+
 cp -f /tmp/security.json /opt/solr/server/solr/security.json
 
 chown -R solr.solr /dados
+chown -R solr.solr /dados-modelo
 chown -R solr.solr /opt/solr/
 
 cp solr.service /etc/systemd/system/solr.service
