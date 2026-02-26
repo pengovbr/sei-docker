@@ -13,3 +13,4 @@ infra/tests/Selenium/PythonExported/__pycache__
 infra/tests/Selenium/PythonExported/resultado.xml
 infra/tests/Selenium/PythonExported/test_suiteBasics-executar.py
 infra/tests/Selenium/PythonExported/test_suiteBasics-executar.py-e
+dev/env.env
