@@ -1,17 +1,17 @@
 # Ambiente de Desenvolvimento
 
-Guia tecnico para configuracao e uso do ambiente de desenvolvimento local do SEI-Docker.
+Guia técnico para configuração e uso do ambiente de desenvolvimento local do SEI-Docker.
 
 ---
 
-## Visao Geral
+## Visão Geral
 
-O ambiente de desenvolvimento (`dev/`) oferece uma configuracao simplificada com:
+O ambiente de desenvolvimento (`dev/`) oferece uma configuração simplificada com:
 
 - XDebug habilitado para debug remoto
-- Codigo-fonte montado via volume (edicao ao vivo)
+- Código-fonte montado via volume (edição ao vivo)
 - Portas mapeadas diretamente para o host
-- Troca facil entre bancos de dados e versoes do SEI
+- Troca fácil entre bancos de dados e versões do SEI
 - MailCatcher para captura de e-mails
 
 ---
@@ -20,8 +20,8 @@ O ambiente de desenvolvimento (`dev/`) oferece uma configuracao simplificada com
 
 ```
 dev/
-├── Makefile                    # Automacao (up, down, config, update)
-├── docker-compose.yml          # Orquestracao simplificada
+├── Makefile                    # Automação (up, down, config, update)
+├── docker-compose.yml          # Orquestração simplificada
 ├── envs/                       # Templates de ambiente
 │   ├── env-mysql-sei4.env
 │   ├── env-mysql-sei5.env
@@ -40,11 +40,11 @@ dev/
 
 ## Quick Start
 
-### 1. Pre-requisitos
+### 1. Pré-requisitos
 
 - Docker Engine 20+
 - Docker Compose v2+
-- Codigo-fonte do SEI (obtido separadamente)
+- Código-fonte do SEI (obtido separadamente)
 - GNU Make
 
 ### 2. Definir caminho dos fontes
@@ -53,14 +53,14 @@ dev/
 export SEI_PATH=~/sei/FonteSEI
 ```
 
-O diretorio deve conter as pastas `sei/` e `sip/` com o codigo-fonte.
+O diretório deve conter as pastas `sei/` e `sip/` com o código-fonte.
 
-### 3. Escolher banco de dados e versao
+### 3. Escolher banco de dados e versão
 
 ```bash
 cd dev
 
-# Opcoes disponiveis:
+# Opções disponíveis:
 # mysql-sei4, mysql-sei5, oracle-sei4, oracle-sei5
 # postgres-sei4, postgres-sei5, sqlserver-sei4, sqlserver-sei5
 
@@ -77,7 +77,7 @@ make up
 
 ### 5. Acessar o SEI
 
-| Servico | URL | Credenciais |
+| Serviço | URL | Credenciais |
 |---------|-----|-------------|
 | **SEI** | http://localhost:8000/sei | `teste` / `teste` |
 | **SIP** | http://localhost:8000/sip | `teste` / `teste` |
@@ -87,28 +87,28 @@ make up
 
 ## Comandos do Makefile
 
-| Comando | Descricao |
+| Comando | Descrição |
 |---------|-----------|
 | `make help` | Mostra ajuda |
-| `make up` | Sobe o ambiente (verifica pre-requisitos) |
-| `make up-update` | Sobe e executa scripts de atualizacao do SEI/SIP |
-| `make update` | Executa apenas os scripts de atualizacao |
-| `make config base=X` | Troca o banco/versao (ver opcoes acima) |
+| `make up` | Sobe o ambiente (verifica pré-requisitos) |
+| `make up-update` | Sobe e executa scripts de atualização do SEI/SIP |
+| `make update` | Executa apenas os scripts de atualização |
+| `make config base=X` | Troca o banco/versão (ver opções acima) |
 | `make down` | Para o ambiente (preserva volumes) |
 | `make restart` | Para e sobe novamente |
 | `make destroy` | Para e apaga todos os volumes (DESTRUTIVO) |
-| `make check-sei-path` | Verifica se o codigo-fonte existe |
+| `make check-sei-path` | Verifica se o código-fonte existe |
 | `make check-sei-isalive` | Verifica se o SEI responde com tela de login |
-| `make check-sei-ispinging` | Verifica se o Apache esta respondendo |
+| `make check-sei-ispinging` | Verifica se o Apache está respondendo |
 
 ---
 
-## Servicos do Docker Compose
+## Serviços do Docker Compose
 
-| Servico | Container | Imagem | Porta no Host |
+| Serviço | Container | Imagem | Porta no Host |
 |---------|-----------|--------|---------------|
 | `httpd` | `httpd` | `app-dev-php8` | 8000 |
-| `database` | `${DATABASE_HOST}` | Variavel | Porta do banco |
+| `database` | `${DATABASE_HOST}` | Variável | Porta do banco |
 | `memcached` | `memcached` | `memcached` | 11211 |
 | `solr` | `solr` | `solr9.6.1` | 8983 |
 | `jod` | `jod` | `jod4.4.8` | -- |
@@ -125,21 +125,21 @@ make up
 
 ---
 
-## Configuracao do XDebug
+## Configuração do XDebug
 
-O container `httpd` (app-dev-php8) vem com XDebug 3 pre-configurado.
+O container `httpd` (app-dev-php8) vem com XDebug 3 pré-configurado.
 
-### Variaveis de Ambiente
+### Variáveis de Ambiente
 
-| Variavel | Valor Padrao | Descricao |
+| Variável | Valor Padrão | Descrição |
 |----------|-------------|-----------|
 | `XDEBUG_MODE` | `debug` | Modo: `debug`, `profile`, `trace`, `off` |
-| `XDEBUG_SESSION` | `default` | Nome da sessao / IDE key |
+| `XDEBUG_SESSION` | `default` | Nome da sessão / IDE key |
 | `XDEBUG_CONFIG` | `idekey=default client_host=${HOST_IP} client_port=9003 discover_client_host=1` | Config completa |
 
 ### Configurar IP do Host
 
-Para que o XDebug se conecte a sua IDE, defina o IP do host:
+Para que o XDebug se conecte à sua IDE, defina o IP do host:
 
 ```bash
 # Linux
@@ -152,7 +152,7 @@ export HOST_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
 export HOST_IP=$(ifconfig en0 | grep 'inet ' | awk '{print $2}')
 ```
 
-### Configuracao na IDE
+### Configuração na IDE
 
 **VS Code (launch.json):**
 ```json
@@ -177,13 +177,13 @@ export HOST_IP=$(ifconfig en0 | grep 'inet ' | awk '{print $2}')
 **PHPStorm:**
 1. Settings > PHP > Debug > Xdebug: Porta 9003
 2. Settings > PHP > Servers: Host `localhost`, Porta `8000`
-3. Path mappings: `/opt/sei` -> diretorio local `sei/`
+3. Path mappings: `/opt/sei` -> diretório local `sei/`
 
 ---
 
-## Montagem do Codigo-Fonte
+## Montagem do Código-Fonte
 
-O codigo-fonte e montado como volume em `/opt/` dentro do container `httpd`:
+O código-fonte é montado como volume em `/opt/` dentro do container `httpd`:
 
 ```yaml
 volumes:
@@ -204,13 +204,13 @@ ${SEI_PATH}/
     └── ...
 ```
 
-Alteracoes nos arquivos sao refletidas imediatamente no container (sem rebuild).
+Alterações nos arquivos são refletidas imediatamente no container (sem rebuild).
 
 ---
 
 ## Troca de Banco de Dados
 
-Para trocar o banco de dados ou a versao do SEI:
+Para trocar o banco de dados ou a versão do SEI:
 
 ```bash
 # Parar o ambiente atual
@@ -219,16 +219,16 @@ make down
 # (Opcional) Apagar dados do banco anterior
 make destroy
 
-# Trocar configuracao
+# Trocar configuração
 make config base=postgres-sei5
 
 # Subir com novo banco
 make up
 ```
 
-### Combinacoes Disponiveis
+### Combinações Disponíveis
 
-| Base | Banco | Versao SEI | Imagem |
+| Base | Banco | Versão SEI | Imagem |
 |------|-------|------------|--------|
 | `mysql-sei4` | MariaDB 10.5 | 4.0 | `mariadb10.5-sei40` |
 | `mysql-sei5` | MySQL 8 | 5.0 | `mysql8-sei50` |
@@ -241,15 +241,15 @@ make up
 
 ---
 
-## Atualizacao de Versao
+## Atualização de Versão
 
-Quando atualizar o codigo-fonte do SEI para uma nova versao, execute os scripts de atualizacao:
+Quando atualizar o código-fonte do SEI para uma nova versão, execute os scripts de atualização:
 
 ```bash
 make update
 ```
 
-Ou suba o ambiente ja executando o update:
+Ou suba o ambiente já executando o update:
 
 ```bash
 make up-update
@@ -262,15 +262,15 @@ Isso executa internamente:
 
 ---
 
-## Resolucao de Problemas
+## Resolução de Problemas
 
-### SEI nao inicia
+### SEI não inicia
 
 ```bash
-# Verificar se o caminho dos fontes esta correto
+# Verificar se o caminho dos fontes está correto
 make check-sei-path
 
-# Verificar se o Apache esta respondendo
+# Verificar se o Apache está respondendo
 make check-sei-ispinging
 
 # Verificar se o SEI responde com login
@@ -280,20 +280,20 @@ make check-sei-isalive
 docker logs httpd
 ```
 
-### Erro de conexao com banco
+### Erro de conexão com banco
 
 ```bash
-# Verificar se o container do banco esta rodando
+# Verificar se o container do banco está rodando
 docker ps | grep -E "mysql|postgres|oracle|sqlserver"
 
 # Ver logs do banco
 docker logs $(docker ps -qf "name=mysql\|postgres\|oracle\|sqlserver")
 ```
 
-### XDebug nao conecta
+### XDebug não conecta
 
-1. Verificar se `HOST_IP` esta definido corretamente
-2. Verificar se a porta 9003 esta aberta no firewall do host
+1. Verificar se `HOST_IP` está definido corretamente
+2. Verificar se a porta 9003 está aberta no firewall do host
 3. Testar com: `XDEBUG_MODE=debug,develop` para mensagens de erro detalhadas
 4. No WSL2, verificar regra de firewall do Windows
 

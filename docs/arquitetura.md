@@ -1,16 +1,16 @@
-# Arquitetura Tecnica - SEI-Docker
+# Arquitetura Técnica - SEI-Docker
 
-## Visao Geral
+## Visão Geral
 
-O SEI-Docker implementa uma arquitetura de microservicos baseada em containers Docker para o Sistema Eletronico de Informacoes (SEI). O projeto e destinado exclusivamente a ambientes de **Desenvolvimento, Teste e Homologacao (DTH)**, nao sendo recomendado para producao.
+O SEI-Docker implementa uma arquitetura de microsserviços baseada em containers Docker para o Sistema Eletrônico de Informações (SEI). O projeto é destinado exclusivamente a ambientes de **Desenvolvimento, Teste e Homologação (DTH)**, não sendo recomendado para produção.
 
 ---
 
-## Diagrama de Servicos
+## Diagrama de Serviços
 
 ```
                          ┌─────────────────────────┐
-                         │     Usuario / Browser    │
+                         │     Usuário / Browser    │
                          └────────────┬────────────┘
                                       │
                               ┌───────▼───────┐
@@ -46,62 +46,62 @@ O SEI-Docker implementa uma arquitetura de microservicos baseada em containers D
 
 ### 1. Camada de Entrada (Load Balancer)
 
-| Componente | Imagem | Funcao |
+| Componente | Imagem | Função |
 |------------|--------|--------|
-| **Traefik** | `traefik:v3.6.7` | Reverse proxy, balanceamento de carga, terminacao TLS, roteamento por labels |
+| **Traefik** | `traefik:v3.6.7` | Reverse proxy, balanceamento de carga, terminação TLS, roteamento por labels |
 
-- Substituiu o HAProxy na versao 3.0.0
+- Substituiu o HAProxy na versão 3.0.0
 - Suporta HTTP e HTTPS com certificados auto-gerados ou customizados
-- Dashboard administrativo disponivel em `/traefik`
+- Dashboard administrativo disponível em `/traefik`
 - Escalonamento horizontal transparente via Docker labels
 
-### 2. Camada de Aplicacao
+### 2. Camada de Aplicação
 
-| Componente | Imagem Base | Funcao |
+| Componente | Imagem Base | Função |
 |------------|-------------|--------|
-| **App (SEI/SIP)** | Rocky Linux 9.3 + PHP 8.2 | Aplicacao web principal |
-| **App Atualizador** | Mesma imagem do App | Executa atualizacoes de versao e instalacao de modulos |
-| **App Agendador** | Extensao do App | Jobs em background via Cron, Gearman e Supervisor |
-| **App Dev** | Extensao do App Base | Ambiente de desenvolvimento com XDebug |
+| **App (SEI/SIP)** | Rocky Linux 9.3 + PHP 8.2 | Aplicação web principal |
+| **App Atualizador** | Mesma imagem do App | Executa atualizações de versão e instalação de módulos |
+| **App Agendador** | Extensão do App | Jobs em background via Cron, Gearman e Supervisor |
+| **App Dev** | Extensão do App Base | Ambiente de desenvolvimento com XDebug |
 
-**Stack da aplicacao:**
+**Stack da aplicação:**
 - Apache 2.4 + mod_ssl + PHP-FPM
-- PHP 8.2 com extensoes: bcmath, gd, gmp, imap, intl, ldap, mbstring, pdo, memcache, memcached, gearman
-- Java 1.8 (conversao de documentos)
+- PHP 8.2 com extensões: bcmath, gd, gmp, imap, intl, ldap, mbstring, pdo, memcache, memcached, gearman
+- Java 1.8 (conversão de documentos)
 - Locale: pt_BR.ISO-8859-1
 
 ### 3. Camada de Dados
 
-| Componente | Versao | Porta | Observacao |
+| Componente | Versão | Porta | Observação |
 |------------|--------|-------|------------|
 | **MariaDB** | 10.5 | 3306 | Fork do MySQL, suporte completo |
-| **MySQL** | 8.0.21 | 3306 | Banco padrao para dev |
-| **PostgreSQL** | 15 | 5432 | Autenticacao SCRAM-SHA-256 |
-| **Oracle** | 11g XE | 1521 | Versao Express |
-| **SQL Server** | 2019 | 1433 | Experimental, nao para producao |
+| **MySQL** | 8.0.21 | 3306 | Banco padrão para dev |
+| **PostgreSQL** | 15 | 5432 | Autenticação SCRAM-SHA-256 |
+| **Oracle** | 11g XE | 1521 | Versão Express |
+| **SQL Server** | 2019 | 1433 | Experimental, não para produção |
 
-Cada banco de dados possui imagens pre-populadas com o schema do SEI para as versoes 4.0, 4.1 e 5.0.
+Cada banco de dados possui imagens pré-populadas com o schema do SEI para as versões 4.0, 4.1 e 5.0.
 
-### 4. Camada de Servicos Auxiliares
+### 4. Camada de Serviços Auxiliares
 
-| Componente | Imagem | Funcao |
+| Componente | Imagem | Função |
 |------------|--------|--------|
-| **Memcached** | `memcached:latest` | Cache de sessoes PHP e cache da aplicacao |
-| **Apache Solr** | 8.2.0 / 9.4.0 / 9.6.1 | Indexacao e busca full-text de documentos |
-| **JOD Converter** | 4.4.8 (Alpine) | Conversao de documentos via LibreOffice |
-| **OpenLDAP** | osixia/openldap:1.2.2 | Autenticacao e diretorio de usuarios |
+| **Memcached** | `memcached:latest` | Cache de sessões PHP e cache da aplicação |
+| **Apache Solr** | 8.2.0 / 9.4.0 / 9.6.1 | Indexação e busca full-text de documentos |
+| **JOD Converter** | 4.4.8 (Alpine) | Conversão de documentos via LibreOffice |
+| **OpenLDAP** | osixia/openldap:1.2.2 | Autenticação e diretório de usuários |
 | **MailCatcher** | schickling/mailcatcher | Captura de e-mails em ambiente de teste |
 
-### 5. Camada de Administracao (opcional)
+### 5. Camada de Administração (opcional)
 
-| Interface | URL | Funcao |
+| Interface | URL | Função |
 |-----------|-----|--------|
 | **Traefik Dashboard** | `/traefik` | Monitoramento do load balancer |
-| **Adminer** | `/dbadmin` | Administracao do banco de dados |
-| **phpLDAPadmin** | `/phpldapadmin` | Administracao do LDAP |
-| **phpMemcachedAdmin** | `/memcachedadmin` | Administracao do cache |
-| **Solr Admin** | `/solr` | Administracao da busca |
-| **MailCatcher** | `/mailadmin` | Visualizacao de e-mails capturados |
+| **Adminer** | `/dbadmin` | Administração do banco de dados |
+| **phpLDAPadmin** | `/phpldapadmin` | Administração do LDAP |
+| **phpMemcachedAdmin** | `/memcachedadmin` | Administração do cache |
+| **Solr Admin** | `/solr` | Administração da busca |
+| **MailCatcher** | `/mailadmin` | Visualização de e-mails capturados |
 
 ---
 
@@ -136,34 +136,34 @@ traefik:v3.6.7                 osixia/openldap:1.2.2
 
 ---
 
-## Fluxo de Inicializacao
+## Fluxo de Inicialização
 
 ### Infraestrutura (infra/)
 
 ```
 make setup
     │
-    ├── check-version-compatibility    # Valida versao do fonte vs containers
+    ├── check-version-compatibility    # Valida versão do fonte vs containers
     ├── criar_volumes                  # Cria volumes Docker persistentes
-    │   ├── criar_volume_fontes        # Codigo-fonte do SEI
+    │   ├── criar_volume_fontes        # Código-fonte do SEI
     │   ├── criar_volume_certs         # Certificados SSL
     │   ├── criar_volume_banco         # Dados do banco
     │   ├── criar_volume_arquivos_externos  # Anexos
-    │   ├── criar_volume_solr          # Indices de busca
+    │   ├── criar_volume_solr          # Índices de busca
     │   ├── criar_volume_openldap      # Dados LDAP
-    │   └── criar_volume_controlador_instalacao  # Estado de instalacao
+    │   └── criar_volume_controlador_instalacao  # Estado de instalação
     │
     └── run
         ├── build_docker_compose       # Gera docker-compose.yml via envsubst
-        └── docker compose up -d       # Sobe todos os servicos
+        └── docker compose up -d       # Sobe todos os serviços
             │
             ├── db                     # Banco de dados inicia
             ├── memcached              # Cache inicia
             ├── solr                   # Busca inicia
-            ├── app-atualizador        # Instala/atualiza SEI e modulos
-            ├── app                    # Aplicacao web inicia
+            ├── app-atualizador        # Instala/atualiza SEI e módulos
+            ├── app                    # Aplicação web inicia
             ├── app-agendador          # Jobs em background iniciam
-            └── balanceador            # Traefik comeca a rotear
+            └── balanceador            # Traefik começa a rotear
 ```
 
 ### Desenvolvimento (dev/)
@@ -173,20 +173,20 @@ make up
     │
     ├── prerequisites-up
     │   ├── env.env                    # Carrega config do banco escolhido
-    │   └── check-sei-path             # Valida codigo-fonte existe
+    │   └── check-sei-path             # Valida código-fonte existe
     │
     └── docker compose up -d
-        ├── database                   # Banco com schema pre-populado
+        ├── database                   # Banco com schema pré-populado
         ├── memcached                  # Cache
         ├── solr                       # Busca
-        ├── jod                        # Conversao de documentos
+        ├── jod                        # Conversão de documentos
         ├── smtp                       # MailCatcher
         └── httpd                      # App com XDebug (porta 8000)
 ```
 
 ---
 
-## Comunicacao entre Servicos
+## Comunicação entre Serviços
 
 | De | Para | Protocolo | Porta |
 |----|------|-----------|-------|
@@ -205,45 +205,45 @@ make up
 
 ## Volumes Persistentes
 
-| Volume | Conteudo | Backup Recomendado |
+| Volume | Conteúdo | Backup Recomendado |
 |--------|----------|-------------------|
 | `local-storage-db` | Dados do banco de dados | Sim |
-| `local-fontes-storage` | Codigo-fonte do SEI | Nao (vem do repositorio) |
+| `local-fontes-storage` | Código-fonte do SEI | Não (vem do repositório) |
 | `local-certs-storage` | Certificados SSL | Sim |
 | `local-arquivosexternos-storage` | Documentos anexados ao SEI | Sim |
-| `local-volume-solr` | Indices de busca Solr | Nao (reconstruivel) |
+| `local-volume-solr` | Índices de busca Solr | Não (reconstruível) |
 | `local-openldap-slapd-storage` | Config LDAP | Sim (se LDAP ativo) |
 | `local-openldap-db-storage` | Dados LDAP | Sim (se LDAP ativo) |
-| `local-controlador-instalacao-storage` | Estado de instalacao de modulos | Nao (reconstruivel) |
+| `local-controlador-instalacao-storage` | Estado de instalação de módulos | Não (reconstruível) |
 
 ---
 
-## Sistema de Modulos
+## Sistema de Módulos
 
-O SEI suporta modulos opcionais que sao instalados automaticamente pelo container `app-atualizador`. Cada modulo e controlado por variaveis `MODULO_*_INSTALAR` e `MODULO_*_VERSAO`.
+O SEI suporta módulos opcionais que são instalados automaticamente pelo container `app-atualizador`. Cada módulo é controlado por variáveis `MODULO_*_INSTALAR` e `MODULO_*_VERSAO`.
 
-| Modulo | Funcao |
+| Módulo | Função |
 |--------|--------|
-| **Estatisticas** | Painel de estatisticas de uso do SEI |
-| **REST / WSSEI** | API REST para integracao com sistemas externos |
-| **Gestao Documental** | Gestao do ciclo de vida de documentos |
-| **Resposta** | Modulo de respostas a demandas |
-| **Login Unico** | Integracao com GOV.BR (SSO) |
-| **Assinatura Avancada** | Assinatura digital com ICP-Brasil e cloud PSC |
-| **PEN / Barramento** | Tramitacao entre orgaos via Processo Eletronico Nacional |
-| **Peticionamento** | Peticionamento eletronico externo |
-| **Protocolo Integrado** | Integracao com Protocolo.GOV.BR |
-| **INCOM** | Integracao com Imprensa Nacional para publicacoes oficiais |
+| **Estatísticas** | Painel de estatísticas de uso do SEI |
+| **REST / WSSEI** | API REST para integração com sistemas externos |
+| **Gestão Documental** | Gestão do ciclo de vida de documentos |
+| **Resposta** | Módulo de respostas a demandas |
+| **Login Único** | Integração com GOV.BR (SSO) |
+| **Assinatura Avançada** | Assinatura digital com ICP-Brasil e cloud PSC |
+| **PEN / Barramento** | Tramitação entre órgãos via Processo Eletrônico Nacional |
+| **Peticionamento** | Peticionamento eletrônico externo |
+| **Protocolo Integrado** | Integração com Protocolo.GOV.BR |
+| **INCOM** | Integração com Imprensa Nacional para publicações oficiais |
 
 ---
 
-## Decisoes Arquiteturais
+## Decisões Arquiteturais
 
-| Decisao | Motivo |
+| Decisão | Motivo |
 |---------|--------|
-| Traefik em vez de HAProxy (v3.0.0+) | Integracao nativa com Docker labels, dashboard embutido |
-| Rocky Linux 9.3 em vez de CentOS 7 | CentOS 7 EOL, Rocky e continuidade do RHEL |
+| Traefik em vez de HAProxy (v3.0.0+) | Integração nativa com Docker labels, dashboard embutido |
+| Rocky Linux 9.3 em vez de CentOS 7 | CentOS 7 EOL, Rocky é continuidade do RHEL |
 | PHP 8.2 como stack principal | Compatibilidade com SEI 5.0+ |
-| Volumes externos no infra | Persistencia entre rebuilds, backup independente |
-| envsubst + sed para docker-compose | Geracao dinamica com toggles de servicos opcionais |
-| Imagens com schema pre-populado | Inicializacao rapida, sem necessidade de restaurar backups |
+| Volumes externos no infra | Persistência entre rebuilds, backup independente |
+| envsubst + sed para docker-compose | Geração dinâmica com toggles de serviços opcionais |
+| Imagens com schema pré-populado | Inicialização rápida, sem necessidade de restaurar backups |

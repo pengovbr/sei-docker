@@ -1,4 +1,4 @@
-# Containers - Referencia Tecnica
+# Containers - Referência Técnica
 
 Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 
@@ -12,8 +12,8 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 |----------|-------|
 | **Caminho** | `containers/base-centos/` |
 | **Base** | `centos:7` |
-| **Funcao** | Imagem base para containers PHP 7 (legado) |
-| **Observacao** | Repositorios redirecionados para vault.centos.org (CentOS 7 EOL) |
+| **Função** | Imagem base para containers PHP 7 (legado) |
+| **Observação** | Repositórios redirecionados para vault.centos.org (CentOS 7 EOL) |
 
 ### base-rocky93
 
@@ -21,11 +21,11 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 |----------|-------|
 | **Caminho** | `containers/base-rocky93/` |
 | **Base** | `rockylinux:9.3` |
-| **Funcao** | Imagem base para containers PHP 8 e servicos modernos |
+| **Função** | Imagem base para containers PHP 8 e serviços modernos |
 
 ---
 
-## Containers de Aplicacao (PHP 8 - Atual)
+## Containers de Aplicação (PHP 8 - Atual)
 
 ### base-app-php8
 
@@ -33,7 +33,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 |----------|-------|
 | **Caminho** | `containers/app-php8/app-base-php8/` |
 | **Base** | `processoeletronico/base-rocky93:latest` |
-| **Funcao** | Base com todas as dependencias PHP 8 |
+| **Função** | Base com todas as dependências PHP 8 |
 
 **Pacotes instalados:**
 - PHP 8.2: bcmath, gd, gmp, imap, intl, ldap, mbstring, odbc, pdo, memcache, memcached, gearman
@@ -42,7 +42,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 - Drivers de banco: MySQL, SQL Server (ODBC), Oracle, PostgreSQL
 - wkhtmltopdf, ffmpeg
 - Locale: pt_BR.ISO-8859-1
-- XDebug 3 (disponivel para ativacao)
+- XDebug 3 (disponível para ativação)
 
 ### app-ci-php8
 
@@ -51,12 +51,12 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | **Caminho** | `containers/app-php8/app-ci-php8/` |
 | **Base** | `processoeletronico/base-app-php8:latest` |
 | **Portas** | 80, 443 |
-| **Funcao** | Container de CI/Producao com codigo SEI |
+| **Função** | Container de CI/Produção com código SEI |
 
 **Funcionalidades:**
-- Clona modulos do SEI via Git
+- Clona módulos do SEI via Git
 - Copia ConfiguracaoSEI.php e ConfiguracaoSip.php
-- Entrypoint configura banco, modulos e servicos na inicializacao
+- Entrypoint configura banco, módulos e serviços na inicialização
 - Suporta download de fontes via Git SSH ou GitHub Token
 
 ### app-ci-php8-agendador
@@ -66,11 +66,11 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | **Caminho** | `containers/app-php8/app-ci-php8-agendador/` |
 | **Base** | `processoeletronico/app-ci-php8:latest` |
 | **Entrypoint** | `/entrypoint-agendador.sh` |
-| **Funcao** | Jobs em background e tarefas agendadas |
+| **Função** | Jobs em background e tarefas agendadas |
 
-**Servicos gerenciados (Supervisor):**
-- Cron jobs: AgendamentoTarefaSEI.php, AgendamentoTarefaSip.php, limpeza de temporarios
-- Gearman job server (para modulo PEN)
+**Serviços gerenciados (Supervisor):**
+- Cron jobs: AgendamentoTarefaSEI.php, AgendamentoTarefaSip.php, limpeza de temporários
+- Gearman job server (para módulo PEN)
 - Workers do PEN configurados via `MODULO_PEN_QTD_WORKER_PROC`
 
 ### app-dev-php8
@@ -80,17 +80,17 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | **Caminho** | `containers/app-php8/app-dev-php8/` |
 | **Base** | `processoeletronico/base-app-php8:latest` |
 | **Porta** | 8000 |
-| **Funcao** | Ambiente de desenvolvimento com XDebug |
+| **Função** | Ambiente de desenvolvimento com XDebug |
 
 **Diferenciais:**
 - XDebug 3 ativado (porta 9003)
 - SSL enforcement desabilitado
 - Ferramentas de build instaladas
-- Codigo-fonte montado via volume externo
+- Código-fonte montado via volume externo
 
 ---
 
-## Containers de Aplicacao (PHP 7 - Legado)
+## Containers de Aplicação (PHP 7 - Legado)
 
 ### base-app
 
@@ -98,7 +98,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 |----------|-------|
 | **Caminho** | `containers/app/app-base/` |
 | **Base** | `processoeletronico/base-centos7:latest` |
-| **Funcao** | Base PHP 7 (substituido por app-php8) |
+| **Função** | Base PHP 7 (substituído por app-php8) |
 
 ### app-ci
 
@@ -107,7 +107,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | **Caminho** | `containers/app/app-ci/` |
 | **Base** | `processoeletronico/base-app:latest` |
 | **Portas** | 80, 443 |
-| **Funcao** | CI/Producao PHP 7 |
+| **Função** | CI/Produção PHP 7 |
 
 ### app-ci-agendador
 
@@ -115,7 +115,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 |----------|-------|
 | **Caminho** | `containers/app/app-ci-agendador/` |
 | **Base** | `processoeletronico/app-ci:latest` |
-| **Funcao** | Agendador PHP 7 |
+| **Função** | Agendador PHP 7 |
 
 ### app-dev
 
@@ -124,7 +124,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | **Caminho** | `containers/app/app-dev/` |
 | **Base** | `processoeletronico/base-app:latest` |
 | **Porta** | 8000 |
-| **Funcao** | Dev PHP 7 com XDebug |
+| **Função** | Dev PHP 7 com XDebug |
 
 ---
 
@@ -139,9 +139,9 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `mariadb10.5-sei41` | `containers/databases/mariadb-sei41/` | `base-mariadb10.5` | SEI 4.1 |
 | `mariadb10.5-sei50` | `containers/databases/mariadb-sei50/` | `base-mariadb10.5` | SEI 5.0 |
 
-**Caracteristicas:**
-- Cria databases `sei` e `sip` com usuarios dedicados
-- Build em dois estagios: inicializacao do schema + copia dos dados
+**Características:**
+- Cria databases `sei` e `sip` com usuários dedicados
+- Build em dois estágios: inicialização do schema + cópia dos dados
 - Schema baixado do GitHub: `spbgovbr/sei-db-ref-executivo`
 
 ### MySQL 8
@@ -161,9 +161,9 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `postgres15-sei41` | `containers/databases/postgres-sei41/` | `base-postgres15` | SEI 4.1 |
 | `postgres15-sei50` | `containers/databases/postgres-sei50/` | `base-postgres15` | SEI 5.0 |
 
-**Caracteristicas:**
-- Autenticacao SCRAM-SHA-256
-- Build em dois estagios similar ao MariaDB
+**Características:**
+- Autenticação SCRAM-SHA-256
+- Build em dois estágios similar ao MariaDB
 
 ### Oracle 11g
 
@@ -174,9 +174,9 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `oracle11g-sei41` | `containers/databases/oracle-sei41/` | `base-oracle11g` | SEI 4.1 |
 | `oracle11g-sei50` | `containers/databases/oracle-sei50/` | `base-oracle11g` | SEI 5.0 |
 
-**Caracteristicas:**
-- Importacao via dump (.dmp) com utilitario `imp`
-- Character set com suporte a portugues brasileiro
+**Características:**
+- Importação via dump (.dmp) com utilitário `imp`
+- Character set com suporte a português brasileiro
 
 ### SQL Server 2019
 
@@ -187,10 +187,10 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `sqlserver2019-sei41` | `containers/databases/sqlserver-sei41/` | `base-sqlserver2019` | SEI 4.1 |
 | `sqlserver2019-sei50` | `containers/databases/sqlserver-sei50/` | `base-sqlserver2019` | SEI 5.0 |
 
-**Caracteristicas:**
-- Experimental, nao recomendado para producao
-- Restauracao via backup (.bak) com `sqlcmd`
-- Senha SA padrao: `yourStrong(!)Password`
+**Características:**
+- Experimental, não recomendado para produção
+- Restauração via backup (.bak) com `sqlcmd`
+- Senha SA padrão: `yourStrong(!)Password`
 
 ---
 
@@ -205,21 +205,21 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 **Cores criados automaticamente:**
 - `sei-protocolos` - Documentos de protocolo
 - `sei-bases-conhecimento` - Base de conhecimento
-- `sei-publicacoes` - Publicacoes
+- `sei-publicacoes` - Publicações
 
-**Observacao:** Solr 9.x executa como usuario `solr` (nao-root) com diretorio de dados em `/dados`.
+**Observação:** Solr 9.x executa como usuário `solr` (não-root) com diretório de dados em `/dados`.
 
 ---
 
-## Container de Conversao de Documentos (JOD)
+## Container de Conversão de Documentos (JOD)
 
-| Imagem | Caminho | Base | Funcao |
+| Imagem | Caminho | Base | Função |
 |--------|---------|------|--------|
 | `jod` | `containers/jod/` | `base-centos7` | JODConverter 2.2.2 (Tomcat) - legado |
 | `jod4.4.8` | `containers/jod4.4.8/` | `alpine:3.21` | JODConverter 4.4.8 (standalone) - atual |
 
 **JOD 4.4.8:**
-- LibreOffice com integracao nativa
+- LibreOffice com integração nativa
 - OpenJDK 17
 - Fontes: DejaVu, Noto, Terminus, Inconsolata, FontAwesome
 - Heap Java: 2GB
@@ -234,8 +234,8 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `memcached` | `containers/memcached/` | `memcached:latest` | 11211 |
 
 **Usos:**
-- Cache de sessoes PHP (quando `APP_MEMCACHED_SESSION=true`)
-- Cache da aplicacao SEI
+- Cache de sessões PHP (quando `APP_MEMCACHED_SESSION=true`)
+- Cache da aplicação SEI
 
 ---
 
@@ -248,7 +248,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `haproxy-base` | `containers/haproxy/haproxy-base/` | (legado) | -- |
 | `haproxy` | `containers/haproxy/haproxy/` | `haproxy-base` | 80, 443 |
 
-**Traefik** e o load balancer atual (desde v3.0.0). Possui configuracao dinamica em `/etc/traefik/dynamic_conf/conf.yml`.
+**Traefik** é o load balancer atual (desde v3.0.0). Possui configuração dinâmica em `/etc/traefik/dynamic_conf/conf.yml`.
 
 ---
 
@@ -260,15 +260,15 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `openldap` | `containers/openldap/openldap/` | `openldap-base` | 389, 636 |
 | `phpldapadmin` | `containers/phpldapadmin/` | `osixia/phpldapadmin:0.9.0` | 80 |
 
-**OpenLDAP:** Inclui LDIF de bootstrap com usuario de teste (senha: `123456`).
+**OpenLDAP:** Inclui LDIF de bootstrap com usuário de teste (senha: `123456`).
 
 ---
 
-## Containers de Administracao
+## Containers de Administração
 
-| Imagem | Caminho | Base | Funcao |
+| Imagem | Caminho | Base | Função |
 |--------|---------|------|--------|
-| `phpmemcachedadmin-base` | `containers/phpmemcachedadmin/phpmemcachedadmin-base/` | (pre-built) | Base admin Memcached |
+| `phpmemcachedadmin-base` | `containers/phpmemcachedadmin/phpmemcachedadmin-base/` | (pré-built) | Base admin Memcached |
 | `phpmemcachedadmin` | `containers/phpmemcachedadmin/phpmemcachedadmin/` | `phpmemcachedadmin-base` | Admin Memcached |
 | `dbadminer` | `containers/dbadminer/` | `dockette/adminer:full` | Admin universal de banco |
 | `mailcatcher` | `containers/mailcatcher/` | `schickling/mailcatcher` | Captura SMTP (porta web 1080) |
@@ -280,15 +280,15 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 ```bash
 cd containers
 
-# Copiar template de configuracao
+# Copiar template de configuração
 make getenv
 
-# Editar envcontainers.env com suas configuracoes
+# Editar envcontainers.env com suas configurações
 
 # Build de todas as imagens
 make build-conteiners
 
-# Build de uma imagem especifica
+# Build de uma imagem específica
 make build-conteiner-base-rocky93
 make build-conteiner-base-app-php8
 make build-conteiner-app-ci-php8

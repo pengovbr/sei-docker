@@ -1,34 +1,34 @@
 # Guia de Uso - SEI-Docker
 
-Guia completo e unificado para instalacao, configuracao e uso do SEI-Docker em todas as suas modalidades: desenvolvimento, infraestrutura e build de containers.
+Guia completo e unificado para instalação, configuração e uso do SEI-Docker em todas as suas modalidades: desenvolvimento, infraestrutura e build de containers.
 
 ---
 
-## Indice
+## Índice
 
-1. [Pre-requisitos](#1-pre-requisitos)
-2. [Obter o Codigo-Fonte do SEI](#2-obter-o-codigo-fonte-do-sei)
-3. [Inicio Rapido - Ambiente de Desenvolvimento](#3-inicio-rapido---ambiente-de-desenvolvimento)
-4. [Inicio Rapido - Infraestrutura Completa](#4-inicio-rapido---infraestrutura-completa)
-5. [Configuracao do envlocal.env](#5-configuracao-do-envlocalenv)
-6. [Comandos Make - Referencia Rapida](#6-comandos-make---referencia-rapida)
-7. [Acessando o SEI e Servicos](#7-acessando-o-sei-e-servicos)
+1. [Pré-requisitos](#1-pré-requisitos)
+2. [Obter o Código-Fonte do SEI](#2-obter-o-código-fonte-do-sei)
+3. [Início Rápido - Ambiente de Desenvolvimento](#3-início-rápido---ambiente-de-desenvolvimento)
+4. [Início Rápido - Infraestrutura Completa](#4-início-rápido---infraestrutura-completa)
+5. [Configuração do envlocal.env](#5-configuração-do-envlocalenv)
+6. [Comandos Make - Referência Rápida](#6-comandos-make---referência-rápida)
+7. [Acessando o SEI e Serviços](#7-acessando-o-sei-e-serviços)
 8. [Trocar Banco de Dados](#8-trocar-banco-de-dados)
-9. [Habilitar Servicos Opcionais](#9-habilitar-servicos-opcionais)
-10. [Escalar a Aplicacao](#10-escalar-a-aplicacao)
-11. [Alterar URL e Dominio](#11-alterar-url-e-dominio)
-12. [Instalar Modulos](#12-instalar-modulos)
-13. [Usar HTTPS com Certificado Proprio](#13-usar-https-com-certificado-proprio)
+9. [Habilitar Serviços Opcionais](#9-habilitar-serviços-opcionais)
+10. [Escalar a Aplicação](#10-escalar-a-aplicação)
+11. [Alterar URL e Domínio](#11-alterar-url-e-domínio)
+12. [Instalar Módulos](#12-instalar-módulos)
+13. [Usar HTTPS com Certificado Próprio](#13-usar-https-com-certificado-próprio)
 14. [Kubernetes](#14-kubernetes)
 15. [Build de Imagens Customizadas](#15-build-de-imagens-customizadas)
-16. [Credenciais Padrao](#16-credenciais-padrao)
-17. [Resolucao de Problemas](#17-resolucao-de-problemas)
-18. [Video Tutoriais](#18-video-tutoriais)
-19. [Dicas e Boas Praticas](#19-dicas-e-boas-praticas)
+16. [Credenciais Padrão](#16-credenciais-padrão)
+17. [Resolução de Problemas](#17-resolução-de-problemas)
+18. [Vídeo Tutoriais](#18-vídeo-tutoriais)
+19. [Dicas e Boas Práticas](#19-dicas-e-boas-práticas)
 
 ---
 
-## 1. Pre-requisitos
+## 1. Pré-requisitos
 
 ### Sistema Operacional
 - Linux (recomendado) ou macOS
@@ -36,7 +36,7 @@ Guia completo e unificado para instalacao, configuracao e uso do SEI-Docker em t
 
 ### Software
 
-| Software | Versao Minima | Verificar |
+| Software | Versão Mínima | Verificar |
 |----------|--------------|-----------|
 | Docker Engine | 20+ | `docker --version` |
 | Docker Compose | v2+ | `docker compose version` |
@@ -45,16 +45,16 @@ Guia completo e unificado para instalacao, configuracao e uso do SEI-Docker em t
 | curl | qualquer | `curl --version` |
 | Git | qualquer | `git --version` |
 
-### Obrigatorio
-- **Codigo-fonte do SEI** (propriedade do TRF4, obtido separadamente via [processoeletronico.gov.br](http://processoeletronico.gov.br))
+### Obrigatório
+- **Código-fonte do SEI** (propriedade do TRF4, obtido separadamente via [processoeletronico.gov.br](http://processoeletronico.gov.br))
 
-> **Atencao:** O codigo-fonte do SEI e propriedade do TRF4. Sob nenhuma hipotese deve ser distribuido, emprestado ou salvo em qualquer lugar que nao seja privativo da TI do orgao.
+> **Atenção:** O código-fonte do SEI é propriedade do TRF4. Sob nenhuma hipótese deve ser distribuído, emprestado ou salvo em qualquer lugar que não seja privativo da TI do órgão.
 
 ---
 
-## 2. Obter o Codigo-Fonte do SEI
+## 2. Obter o Código-Fonte do SEI
 
-O codigo-fonte deve estar organizado na seguinte estrutura:
+O código-fonte deve estar organizado na seguinte estrutura:
 
 ```
 ~/sei/FonteSEI/
@@ -69,16 +69,16 @@ O codigo-fonte deve estar organizado na seguinte estrutura:
     └── ...
 ```
 
-Defina o caminho como variavel de ambiente:
+Defina o caminho como variável de ambiente:
 ```bash
 export SEI_PATH=~/sei/FonteSEI
 ```
 
 ---
 
-## 3. Inicio Rapido - Ambiente de Desenvolvimento
+## 3. Início Rápido - Ambiente de Desenvolvimento
 
-O ambiente **dev** e a forma mais simples de subir o SEI localmente, com XDebug habilitado e codigo-fonte montado para edicao ao vivo.
+O ambiente **dev** é a forma mais simples de subir o SEI localmente, com XDebug habilitado e código-fonte montado para edição ao vivo.
 
 ### Passo a passo
 
@@ -87,16 +87,16 @@ O ambiente **dev** e a forma mais simples de subir o SEI localmente, com XDebug 
 git clone https://github.com/pengovbr/sei-docker.git
 cd sei-docker/dev
 
-# 2. Definir caminho do codigo-fonte
+# 2. Definir caminho do código-fonte
 export SEI_PATH=~/sei/FonteSEI
 
-# 3. Subir o ambiente (MySQL como padrao)
+# 3. Subir o ambiente (MySQL como padrão)
 make up
 ```
 
 ### Acessar
 
-| Servico | URL | Credenciais |
+| Serviço | URL | Credenciais |
 |---------|-----|-------------|
 | SEI | http://localhost:8000/sei | `teste` / `teste` |
 | SIP | http://localhost:8000/sip | `teste` / `teste` |
@@ -125,13 +125,13 @@ make config base=postgres-sei5
 make up
 ```
 
-Opcoes: `mysql-sei4`, `mysql-sei5`, `oracle-sei4`, `oracle-sei5`, `postgres-sei4`, `postgres-sei5`, `sqlserver-sei4`, `sqlserver-sei5`
+Opções: `mysql-sei4`, `mysql-sei5`, `oracle-sei4`, `oracle-sei5`, `postgres-sei4`, `postgres-sei5`, `sqlserver-sei4`, `sqlserver-sei5`
 
 ---
 
-## 4. Inicio Rapido - Infraestrutura Completa
+## 4. Início Rápido - Infraestrutura Completa
 
-O ambiente **infra** e a forma completa de provisionar o SEI com todos os servicos, load balancer, HTTPS e possibilidade de escalonamento.
+O ambiente **infra** é a forma completa de provisionar o SEI com todos os serviços, load balancer, HTTPS e possibilidade de escalonamento.
 
 ### Passo a passo
 
@@ -140,25 +140,25 @@ O ambiente **infra** e a forma completa de provisionar o SEI com todos os servic
 git clone https://github.com/pengovbr/sei-docker.git
 cd sei-docker/infra
 
-# 2. Verificar e ajustar a variavel LOCALIZACAO_FONTES_SEI no envlocal.env
-#    Apontar para o diretorio onde esta o codigo-fonte do SEI
+# 2. Verificar e ajustar a variável LOCALIZACAO_FONTES_SEI no envlocal.env
+#    Apontar para o diretório onde está o código-fonte do SEI
 vi envlocal.env
 
-# 3. Subir tudo com um unico comando
+# 3. Subir tudo com um único comando
 make setup
 ```
 
 O `make setup` executa automaticamente:
-1. Valida compatibilidade de versao
-2. Cria todos os volumes Docker necessarios
+1. Valida compatibilidade de versão
+2. Cria todos os volumes Docker necessários
 3. Gera o `docker-compose.yml` a partir do template
-4. Sobe todos os servicos
+4. Sobe todos os serviços
 
 ### Acessar
 
-Com a configuracao padrao (`APP_HOST=localhost`, `APP_PROTOCOLO=https`):
+Com a configuração padrão (`APP_HOST=localhost`, `APP_PROTOCOLO=https`):
 
-| Servico | URL |
+| Serviço | URL |
 |---------|-----|
 | SEI | https://localhost/sei |
 | SIP | https://localhost/sip |
@@ -174,74 +174,74 @@ make clear
 make apagar_volumes
 ```
 
-> **Importante:** Antes de rodar `make run` ou `make setup` apos alterar o `envlocal.env`, sempre rode `make clear` primeiro. Isso evita servicos orfaos rodando quando se remove servicos da configuracao.
+> **Importante:** Antes de rodar `make run` ou `make setup` após alterar o `envlocal.env`, sempre rode `make clear` primeiro. Isso evita serviços órfãos rodando quando se remove serviços da configuração.
 
 ---
 
-## 5. Configuracao do envlocal.env
+## 5. Configuração do envlocal.env
 
-O arquivo `infra/envlocal.env` e o coracao da configuracao. Ele contem 100+ variaveis que controlam todo o ambiente.
+O arquivo `infra/envlocal.env` é o coração da configuração. Ele contém 100+ variáveis que controlam todo o ambiente.
 
 ### Abordagem recomendada
 
-> **Nao altere tudo de uma vez.** Suba primeiro com as configuracoes padrao. Teste. Depois desligue, altere um parametro, suba novamente. Repita ate compreender todo o ecossistema.
+> **Não altere tudo de uma vez.** Suba primeiro com as configurações padrão. Teste. Depois desligue, altere um parâmetro, suba novamente. Repita até compreender todo o ecossistema.
 
-### Variaveis mais importantes para comecar
+### Variáveis mais importantes para começar
 
-| Variavel | O que faz | Padrao |
+| Variável | O que faz | Padrão |
 |----------|-----------|--------|
-| `LOCALIZACAO_FONTES_SEI` | Caminho do codigo-fonte no host | `~/sei/FonteSEI` |
+| `LOCALIZACAO_FONTES_SEI` | Caminho do código-fonte no host | `~/sei/FonteSEI` |
 | `LOCALIZACAO_CERTS` | Caminho dos certificados SSL | `~/sei/certs` |
 | `APP_PROTOCOLO` | `http` ou `https` | `https` |
 | `APP_HOST` | Hostname/URL do SEI | `localhost` |
-| `APP_ORGAO` | Sigla do orgao | `ME` |
-| `APP_ORGAO_DESCRICAO` | Nome completo do orgao | `Orgao Processo Eletronico - MySql` |
+| `APP_ORGAO` | Sigla do órgão | `ME` |
+| `APP_ORGAO_DESCRICAO` | Nome completo do órgão | `Órgão Processo Eletrônico - MySql` |
 | `APP_DB_TIPO` | Tipo do banco | `MySql` |
 | `DOCKER_IMAGE_BD` | Imagem do banco de dados | `processoeletronico/mariadb10.5-sei40:latest` |
 
-Para a referencia completa de todas as variaveis, consulte [variaveis-ambiente.md](variaveis-ambiente.md).
+Para a referência completa de todas as variáveis, consulte [variaveis-ambiente.md](variaveis-ambiente.md).
 
 ---
 
-## 6. Comandos Make - Referencia Rapida
+## 6. Comandos Make - Referência Rápida
 
 ### Ambiente Dev (`cd dev`)
 
-| Comando | Descricao |
+| Comando | Descrição |
 |---------|-----------|
 | `make help` | Lista todos os comandos |
 | `make up` | Sobe o ambiente |
-| `make up-update` | Sobe e executa scripts de atualizacao |
-| `make update` | Executa scripts de atualizacao do SEI/SIP |
-| `make config base=X` | Troca banco/versao |
+| `make up-update` | Sobe e executa scripts de atualização |
+| `make update` | Executa scripts de atualização do SEI/SIP |
+| `make config base=X` | Troca banco/versão |
 | `make down` | Para o ambiente (preserva volumes) |
 | `make restart` | Para e sobe novamente |
 | `make destroy` | Para e apaga tudo (DESTRUTIVO) |
-| `make check-sei-path` | Verifica codigo-fonte |
+| `make check-sei-path` | Verifica código-fonte |
 | `make check-sei-isalive` | Verifica se SEI responde |
 
 ### Infraestrutura (`cd infra`)
 
-| Comando | Descricao |
+| Comando | Descrição |
 |---------|-----------|
 | `make help` | Lista todos os comandos |
 | `make setup` | Setup completo (volumes + run) |
 | `make run` | Gera docker-compose e sobe |
 | `make build_docker_compose` | Apenas gera o docker-compose.yml |
 | `make criar_volumes` | Cria todos os volumes |
-| `make scale` | Escala app para 2 nos |
-| `make scale qtd=N` | Escala app para N nos |
+| `make scale` | Escala app para 2 nós |
+| `make scale qtd=N` | Escala app para N nós |
 | `make stop` | Para containers |
 | `make clear` | Para e remove containers (preserva volumes) |
 | `make apagar_volumes` | Apaga TODOS os volumes (DESTRUTIVO) |
-| `make logs` | Logs de todos os servicos |
-| `make logs_app` | Logs da aplicacao |
+| `make logs` | Logs de todos os serviços |
+| `make logs_app` | Logs da aplicação |
 | `make logs_balanceador` | Logs do Traefik |
 | `make check-sei-isalive` | Verifica se SEI responde |
 
 ### Build de Containers (`cd containers`)
 
-| Comando | Descricao |
+| Comando | Descrição |
 |---------|-----------|
 | `make help` | Lista todos os comandos |
 | `make getenv` | Cria envcontainers.env a partir do modelo |
@@ -251,13 +251,13 @@ Para a referencia completa de todas as variaveis, consulte [variaveis-ambiente.m
 
 ---
 
-## 7. Acessando o SEI e Servicos
+## 7. Acessando o SEI e Serviços
 
 ### Infraestrutura (com load balancer)
 
-Todos os servicos sao acessados pela mesma URL base (definida em `APP_HOST`):
+Todos os serviços são acessados pela mesma URL base (definida em `APP_HOST`):
 
-| Servico | Caminho | Toggle |
+| Serviço | Caminho | Toggle |
 |---------|---------|--------|
 | SEI | `/sei` | sempre ativo |
 | SIP | `/sip` | sempre ativo |
@@ -274,7 +274,7 @@ Exemplo com `APP_HOST=sei.treinamento.gov.br`:
 
 ### Desenvolvimento (sem load balancer)
 
-| Servico | URL |
+| Serviço | URL |
 |---------|-----|
 | SEI | http://localhost:8000/sei |
 | SIP | http://localhost:8000/sip |
@@ -331,9 +331,9 @@ make apagar_volumes
 make setup
 ```
 
-### Imagens de banco disponiveis
+### Imagens de banco disponíveis
 
-| Imagem | Banco | Versao SEI |
+| Imagem | Banco | Versão SEI |
 |--------|-------|------------|
 | `mariadb10.5-sei40` | MariaDB 10.5 | 4.0 |
 | `mariadb10.5-sei41` | MariaDB 10.5 | 4.1 |
@@ -352,7 +352,7 @@ make setup
 
 ---
 
-## 9. Habilitar Servicos Opcionais
+## 9. Habilitar Serviços Opcionais
 
 Edite `infra/envlocal.env` e altere os toggles:
 
@@ -363,13 +363,13 @@ JOD_PRESENTE=true
 # Captura de e-mails (teste)
 MAIL_CATCHER_PRESENTE=true
 
-# Administracao do banco via web
+# Administração do banco via web
 DBADMIN_PRESENTE=true
 
-# Administracao do cache
+# Administração do cache
 MEMCACHEDADMIN_PRESENTE=true
 
-# Diretorio LDAP (autenticacao)
+# Diretório LDAP (autenticação)
 OPENLDAP_PRESENTE=true
 
 # Load balancer Traefik
@@ -382,34 +382,34 @@ make clear
 make run
 ```
 
-> Quando `OPENLDAP_PRESENTE=true`, o SEI passa a usar autenticacao LDAP automaticamente. Um usuario de teste com senha `123456` e criado. Para voltar ao login padrao, configure `OPENLDAP_PRESENTE=false` e `OPENLDAP_DESLIGAR_NO_ORGAO_0=true`, rode `make run`, depois volte `OPENLDAP_DESLIGAR_NO_ORGAO_0=false`.
+> Quando `OPENLDAP_PRESENTE=true`, o SEI passa a usar autenticação LDAP automaticamente. Um usuário de teste com senha `123456` é criado. Para voltar ao login padrão, configure `OPENLDAP_PRESENTE=false` e `OPENLDAP_DESLIGAR_NO_ORGAO_0=true`, rode `make run`, depois volte `OPENLDAP_DESLIGAR_NO_ORGAO_0=false`.
 
 ---
 
-## 10. Escalar a Aplicacao
+## 10. Escalar a Aplicação
 
-O SEI pode ser escalado horizontalmente (multiplos nos de aplicacao atras do Traefik):
+O SEI pode ser escalado horizontalmente (múltiplos nós de aplicação atrás do Traefik):
 
 ```bash
 cd infra
 
-# Escalar para 2 nos (padrao)
+# Escalar para 2 nós (padrão)
 make scale
 
-# Escalar para 3 nos
+# Escalar para 3 nós
 make scale qtd=3
 
-# Voltar para 1 no
+# Voltar para 1 nó
 make scale qtd=1
 ```
 
-> Para balanceamento sem sticky session, habilite sessoes no Memcached: `APP_MEMCACHED_SESSION=true` (requer SEI 5+).
+> Para balanceamento sem sticky session, habilite sessões no Memcached: `APP_MEMCACHED_SESSION=true` (requer SEI 5+).
 
 ---
 
-## 11. Alterar URL e Dominio
+## 11. Alterar URL e Domínio
 
-### Trocar de localhost para um dominio personalizado
+### Trocar de localhost para um domínio personalizado
 
 1. Pare o projeto:
 ```bash
@@ -438,18 +438,18 @@ make setup
 
 ---
 
-## 12. Instalar Modulos
+## 12. Instalar Módulos
 
-Cada modulo e controlado por variaveis `MODULO_*_INSTALAR` e `MODULO_*_VERSAO` no `envlocal.env`.
+Cada módulo é controlado por variáveis `MODULO_*_INSTALAR` e `MODULO_*_VERSAO` no `envlocal.env`.
 
-### Exemplo: Habilitar modulo de Estatisticas
+### Exemplo: Habilitar módulo de Estatísticas
 
 ```bash
 MODULO_ESTATISTICAS_INSTALAR=true
 MODULO_ESTATISTICAS_VERSAO=master
 ```
 
-### Exemplo: Habilitar modulo PEN (tramitacao entre orgaos)
+### Exemplo: Habilitar módulo PEN (tramitação entre órgãos)
 
 ```bash
 MODULO_PEN_INSTALAR=true
@@ -459,50 +459,50 @@ MODULO_PEN_CERTIFICADO_SENHA=1234
 MODULO_PEN_CERTIFICADO_BASE64=<certificado em base64>
 ```
 
-### Modulos disponiveis
+### Módulos disponíveis
 
-| Modulo | Variavel | Funcao |
+| Módulo | Variável | Função |
 |--------|----------|--------|
-| Estatisticas | `MODULO_ESTATISTICAS_INSTALAR` | Painel de estatisticas |
+| Estatísticas | `MODULO_ESTATISTICAS_INSTALAR` | Painel de estatísticas |
 | REST / WSSEI | `MODULO_REST_INSTALAR` | API REST |
-| Gestao Documental | `MODULO_GESTAODOCUMENTAL_INSTALAR` | Gestao do ciclo de vida |
+| Gestão Documental | `MODULO_GESTAODOCUMENTAL_INSTALAR` | Gestão do ciclo de vida |
 | Resposta | `MODULO_RESPOSTA_INSTALAR` | Respostas a demandas |
-| Login Unico | `MODULO_LOGINUNICO_INSTALAR` | SSO GOV.BR |
+| Login Único | `MODULO_LOGINUNICO_INSTALAR` | SSO GOV.BR |
 | Assinatura | `MODULO_ASSINATURA_INSTALAR` | Assinatura digital ICP-Brasil |
-| PEN | `MODULO_PEN_INSTALAR` | Tramitacao entre orgaos |
-| Peticionamento | `MODULO_PETICIONAMENTO_INSTALAR` | Peticionamento eletronico |
-| Protocolo Integrado | `MODULO_PI_INSTALAR` | Integracao Protocolo.GOV.BR |
-| INCOM | `MODULO_INCOM_INSTALAR` | Publicacao na Imprensa Nacional |
+| PEN | `MODULO_PEN_INSTALAR` | Tramitação entre órgãos |
+| Peticionamento | `MODULO_PETICIONAMENTO_INSTALAR` | Peticionamento eletrônico |
+| Protocolo Integrado | `MODULO_PI_INSTALAR` | Integração Protocolo.GOV.BR |
+| INCOM | `MODULO_INCOM_INSTALAR` | Publicação na Imprensa Nacional |
 
-Para detalhes de cada modulo e suas variaveis, consulte [variaveis-ambiente.md](variaveis-ambiente.md).
+Para detalhes de cada módulo e suas variáveis, consulte [variaveis-ambiente.md](variaveis-ambiente.md).
 
-Apos alterar modulos:
+Após alterar módulos:
 ```bash
 make clear
 make run
 ```
 
-O container `app-atualizador` detecta e instala automaticamente os modulos habilitados.
+O container `app-atualizador` detecta e instala automaticamente os módulos habilitados.
 
 ---
 
-## 13. Usar HTTPS com Certificado Proprio
+## 13. Usar HTTPS com Certificado Próprio
 
-### Certificado auto-assinado (padrao)
+### Certificado auto-assinado (padrão)
 
-Por padrao, o projeto gera certificados auto-assinados automaticamente. Basta:
+Por padrão, o projeto gera certificados auto-assinados automaticamente. Basta:
 ```bash
 APP_PROTOCOLO=https
 ```
 
-### Certificado proprio
+### Certificado próprio
 
-1. Crie o diretorio de certificados definido em `LOCALIZACAO_CERTS`:
+1. Crie o diretório de certificados definido em `LOCALIZACAO_CERTS`:
 ```bash
 mkdir -p ~/sei/certs
 ```
 
-2. Copie seus arquivos de certificado para esse diretorio
+2. Copie seus arquivos de certificado para esse diretório
 
 3. Configure no `envlocal.env`:
 ```bash
@@ -527,14 +527,14 @@ O projeto gera manifests Kubernetes a partir dos templates.
 ```bash
 cd infra
 
-# Ajuste as variaveis KUBERNETES_* no envlocal.env
+# Ajuste as variáveis KUBERNETES_* no envlocal.env
 vi envlocal.env
 
 # Gerar YAML
 make kubernetes_montar_yaml
 ```
 
-Os arquivos sao gerados em `infra/orquestrators/rancher-kubernetes/topublish/`.
+Os arquivos são gerados em `infra/orquestrators/rancher-kubernetes/topublish/`.
 
 ### Aplicar no cluster
 
@@ -548,7 +548,7 @@ make kubernetes_apply
 make kubernetes_delete
 ```
 
-### Configuracao Kubernetes no envlocal.env
+### Configuração Kubernetes no envlocal.env
 
 ```bash
 KUBERNETES_NAMESPACE=seins
@@ -559,18 +559,18 @@ KUBERNETES_LIMITS_CPU_APP=500m
 # ... (ver variaveis-ambiente.md para lista completa)
 ```
 
-> **Nota:** A geracao Kubernetes atualmente funciona apenas para MySQL. O codigo-fonte do SEI deve ser movido manualmente para o PVC `vol-sei-fontes`.
+> **Nota:** A geração Kubernetes atualmente funciona apenas para MySQL. O código-fonte do SEI deve ser movido manualmente para o PVC `vol-sei-fontes`.
 
 ---
 
 ## 15. Build de Imagens Customizadas
 
-Se voce deseja buildar suas proprias imagens ou usar seu proprio registry:
+Se você deseja buildar suas próprias imagens ou usar seu próprio registry:
 
 ```bash
 cd containers
 
-# Criar arquivo de configuracao
+# Criar arquivo de configuração
 make getenv
 
 # Editar envcontainers.env
@@ -589,23 +589,23 @@ make build-conteiner-mysql8-sei50
 make publish-containers
 ```
 
-> Se alterar `DOCKER_REGISTRY` ou `DOCKER_CONTAINER_VERSAO_PRODUTO` nos containers, replique as alteracoes nos envfiles de `dev/` e `infra/`.
+> Se alterar `DOCKER_REGISTRY` ou `DOCKER_CONTAINER_VERSAO_PRODUTO` nos containers, replique as alterações nos envfiles de `dev/` e `infra/`.
 
 ---
 
-## 16. Credenciais Padrao
+## 16. Credenciais Padrão
 
-### Aplicacao SEI/SIP
+### Aplicação SEI/SIP
 
 | Campo | Valor |
 |-------|-------|
-| Usuario | `teste` |
+| Usuário | `teste` |
 | Senha | `teste` |
 
 ### Bancos de Dados
 
 #### MySQL / MariaDB
-| Usuario | Login | Senha |
+| Usuário | Login | Senha |
 |---------|-------|-------|
 | Root | `root` | `P@ssword` |
 | SEI | `sei_user` | `sei_user` |
@@ -614,14 +614,14 @@ make publish-containers
 Acesso: `mysql -h 127.0.0.1 -u root -p sei`
 
 #### PostgreSQL
-| Usuario | Login | Senha |
+| Usuário | Login | Senha |
 |---------|-------|-------|
 | Root | `postgres` | `P@ssword` |
 | SEI | `sei_user` | `sei_user` |
 | SIP | `sip_user` | `sip_user` |
 
 #### Oracle
-| Usuario | Login | Senha |
+| Usuário | Login | Senha |
 |---------|-------|-------|
 | SYS | `sys` | `P@ssword` |
 | System | `system` | `P@ssword` |
@@ -631,7 +631,7 @@ Acesso: `mysql -h 127.0.0.1 -u root -p sei`
 Acesso: `sqlplus sys/P@ssword as sysdba`
 
 #### SQL Server
-| Usuario | Login | Senha |
+| Usuário | Login | Senha |
 |---------|-------|-------|
 | SA | `sa` | `yourStrong(!)Password` |
 | SEI | `sei_user` | `sei_user` |
@@ -644,15 +644,15 @@ Acesso: `tsql -S 127.0.0.1 -U sa -P 'yourStrong(!)Password'`
 |-------|-------|
 | Admin DN | `cn=admin,dc=pen,dc=gov,dc=br` |
 | Senha | `adminldap` |
-| Usuario teste | senha `123456` |
+| Usuário teste | senha `123456` |
 
 ---
 
-## 17. Resolucao de Problemas
+## 17. Resolução de Problemas
 
 ### Portas ocupadas
 
-Antes de subir, verifique se as portas estao livres:
+Antes de subir, verifique se as portas estão livres:
 
 ```bash
 # Infra
@@ -666,25 +666,25 @@ sudo lsof -i :8983  # Solr
 sudo lsof -i :3306  # MySQL
 ```
 
-Se alguma porta estiver ocupada, pare o servico ou altere o mapeamento no `envlocal.env`.
+Se alguma porta estiver ocupada, pare o serviço ou altere o mapeamento no `envlocal.env`.
 
-### SEI nao inicia / tela em branco
+### SEI não inicia / tela em branco
 
 ```bash
 # Verificar se SEI responde
 make check-sei-isalive
 
-# Ver logs da aplicacao
+# Ver logs da aplicação
 make logs_app
 
-# Ver logs do atualizador (instalacao de modulos)
+# Ver logs do atualizador (instalação de módulos)
 make logs_app-atualizador
 
 # Ver todos os logs
 make logs
 ```
 
-### Servicos orfaos apos mudanca de configuracao
+### Serviços órfãos após mudança de configuração
 
 ```bash
 # Sempre rode clear antes de alterar envlocal.env
@@ -693,7 +693,7 @@ make clear
 make run
 ```
 
-### Container do banco nao inicia
+### Container do banco não inicia
 
 ```bash
 # Ver logs do banco
@@ -705,71 +705,71 @@ make criar_volume_banco
 make run
 ```
 
-### Recomecar do zero
+### Recomeçar do zero
 
 ```bash
 cd infra
 make clear
 make apagar_volumes
-# Edite envlocal.env se necessario
+# Edite envlocal.env se necessário
 make setup
 ```
 
-### Versao incompativel
+### Versão incompatível
 
 ```bash
 # Verificar compatibilidade
 make check-version-compatibility
 ```
 
-O projeto valida se a versao do codigo-fonte e compativel com as imagens Docker.
+O projeto valida se a versão do código-fonte é compatível com as imagens Docker.
 
 ### Docker Compose v1 vs v2
 
 O projeto detecta automaticamente. Se tiver problemas:
 ```bash
-# Verificar qual esta instalado
+# Verificar qual está instalado
 docker compose version    # v2
 docker-compose --version  # v1
 ```
 
 ---
 
-## 18. Video Tutoriais
+## 18. Vídeo Tutoriais
 
-Videos gravados pela equipe do projeto com orientacoes praticas:
+Vídeos gravados pela equipe do projeto com orientações práticas:
 
-| Video | Conteudo | Link |
+| Vídeo | Conteúdo | Link |
 |-------|----------|------|
-| Infra Reduzida Rapidamente | Subida basica em localhost com HTTPS | [Assistir](https://www.youtube.com/watch?v=FwPp9lZiHuM) |
+| Infra Reduzida Rapidamente | Subida básica em localhost com HTTPS | [Assistir](https://www.youtube.com/watch?v=FwPp9lZiHuM) |
 | Infra Completa Rapidamente | Todos os componentes, domain name, HTTPS | [Assistir](https://www.youtube.com/watch?v=MpTLtDlSVLw) |
 | SqlServer ou Oracle | Como usar bancos alternativos | [Assistir](https://www.youtube.com/watch?v=IgEiR5CZEEs) |
-| Organizacao do Projeto | Estrutura tecnica e anatomia da solucao | [Assistir](https://www.youtube.com/watch?v=rczbANlWVRY) |
-| Customizacoes Basicas | Trocar hostname, Solr admin, scale | [Assistir](https://www.youtube.com/watch?v=HjZfryu0sco) |
-| Customizacoes Completas | Todos os componentes, LDAP, orientacoes avancadas | [Assistir](https://www.youtube.com/watch?v=m5wXBPDMVQQ) |
+| Organização do Projeto | Estrutura técnica e anatomia da solução | [Assistir](https://www.youtube.com/watch?v=rczbANlWVRY) |
+| Customizações Básicas | Trocar hostname, Solr admin, scale | [Assistir](https://www.youtube.com/watch?v=HjZfryu0sco) |
+| Customizações Completas | Todos os componentes, LDAP, orientações avançadas | [Assistir](https://www.youtube.com/watch?v=m5wXBPDMVQQ) |
 
 > Recomendado assistir na ordem listada acima.
 
 ---
 
-## 19. Dicas e Boas Praticas
+## 19. Dicas e Boas Práticas
 
-1. **Comece simples.** Suba com as configuracoes padrao primeiro. Teste. Depois va customizando um parametro por vez.
+1. **Comece simples.** Suba com as configurações padrão primeiro. Teste. Depois vá customizando um parâmetro por vez.
 
-2. **Sempre `make clear` antes de alterar.** Evita servicos orfaos e conflitos.
+2. **Sempre `make clear` antes de alterar.** Evita serviços órfãos e conflitos.
 
-3. **Nao altere o envlocal.env inteiro de uma vez.** Altere um parametro, suba, teste, repita.
+3. **Não altere o envlocal.env inteiro de uma vez.** Altere um parâmetro, suba, teste, repita.
 
-4. **Volumes sao seus dados.** `make apagar_volumes` apaga banco de dados, arquivos anexados, indices Solr. Use com cuidado.
+4. **Volumes são seus dados.** `make apagar_volumes` apaga banco de dados, arquivos anexados, índices Solr. Use com cuidado.
 
-5. **`make clear` e seguro.** Remove apenas containers e redes, nunca dados.
+5. **`make clear` é seguro.** Remove apenas containers e redes, nunca dados.
 
 6. **Verifique portas antes de subir.** Portas 80 e 443 (infra) ou 8000 (dev) devem estar livres.
 
-7. **Use `make help`.** Todos os Makefiles possuem ajuda embutida com descricao de cada comando.
+7. **Use `make help`.** Todos os Makefiles possuem ajuda embutida com descrição de cada comando.
 
-8. **DNS ou /etc/hosts.** Ao usar um dominio customizado, garanta que o DNS ou `/etc/hosts` aponte para a maquina correta.
+8. **DNS ou /etc/hosts.** Ao usar um domínio customizado, garanta que o DNS ou `/etc/hosts` aponte para a máquina correta.
 
-9. **Backup dos volumes.** Em ambiente de teste/treinamento, faca backup do volume do banco (`VOLUME_DB`) e dos arquivos externos (`VOLUME_ARQUIVOSEXTERNOS`).
+9. **Backup dos volumes.** Em ambiente de teste/treinamento, faça backup do volume do banco (`VOLUME_DB`) e dos arquivos externos (`VOLUME_ARQUIVOSEXTERNOS`).
 
-10. **Nao e para producao.** O projeto e para DTH. Producao requer hardening de seguranca, firewall, backup e configuracoes adicionais conforme documentacao do TRF e PEN.
+10. **Não é para produção.** O projeto é para DTH. Produção requer hardening de segurança, firewall, backup e configurações adicionais conforme documentação do TRF e PEN.
