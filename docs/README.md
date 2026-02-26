@@ -10,6 +10,7 @@ Documentacao tecnica completa do projeto **SEI-Docker**, solucao de Infraestrutu
 
 | Documento | Descricao |
 |-----------|-----------|
+| [Guia de Uso](guia-de-uso.md) | **Comece aqui!** Guia completo de instalacao, configuracao e uso (dev + infra + containers) |
 | [Arquitetura](arquitetura.md) | Visao geral da arquitetura, camadas, fluxo de dados e diagrama de servicos |
 | [Containers](containers.md) | Detalhamento tecnico de cada imagem Docker: base, aplicacao, banco de dados, servicos auxiliares |
 | [Variaveis de Ambiente](variaveis-ambiente.md) | Referencia completa das 230+ variaveis de ambiente organizadas por categoria |
