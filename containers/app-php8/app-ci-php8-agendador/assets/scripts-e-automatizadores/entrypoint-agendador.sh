@@ -696,7 +696,7 @@ echo "*****************************************************"
 
 if [ "$MODULO_PETICIONAMENTO_INSTALAR" == "true" ]; then
 
-    if [ -f /sei/controlador-instalacoes/instalado-modulo-peticionamento.ok ]; then
+    if [ ! -f /sei/controlador-instalacoes/instalado-modulo-peticionamento.ok ]; then
 
         if [ -z "$MODULO_PETICIONAMENTO_VERSAO" ] || \
            [ -z "$MODULO_PETICIONAMENTO_URL" ]; then
