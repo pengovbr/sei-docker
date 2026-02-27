@@ -1,20 +1,40 @@
-version: '2'
 services:
-  jod:  
+  jod:
     image: ${DOCKER_REGISTRY}/${JOD_IMAGE}:${ENVIRONMENT_VERSION}
     container_name: jod
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8100 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   smtp:
     image: ${DOCKER_REGISTRY}/mailcatcher:${ENVIRONMENT_VERSION}
     container_name: smtp
+    restart: unless-stopped
     ports:
       - "1080:1080"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 1025 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   memcached:
     image: ${DOCKER_REGISTRY}/memcached:${ENVIRONMENT_VERSION}
     container_name: memcached
+    restart: unless-stopped
     ports:
       - "11211:11211"
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/11211' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   database:
     image: ${DOCKER_REGISTRY}/${DATABASE_IMAGE}:${ENVIRONMENT_VERSION}
@@ -24,12 +44,25 @@ services:
       - ${DATABASE_HOST}:${DATABASE_DATA_DIR}
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/${DATABASE_PORT}' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   solr:
     image: ${DOCKER_REGISTRY}/${SOLR_IMAGE}:${ENVIRONMENT_VERSION}
     container_name: solr
+    restart: unless-stopped
     ports:
       - "8983:8983"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8983/solr/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   httpd:
     image: ${DOCKER_REGISTRY}/${APP_IMAGE}:${ENVIRONMENT_VERSION}
@@ -37,8 +70,17 @@ services:
     restart: always
     ports:
       - "8000:8000"
-    depends_on: 
-      - database
+    depends_on:
+      database:
+        condition: service_healthy
+      memcached:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      smtp:
+        condition: service_started
+      jod:
+        condition: service_started
     #command: "tail -f /dev/null"
     volumes:
       - ${SEI_PATH}:/opt/
@@ -64,13 +106,12 @@ services:
       - SIP_DATABASE_PASSWORD=${SIP_DATABASE_PASSWORD}
       - SIP_DATABASE_USER_SCRIPT=${SIP_DATABASE_USER_SCRIPT}
       - SIP_DATABASE_PASSWORD_SCRIPT=${SIP_DATABASE_PASSWORD_SCRIPT}
-    links:
-      - database:${DATABASE_HOST}
-      - memcached:memcached
-      - solr:solr
-      - smtp:smtp
-      - jod:jod
-
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/sei/ || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 120s
 
 volumes:
   mysql:
