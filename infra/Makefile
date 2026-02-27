@@ -223,9 +223,9 @@ ifeq ("$(MEMCACHEDADMIN_PRESENTE)",  "true")
 endif
 
 ifeq ("$(JOD_PRESENTE)",  "true")
-	@sed -i'' -e "s|#jod: #servicejod|jod: #servicejod|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#jod: #servicejod|jod: #servicejod|g" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    image: ${DOCKER_IMAGE_JOD} #servicejod|    image: ${DOCKER_IMAGE_JOD} #servicejod|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#- jod:jod #servicejod|- jod:jod #servicejod|g" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#    condition: service_started #servicejod|    condition: service_started #servicejod|g" orquestrators/docker-compose/docker-compose.yml
 endif
 
 ifeq ("$(MAIL_CATCHER_PRESENTE)",  "true")
@@ -260,9 +260,11 @@ ifeq ("$(OPENLDAP_PRESENTE)",  "true")
 	@sed -i'' -e "s|#        traefik.http.routers.ldapadmin.tls: true #serviceldap|        traefik.http.routers.ldapadmin.tls: true #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        traefik.http.services.ldapadmin.loadbalancer.server.scheme: http #serviceldap|        traefik.http.services.ldapadmin.loadbalancer.server.scheme: http #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        traefik.http.services.ldapadmin.loadbalancer.server.port: 80 #serviceldap|        traefik.http.services.ldapadmin.loadbalancer.server.port: 80 #serviceldap|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#    links: #serviceldap|    links: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#        - openldap:openldap #serviceldap|        - openldap:openldap #serviceldap|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#openldap: #serviceldap|openldap: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#    depends_on: #serviceldap|    depends_on: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#        openldap: #serviceldap|        openldap: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#            condition: service_started #serviceldap|            condition: service_started #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#openldap: #serviceldap|openldap: #serviceldap|g" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#    condition: service_started #serviceldap|    condition: service_started #serviceldap|g" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    image: ${DOCKER_IMAGE_OPENLDAP} #serviceldap|    image: ${DOCKER_IMAGE_OPENLDAP} #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    environment: #serviceldap|    environment: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - KEEP_EXISTING_CONFIG=false #serviceldap|        - KEEP_EXISTING_CONFIG=false #serviceldap|" orquestrators/docker-compose/docker-compose.yml
@@ -279,8 +281,9 @@ ifeq ("$(OPENLDAP_PRESENTE)",  "true")
 	@sed -i'' -e "s|#        - LDAP_RFC2307BIS_SCHEMA=false #serviceldap|        - LDAP_RFC2307BIS_SCHEMA=false #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - LDAP_SSL_HELPER_PREFIX=ldap #serviceldap|        - LDAP_SSL_HELPER_PREFIX=ldap #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - LDAP_TLS=false #serviceldap|        - LDAP_TLS=false #serviceldap|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#    volumes_from: #serviceldap|    volumes_from: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#        - storage-openldap #serviceldap|        - storage-openldap #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#    volumes: #serviceldap|    volumes: #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#        - ${VOLUME_OPENLDAP_SLAPD}:/etc/ldap/slapd.d #serviceldap|        - ${VOLUME_OPENLDAP_SLAPD}:/etc/ldap/slapd.d #serviceldap|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#        - ${VOLUME_OPENLDAP_DB}:/var/lib/ldap #serviceldap|        - ${VOLUME_OPENLDAP_DB}:/var/lib/ldap #serviceldap|" orquestrators/docker-compose/docker-compose.yml
 
 endif
 
@@ -288,9 +291,9 @@ endif
 ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	@sed -i'' -e "s|#balanceador: #servicebal|balanceador: #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    image: ${DOCKER_IMAGE_BALANCEADOR} #servicebal|    image: ${DOCKER_IMAGE_BALANCEADOR} #servicebal|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#    links: #servicebal|    links: #servicebal|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#        - app #servicebal|        - app #servicebal|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#        - solr #servicesolr #servicebal|        - solr #servicesolr #servicebal|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#    depends_on: #servicebal|    depends_on: #servicebal|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#        app: #servicebal|        app: #servicebal|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#            condition: service_healthy #servicebal|            condition: service_healthy #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    command: #servicebal|    command: #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - --log.level=DEBUG #servicebal|        - --log.level=DEBUG #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - --api.dashboard=true #servicebal|        - --api.dashboard=true #servicebal|" orquestrators/docker-compose/docker-compose.yml
@@ -333,9 +336,8 @@ ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	@sed -i'' -e "s|#          - traefik.http.routers.myroothttps.tls=true #servicebal|          - traefik.http.routers.myroothttps.tls=true #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#          - traefik.http.routers.myroothttps.middlewares=myrootredirect #servicebal|          - traefik.http.routers.myroothttps.middlewares=myrootredirect #servicebal|" orquestrators/docker-compose/docker-compose.yml
 
-	@sed -i'' -e "s|#    volumes_from: #servicebal|    volumes_from: #servicebal|" orquestrators/docker-compose/docker-compose.yml
-	@sed -i'' -e "s|#        - storage-certs #servicebal|        - storage-certs #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#    volumes: #servicebal|    volumes: #servicebal|" orquestrators/docker-compose/docker-compose.yml
+	@sed -i'' -e "s|#        - ${VOLUME_CERTS_MOUNT}:/certs:rw #servicebal|        - ${VOLUME_CERTS_MOUNT}:/certs:rw #servicebal|" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|#        - /var/run/docker.sock:/var/run/docker.sock #servicebal|        - /var/run/docker.sock:/var/run/docker.sock #servicebal|g" orquestrators/docker-compose/docker-compose.yml
 	@sed -i'' -e "s|nada|nada|" orquestrators/docker-compose/docker-compose.yml
 
@@ -369,21 +371,8 @@ endif
 
 
 
-ifeq ("$(DBADMIN_PRESENTE)",  "true")
-	@sed -i'' -e "s|#        - dbadmin #servicedbadmin #servicebal|        - dbadmin #servicedbadmin #servicebal|" orquestrators/docker-compose/docker-compose.yml
-endif
 
-ifeq ("$(MEMCACHEDADMIN_PRESENTE)",  "true")
-	@sed -i'' -e "s|#        - memcachedadmin #servicememcachedadmin #servicebal|        - memcachedadmin #servicememcachedadmin #servicebal|" orquestrators/docker-compose/docker-compose.yml
-endif
 
-ifeq ("$(MAIL_CATCHER_PRESENTE)",  "true")
-	@sed -i'' -e "s|#        - mail #servicemail #servicebal|        - mail #servicemail #servicebal|" orquestrators/docker-compose/docker-compose.yml
-endif
-
-ifeq ("$(OPENLDAP_PRESENTE)",  "true")
-	@sed -i'' -e "s|#        - ldapadmin #serviceldap #servicebal|        - ldapadmin #serviceldap #servicebal|" orquestrators/docker-compose/docker-compose.yml
-endif
 
 
 
