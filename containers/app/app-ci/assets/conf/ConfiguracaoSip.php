@@ -24,7 +24,7 @@ class ConfiguracaoSip extends InfraConfiguracao  {
  	          'SiglaSistema' => 'SIP',
  	          'PaginaLogin' => getenv('APP_PROTOCOLO').'://'.getenv('APP_HOST').'/sip/login.php',
  	          'SipWsdl' => getenv('APP_PROTOCOLO').'://'.getenv('APP_HOST').'/sip/controlador_ws.php?servico=sip',
- 	          'ChaveAcesso' => getenv('APP_SIP_CHAVE_ACESSO'), //ATENï¿½ï¿½O: gerar uma nova chave para o SIP apï¿½s a instalaï¿½ï¿½o (ver documento de instalaï¿½ï¿½o)
+ 	          'ChaveAcesso' => getenv('APP_SIP_CHAVE_ACESSO'), //ATENÇÃO: gerar uma nova chave para o SIP após a instalação (ver documento de instalação)
  	          'https' => (getenv('APP_PROTOCOLO') == 'https' ? true : false)),
 
  	      'BancoSip'  => array(
@@ -51,17 +51,17 @@ class ConfiguracaoSip extends InfraConfiguracao  {
 						                'Porta' => '11211'),
 
 				'InfraMail' => array(
-						'Tipo' => '2', //1 = sendmail (neste caso nï¿½o ï¿½ necessï¿½rio configurar os atributos abaixo), 2 = SMTP
-						'Servidor' => 'smtp',
-						'Porta' => '25',
-						'Codificacao' => '8bit', //8bit, 7bit, binary, base64, quoted-printable
-						'MaxDestinatarios' => 999, //numero maximo de destinatarios por mensagem
-						'MaxTamAnexosMb' => 999, //tamanho maximo dos anexos em Mb por mensagem
-						'Seguranca' => '', //TLS, SSL ou vazio
-						'Autenticar' => false, //se true entï¿½o informar Usuario e Senha
-						'Usuario' => '',
-						'Senha' => '',
-						'Protegido' => '' //campo usado em desenvolvimento, se tiver um email preenchido entao todos os emails enviados terao o destinatario ignorado e substituï¿½do por este valor (evita envio incorreto de email)
+					'Tipo' => getenv('APP_MAIL_TIPO'), //1 = sendmail (neste caso não é necessário configurar os atributos abaixo), 2 = SMTP
+					'Servidor' => getenv('APP_MAIL_SERVIDOR'),
+					'Porta' => getenv('APP_MAIL_PORTA'),
+					'Codificacao' => getenv('APP_MAIL_CODIFICACAO'), //8bit, 7bit, binary, base64, quoted-printable
+					'MaxDestinatarios' => getenv('APP_MAIL_MAXDESTINATARIOS'), //numero maximo de destinatarios por mensagem
+					'MaxTamAnexosMb' => getenv('APP_MAIL_MAXTAMANHOANEXOSMB'), //tamanho maximo dos anexos em Mb por mensagem
+					'Seguranca' => getenv('APP_MAIL_SEGURANCA'), //TLS, SSL ou vazio
+					'Autenticar' => getenv('APP_MAIL_AUTENTICAR'), //se true então informar Usuario e Senha
+					'Usuario' => getenv('APP_MAIL_USUARIO'),
+					'Senha' => getenv('APP_MAIL_SENHA'),
+					'Protegido' => getenv('APP_MAIL_PROTEGIDO') //campo usado em desenvolvimento, se tiver um email preenchido entao todos os emails enviados terao o destinatario ignorado e substituído por este valor evitando envio incorreto de email
 				)
  	  );
  	}
