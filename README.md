@@ -50,6 +50,18 @@ No entanto, recomendamos usar a branch main pois será ela que vai receber novas
 
 O SEI-Docker é o projeto disponibilizado para provisionamento de ambientes do SEI usando a tecnologia docker e os orquestradores docker-compose, cattle ou kubernetes.
 
+## Documentação
+
+Para documentação técnica detalhada do projeto, consulte a pasta [docs/](docs/README.md). Lá você encontra:
+
+- Arquitetura e diagrama de serviços
+- Referência completa dos 44+ containers Docker
+- Referência das 230+ variáveis de ambiente
+- Guia unificado de instalação, configuração e uso
+- Orquestração com Docker Compose e Kubernetes
+- Configuração do ambiente de desenvolvimento
+- Testes automatizados
+
 ## Para quem
 
 O projeto atende a qualquer dos profissionais que desejem subir uma instância do SEI entre eles:
