@@ -1,4 +1,3 @@
-version: '2'
 volumes:
     ${VOLUME_DB}:
         external: true
@@ -57,8 +56,9 @@ services:
     #        traefik.http.routers.ldapadmin.tls: true #serviceldap
     #        traefik.http.services.ldapadmin.loadbalancer.server.scheme: http #serviceldap
     #        traefik.http.services.ldapadmin.loadbalancer.server.port: 80 #serviceldap
-    #    links: #serviceldap
-    #        - openldap:openldap #serviceldap
+    #    depends_on: #serviceldap
+    #        openldap: #serviceldap
+    #            condition: service_started #serviceldap
     #openldap: #serviceldap
     #    image: ${DOCKER_IMAGE_OPENLDAP} #serviceldap
     #    environment: #serviceldap
@@ -76,8 +76,9 @@ services:
     #        - LDAP_RFC2307BIS_SCHEMA=false #serviceldap
     #        - LDAP_SSL_HELPER_PREFIX=ldap #serviceldap
     #        - LDAP_TLS=false #serviceldap
-    #    volumes_from: #serviceldap
-    #        - storage-openldap #serviceldap
+    #    volumes: #serviceldap
+    #        - ${VOLUME_OPENLDAP_SLAPD}:/etc/ldap/slapd.d #serviceldap
+    #        - ${VOLUME_OPENLDAP_DB}:/var/lib/ldap #serviceldap
 
     #jod: #servicejod
     #    image: ${DOCKER_IMAGE_JOD} #servicejod
@@ -99,6 +100,12 @@ services:
 
     memcached:
         image: ${DOCKER_IMAGE_MEMCACHED}
+        healthcheck:
+            test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/11211' || exit 1"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
 
     #memcachedadmin: #servicememcachedadmin
     #    image: ${DOCKER_IMAGE_MEMCACHEDADMIN} #servicememcachedadmin
@@ -121,6 +128,12 @@ services:
             - SYS_NICE
         volumes:
             - ${VOLUME_DB}:${DB_DATA_DIRECTORY}
+        healthcheck:
+            test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/${APP_DB_PORTA}' || exit 1"]
+            interval: 15s
+            timeout: 10s
+            retries: 5
+            start_period: 60s
 
     #dbadmin: #servicedbadmin
     #    image: ${DOCKER_IMAGE_DBADMIN} #servicedbadmin
@@ -148,14 +161,23 @@ services:
           traefik.http.services.solr.loadbalancer.server.port: 8983
         volumes:
             - ${VOLUME_SOLR}:${SOLR_DATA_DIRECTORY}
+        healthcheck:
+            test: ["CMD-SHELL", "curl -sf http://localhost:8983/solr/ || exit 1"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 30s
 
 
     app-atualizador:
         image: ${DOCKER_IMAGE_APP}
         entrypoint: "/entrypoint-atualizador.sh"
-        volumes_from:
-            - storage-app
-            - storage-certs
+        volumes:
+            - ${VOLUME_ARQUIVOSEXTERNOS_MOUNT}:/sei/arquivos_externos_sei/:rw
+            - ${VOLUME_FONTES_MOUNT}:/opt:rw
+            - ${VOLUME_CONTROLADOR_INSTALACAO_MOUNT}:/sei/controlador-instalacoes
+            - ${VOLUME_CERTS_MOUNT}:/sei/certs
+            - ${VOLUME_CERTS_MOUNT}:/certs:rw
         labels:
             io.rancher.container.pull_image: always
             io.rancher.container.start_once: 'true'
@@ -292,18 +314,26 @@ services:
         - MODULO_INCOM_USERWS=${MODULO_INCOM_USERWS}
         - MODULO_INCOM_PASSWS=${MODULO_INCOM_PASSWS}
         - MODULO_INCOM_INCLUSAOPUBLICACAO=${MODULO_INCOM_INCLUSAOPUBLICACAO}
-        links:
-        - db:db
-        - memcached:memcached
-        - solr:solr #servicesolr
-        #- jod:jod #servicejod
-        #- openldap:openldap #serviceldap
+        depends_on:
+            db:
+                condition: service_healthy
+            memcached:
+                condition: service_healthy
+            solr:
+                condition: service_healthy
+            #jod: #servicejod
+            #    condition: service_started #servicejod
+            #openldap: #serviceldap
+            #    condition: service_started #serviceldap
     app-agendador:
         image: ${DOCKER_IMAGE_APP_AGENDADOR}
         entrypoint: "/entrypoint-agendador.sh"
-        volumes_from:
-            - storage-app
-            - storage-certs
+        volumes:
+            - ${VOLUME_ARQUIVOSEXTERNOS_MOUNT}:/sei/arquivos_externos_sei/:rw
+            - ${VOLUME_FONTES_MOUNT}:/opt:rw
+            - ${VOLUME_CONTROLADOR_INSTALACAO_MOUNT}:/sei/controlador-instalacoes
+            - ${VOLUME_CERTS_MOUNT}:/sei/certs
+            - ${VOLUME_CERTS_MOUNT}:/certs:rw
         labels:
             io.rancher.container.pull_image: always
             io.rancher.container.start_once: 'true'
@@ -440,21 +470,29 @@ services:
         - MODULO_INCOM_USERWS=${MODULO_INCOM_USERWS}
         - MODULO_INCOM_PASSWS=${MODULO_INCOM_PASSWS}
         - MODULO_INCOM_INCLUSAOPUBLICACAO=${MODULO_INCOM_INCLUSAOPUBLICACAO}
-        links:
-        - db:db
-        - memcached:memcached
-        - solr:solr #servicesolr
-        #- jod:jod #servicejod
-        #- openldap:openldap #serviceldap
+        depends_on:
+            db:
+                condition: service_healthy
+            memcached:
+                condition: service_healthy
+            solr:
+                condition: service_healthy
+            #jod: #servicejod
+            #    condition: service_started #servicejod
+            #openldap: #serviceldap
+            #    condition: service_started #serviceldap
     app:
         image: ${DOCKER_IMAGE_APP}
         entrypoint: "/entrypoint.sh"
         #ports:
         #    - ${APP_PORTA_80_MAP}
         #    - ${APP_PORTA_443_MAP}
-        volumes_from:
-            - storage-app
-            - storage-certs
+        volumes:
+            - ${VOLUME_ARQUIVOSEXTERNOS_MOUNT}:/sei/arquivos_externos_sei/:rw
+            - ${VOLUME_FONTES_MOUNT}:/opt:rw
+            - ${VOLUME_CONTROLADOR_INSTALACAO_MOUNT}:/sei/controlador-instalacoes
+            - ${VOLUME_CERTS_MOUNT}:/sei/certs
+            - ${VOLUME_CERTS_MOUNT}:/certs:rw
         labels:
           io.rancher.container.pull_image: always
           io.rancher.sidekicks: storage-arquivosexternos,storage-fontes,app-atualizador
@@ -599,22 +637,29 @@ services:
         - MODULO_INCOM_USERWS=${MODULO_INCOM_USERWS}
         - MODULO_INCOM_PASSWS=${MODULO_INCOM_PASSWS}
         - MODULO_INCOM_INCLUSAOPUBLICACAO=${MODULO_INCOM_INCLUSAOPUBLICACAO}
-        links:
-        - db:db
-        - memcached:memcachedcd
-        - solr:solr #servicesolr
-        #- jod:jod #servicejod
-        #- openldap:openldap #serviceldap
+        depends_on:
+            db:
+                condition: service_healthy
+            memcached:
+                condition: service_healthy
+            solr:
+                condition: service_healthy
+            #jod: #servicejod
+            #    condition: service_started #servicejod
+            #openldap: #serviceldap
+            #    condition: service_started #serviceldap
+        healthcheck:
+            test: ["CMD-SHELL", "curl -sfk ${APP_PROTOCOLO}://localhost/sei/ || exit 1"]
+            interval: 30s
+            timeout: 15s
+            retries: 5
+            start_period: 120s
 
     #balanceador: #servicebal
     #    image: ${DOCKER_IMAGE_BALANCEADOR} #servicebal
-    #    links: #servicebal
-    #        - app #servicebal
-    #        - solr #servicesolr #servicebal
-    #        - mail #servicemail #servicebal
-    #        - ldapadmin #serviceldap #servicebal
-    #        - memcachedadmin #servicememcachedadmin #servicebal
-    #        - dbadmin #servicedbadmin #servicebal
+    #    depends_on: #servicebal
+    #        app: #servicebal
+    #            condition: service_healthy #servicebal
     #    command: #servicebal
     #        - --log.level=DEBUG #servicebal
     #        - --api.dashboard=true #servicebal
@@ -662,9 +707,8 @@ services:
     #          - traefik.http.routers.myroothttps.tls=true #servicebal
     #          - traefik.http.routers.myroothttps.middlewares=myrootredirect #servicebal
 
-    #    volumes_from: #servicebal
-    #        - storage-certs #servicebal
     #    volumes: #servicebal
+    #        - ${VOLUME_CERTS_MOUNT}:/certs:rw #servicebal
     #        - /var/run/docker.sock:/var/run/docker.sock #servicebal
     #    ports: #servicebal
     #        - 80:80 #servicebal
