@@ -525,7 +525,6 @@ apagar_volume_openldap: ## Apagar volumes OpenLDAP
 apagar_volume_controlador_instalacao: ## Apagar volume controlador da instalacao
 	@make VOLUME_NAME=$(VOLUME_CONTROLADOR_INSTALACAO) apagar_volume_generico
 
-
 kubernetes_montar_yaml: ## Montar receitas para kubernetes - apenas mysql
 	@echo "Vamos montar os arquivos yaml para o kubernetes. Apenas mysql e somente componentes essenciais..."
 	@rm -rf orquestrators/rancher-kubernetes/topublish/configmaps.yaml \
@@ -540,7 +539,13 @@ kubernetes_montar_yaml: ## Montar receitas para kubernetes - apenas mysql
 	@envsubst < orquestrators/rancher-kubernetes/templates/deploys-svc-template.yaml > orquestrators/rancher-kubernetes/topublish/deploys-svc.yaml
 	@envsubst < orquestrators/rancher-kubernetes/templates/ingress-template.yaml > orquestrators/rancher-kubernetes/topublish/ingress.yaml
 	@envsubst < orquestrators/rancher-kubernetes/templates/jobs-template.yaml > orquestrators/rancher-kubernetes/topublish/jobs.yaml
-	@envsubst < orquestrators/rancher-kubernetes/templates/pvc-template.yaml > orquestrators/rancher-kubernetes/topublish/pvc.yaml
+
+	@KUBERNETES_PVC_STORAGECLASS_ANEXOS_TRAT=$${KUBERNETES_PVC_STORAGECLASS_ANEXOS:-$${KUBERNETES_PVC_STORAGECLASS}} \
+     KUBERNETES_PVC_STORAGECLASS_CONTROLADORINST_TRAT=$${KUBERNETES_PVC_STORAGECLASS_CONTROLADORINST:-$${KUBERNETES_PVC_STORAGECLASS}} \
+     KUBERNETES_PVC_STORAGECLASS_DB_TRAT=$${KUBERNETES_PVC_STORAGECLASS_DB:-$${KUBERNETES_PVC_STORAGECLASS}} \
+     KUBERNETES_PVC_STORAGECLASS_FONTES_TRAT=$${KUBERNETES_PVC_STORAGECLASS_FONTES:-$${KUBERNETES_PVC_STORAGECLASS}} \
+     KUBERNETES_PVC_STORAGECLASS_SOLR_TRAT=$${KUBERNETES_PVC_STORAGECLASS_SOLR:-$${KUBERNETES_PVC_STORAGECLASS}} \
+     envsubst < orquestrators/rancher-kubernetes/templates/pvc-template.yaml > orquestrators/rancher-kubernetes/topublish/pvc.yaml
 	@envsubst < orquestrators/rancher-kubernetes/templates/statefullsets-template.yaml > orquestrators/rancher-kubernetes/topublish/statefullsets.yaml
 	@./generatebase64.sh
 

@@ -10,7 +10,7 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  storageClassName: ${KUBERNETES_PVC_STORAGECLASS}
+  storageClassName: ${KUBERNETES_PVC_STORAGECLASS_ANEXOS_TRAT}
 
 ---
 
@@ -26,10 +26,10 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: ${KUBERNETES_PVC_STORAGECLASS}
+  storageClassName: ${KUBERNETES_PVC_STORAGECLASS_CONTROLADORINST_TRAT}
 
 ---
-  
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -42,7 +42,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: ${KUBERNETES_PVC_STORAGECLASS}
+  storageClassName: ${KUBERNETES_PVC_STORAGECLASS_DB_TRAT}
 
 ---
 
@@ -58,7 +58,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: ${KUBERNETES_PVC_STORAGECLASS}
+  storageClassName: ${KUBERNETES_PVC_STORAGECLASS_FONTES_TRAT}
 
 ---
 
@@ -74,4 +74,4 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: ${KUBERNETES_PVC_STORAGECLASS}
+  storageClassName: ${KUBERNETES_PVC_STORAGECLASS_SOLR_TRAT}
