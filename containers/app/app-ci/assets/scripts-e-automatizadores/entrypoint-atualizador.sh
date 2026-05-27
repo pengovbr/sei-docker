@@ -1297,6 +1297,158 @@ else
 fi
 
 
+echo "***************************************************"
+echo "***************************************************"
+echo "********MODULO SANCAO VETO*************************"
+echo "***************************************************"
+echo "***************************************************"
+
+if [ "$MODULO_SANCAOVETO_INSTALAR" == "true" ]; then
+
+    if [ ! -f /sei/controlador-instalacoes/instalado-modulo-sancaoveto.ok ]; then
+
+        if [ -z "$MODULO_SANCAOVETO_VERSAO" ]; then
+            echo "Informe as seguinte variaveis de ambiente no container:"
+            echo "MODULO_SANCAOVETO_VERSAO"
+
+        else
+
+                echo "Sincronizando nova versão do modulo sancao-veto"
+                rm -rf /opt/sei/web/modulos/mod-sei-sancao-veto /opt/sei/web/modulos/sancao-veto
+
+                cd /sei-modulos/mod-sei-sancao-veto
+                git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-sancao-veto.git
+                git pull || true
+                git pull --tags || true
+
+                cd /opt/sei/web/modulos
+                cp -R /sei-modulos/mod-sei-sancao-veto mod-sei-sancao-veto
+
+                cd mod-sei-sancao-veto
+                git checkout $MODULO_SANCAOVETO_VERSAO
+                echo "Versao do Sancao Veto agora: $MODULO_SANCAOVETO_VERSAO"
+
+                make clean
+                make dist
+                cd dist
+                files=( *.zip )
+                f="${files[0]}"
+                mkdir -p temp
+                cp $f temp/
+                cd temp/
+                yes | unzip $f
+                \cp -Rf sei/* /opt/sei/
+                \cp -Rf sip/* /opt/sip/
+
+                cd /opt/sei/web/modulos
+                mv mod-sei-sancao-veto mod-sei-sancao-veto.old
+
+                # adiciona config
+                cd /opt/sei
+                sed -i "s#/\*novomodulo\*/#'MdSancaoVetoIntegracao' => 'sancao-veto', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
+
+                cd /opt/sei/config/mod-sei-sancao-veto/
+                cp ConfiguracaoMdSancaoVeto.exemplo.php ConfiguracaoMdSancaoVeto.php
+
+                cd /opt
+                echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php sip/scripts/mod-sei-sancao-veto/sip_atualizar_versao_modulo_sancao_veto.php
+                echo -ne "$APP_DB_SEI_USERNAME\n$APP_DB_SEI_PASSWORD\n" | php sei/scripts/mod-sei-sancao-veto/sei_atualizar_versao_modulo_sancao_veto.php
+
+                rm -rf /opt/sei/web/modulos/mod-sei-sancao-veto.old
+
+                touch /sei/controlador-instalacoes/instalado-modulo-sancaoveto.ok
+
+        fi
+
+    else
+
+        echo "Arquivo de controle do Modulo SANCAO VETO encontrado, provavelmente ja foi instalado, pulando configuracao do modulo"
+
+    fi
+
+else
+
+    echo "Variavel MODULO_SANCAOVETO_INSTALAR nao setada para true, pulando configuracao..."
+
+fi
+
+
+echo "***************************************************"
+echo "***************************************************"
+echo "********MODULO SEI ATOS****************************"
+echo "***************************************************"
+echo "***************************************************"
+
+if [ "$MODULO_ATOS_INSTALAR" == "true" ]; then
+
+    if [ ! -f /sei/controlador-instalacoes/instalado-modulo-atos.ok ]; then
+
+        if [ -z "$MODULO_ATOS_VERSAO" ]; then
+            echo "Informe as seguinte variaveis de ambiente no container:"
+            echo "MODULO_ATOS_VERSAO"
+
+        else
+
+                echo "Sincronizando nova versão do modulo sei-atos"
+                rm -rf /opt/sei/web/modulos/mod-sei-atos /opt/sei/web/modulos/sei-atos
+
+                cd /sei-modulos/mod-sei-atos
+                git remote set-url origin https://${GITUSER_REPO_MODULOS:-dummy}:${GITPASS_REPO_MODULOS:-dummy}@github.com/pengovbr/mod-sei-atos.git
+                git pull || true
+                git pull --tags || true
+
+                cd /opt/sei/web/modulos
+                cp -R /sei-modulos/mod-sei-atos mod-sei-atos
+
+                cd mod-sei-atos
+                git checkout $MODULO_ATOS_VERSAO
+                echo "Versao do SEI Atos agora: $MODULO_ATOS_VERSAO"
+
+                make clean
+                make dist
+                cd dist
+                files=( *.zip )
+                f="${files[0]}"
+                mkdir -p temp
+                cp $f temp/
+                cd temp/
+                yes | unzip $f
+                \cp -Rf sei/* /opt/sei/
+                \cp -Rf sip/* /opt/sip/
+
+                cd /opt/sei/web/modulos
+                mv mod-sei-atos mod-sei-atos.old
+
+                # adiciona config
+                cd /opt/sei
+                sed -i "s#/\*novomodulo\*/#'MdSeiAtosIntegracao' => 'sei-atos', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
+
+                cd /opt/sei/config/mod-sei-atos/
+                cp ConfiguracaoMdSeiAtos.exemplo.php ConfiguracaoMdSeiAtos.php
+
+                cd /opt
+                echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php sip/scripts/mod-sei-atos/sip_atualizar_versao_modulo_sei_atos.php
+                echo -ne "$APP_DB_SEI_USERNAME\n$APP_DB_SEI_PASSWORD\n" | php sei/scripts/mod-sei-atos/sei_atualizar_versao_modulo_sei_atos.php
+
+                rm -rf /opt/sei/web/modulos/mod-sei-atos.old
+
+                touch /sei/controlador-instalacoes/instalado-modulo-atos.ok
+
+        fi
+
+    else
+
+        echo "Arquivo de controle do Modulo SEI ATOS encontrado, provavelmente ja foi instalado, pulando configuracao do modulo"
+
+    fi
+
+else
+
+    echo "Variavel MODULO_ATOS_INSTALAR nao setada para true, pulando configuracao..."
+
+fi
+
+
 touch /sei/controlador-instalacoes/instalado.ok
 
 echo "***************************************************"

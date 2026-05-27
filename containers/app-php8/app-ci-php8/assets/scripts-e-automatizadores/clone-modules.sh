@@ -34,3 +34,13 @@ git clone https://${GITUSER_REPO_MODULOS}:${GITPASS_REPO_MODULOS}@github.com/pen
 cd mod-sei-assinatura-eletronica
 git remote set-url origin https://github.com/pengovbr/mod-sei-assinatura-eletronica.git
 cd ..
+
+git clone https://${GITUSER_REPO_MODULOS}:${GITPASS_REPO_MODULOS}@github.com/pengovbr/mod-sei-sancao-veto.git
+cd mod-sei-sancao-veto
+git remote set-url origin https://github.com/pengovbr/mod-sei-sancao-veto.git
+cd ..
+
+git clone https://${GITUSER_REPO_MODULOS}:${GITPASS_REPO_MODULOS}@github.com/pengovbr/mod-sei-atos.git
+cd mod-sei-atos
+git remote set-url origin https://github.com/pengovbr/mod-sei-atos.git
+cd ..
