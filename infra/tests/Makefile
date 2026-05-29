@@ -58,7 +58,7 @@ CURLCMD_301 = $(CURLCMD) | grep 301
 CURLCMDSEI_LOGIN = $(CURLCMD) | grep txtUsuario
 CURLCMDSIP_LOGIN = $(CURLCMD_SIP) | grep txtUsuario
 
-CURLTRAEFIK = curl -s -kL --resolve "$(APP_HOST):80:127.0.0.1" --resolve "$(APP_HOST):443:127.0.0.1" http://$(APP_HOST)/traefik | grep "Traefik UI"
+CURLTRAEFIK = curl -s -kL --resolve "$(APP_HOST):80:127.0.0.1" --resolve "$(APP_HOST):443:127.0.0.1" http://$(APP_HOST)/traefik | grep "Traefik "
 CURLTRAEFIKFULL = curl -s -kL  --resolve "$(APP_HOST):80:127.0.0.1" --resolve "$(APP_HOST):443:127.0.0.1" http://$(APP_HOST)/traefik
 CURLSOLR = curl -s -k -L --resolve "$(APP_HOST):443:127.0.0.1"  --resolve "$(APP_HOST):80:127.0.0.1"  https://$(APP_HOST)/solr | grep Dashboard
 CURLDBADMIN = curl -s -k -L --resolve "$(APP_HOST):80:127.0.0.1" --resolve "$(APP_HOST):443:127.0.0.1" https://$(APP_HOST)/dbadmin | grep Adminer
@@ -412,8 +412,8 @@ ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	for i in {1..6}; do echo 'Tentando acessar logs do noh 2...'; var=$$(echo $$($(CMDMAKE) LOGS_SEGUIR=false logs_app | grep -E '(app-2|app_2)' | grep "Apache Liberado")); if [ "$$var" = "" ]; then echo 'Aguardando noh2 responder...'; else echo 'Noh 2 respondeu com sucesso'; break; fi; sleep 5;  done; \
 	var=$$(echo $$($(CMDMAKE) LOGS_SEGUIR=false logs_app | grep -E '(app-2|app_2)' | grep "Apache Liberado"));  if [ "$$var" = "" ]; then echo 'Noh2 nao respondeu como esperado. Saindo do teste...'; exit 1; fi; \
 	\
-	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
-	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI"));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
+	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik ")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
+	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik "));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
 
 	@echo "Escalonando de volta para 1 e verificando..."
 	@echo "*****************************************************"
@@ -427,8 +427,8 @@ ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	echo 'Numero de apps diferente do esperado. Saindo do teste'; exit 1; \
 	fi; \
 	\
-	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
-	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI"));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi; \
+	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik ")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
+	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik "));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi; \
 
 
 	@echo "Escalonando para 3 instancias e verificando..."
@@ -443,12 +443,12 @@ ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	else \
 	echo 'Apps disponiveis com sucesso'; \
 	fi; \
-	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
-	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI"));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi; \
+	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik ")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
+	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik "));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi; \
 	sleep 1 \
 	&& \
-	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
-	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI"));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
+	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik ")); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
+	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik "));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
 
 	@echo "Escalonando de volta para 1 e verificando..."
 	@echo "*****************************************************"
@@ -463,7 +463,7 @@ ifeq ("$(BALANCEADOR_PRESENTE)",  "true")
 	fi; \
 	\
 	for i in {1..6}; do echo 'Tentando acessar traefik...'; var=$$(echo $$($(CURLTRAEFIKFULL) | grep app)); if [ "$$var" != "" ]; then echo 'Pagina traefik respondeu com sucesso balanceamento'; break; else echo 'Aguardando resposta traefik ...'; fi; sleep 5;  done; \
-	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik UI"));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
+	var=$$(echo $$($(CURLTRAEFIKFULL) | grep "Traefik "));  if [ "$$var" = "" ]; then echo 'Traefik nao respondeu com balanceamento esperado. Saindo do teste'; exit 1; fi;
 
 else
 
