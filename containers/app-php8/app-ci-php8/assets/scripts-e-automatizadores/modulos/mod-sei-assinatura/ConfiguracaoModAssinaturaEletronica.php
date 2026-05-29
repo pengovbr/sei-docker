@@ -33,31 +33,40 @@ class ConfiguracaoModAssinaturaEletronica extends InfraConfiguracao
     {
       return array(
           'AssinaturaAvancada' => array(
-              'url_provider' => getenv('MODULO_ASSINATURA_URLPROVIDER'),
-              'client_id' => getenv('MODULO_ASSINATURA_CLIENTID'),
-              'secret' => getenv('MODULO_ASSINATURA_SECRET'),
+              'url_provider' => getenv('ASSINATURA_URL_PROVIDER'),
+              'client_id' => getenv('ASSINATURA_CLIENT_ID'),
+              'secret' => getenv('ASSINATURA_SECRET'),
           ),
           'ValidarAPI' => array(
-            'url' => getenv('MODULO_ASSINATURA_VALIDAR_API_URL'),
-            'key' => getenv('MODULO_ASSINATURA_VALIDAR_API_KEY'),
+            'url' => getenv('VALIDAR_API_URL'),
+            'key' => getenv('VALIDAR_API_KEY'),
           ),
           'Assinador' => array(
-            'Token' => array(
-                'url' => getenv('MODULO_ASSINATURA_TOKEN_URL'),
-                'sign_url' => getenv('MODULO_ASSINATURA_TOKEN_SIGN_URL'),
+            'config' => array(
+                'suite' => getenv('ASSINATURA_SUITE'),
+            ),
+            'Pkcs12' => array(
+                'url' => getenv('PKCS12_URL'),
+                'sign_url' => getenv('PKCS12_URL_ASSINAR'),
+            ),
+            'Ykue' => array(
+                'url' => getenv('YKUE_URL'),
+                'sign_url' => getenv('YKUE_URL_ASSINAR'),
+
             ),
             'IntegraICP' => array(
-                'url' => getenv('MODULO_ASSINATURA_INTEGRA_ICP_URL'),
-                'clearings_url' => getenv('MODULO_ASSINATURA_INTEGRA_ICP_URL_CLEARINGS'),
-                'sign_url' => getenv('MODULO_ASSINATURA_INTEGRA_ICP_URL_ASSINAR'),
+                'url' => getenv('INTEGRA_ICP_URL'),
+                'clearings_url' => getenv('INTEGRA_ICP_URL_CLEARINGS'),
+                'sign_url' => getenv('INTEGRA_ICP_URL_ASSINAR'),
             ),
             'CloudPSC' => array(
-              'url' => getenv('MODULO_ASSINATURA_CLOUDPSC_URL'),
-              'start_url' => getenv('MODULO_ASSINATURA_CLOUDPSC_START_URL'),
-              'sign_url' => getenv('MODULO_ASSINATURA_CLOUDPSC_SIGN_URL'),
+              'url' => getenv('CLOUD_PSC_URL'),
+              'start_url' => getenv('CLOUD_PSC_URL_START'),
+              'sign_url' => getenv('CLOUD_PSC_URL_ASSINAR'),
               'options' =>  ['govbr', 'serpro'],
+              // 'options' =>  ['safeweb', 'soluti', 'govbr', 'serpro'],
             ),
-            'apikey' => getenv('MODULO_ASSINATURA_API_KEY_ITYHY'),
+            'apikey' => getenv('API_KEY_ITYHY'),
           )
       );
   }
