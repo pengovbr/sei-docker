@@ -64,7 +64,7 @@ class ConfiguracaoModAssinaturaEletronica extends InfraConfiguracao
                 // Endereço para acesso à API do serviço IntegraICP.
                 'url' => getenv('MODULO_ASSINATURA_PKCS12_URL'),
                 // URL pra enviar arquivo a ser assinado.
-                'sign_url' => getenv('PKCS12_URL_ASSINAR'),
+                'sign_url' => getenv('MODULO_ASSINATURA_PKCS12_URL_ASSINAR'),
             ),
             'Ykue' => array(
                 // Endereço para acesso à API do serviço Ykue.
