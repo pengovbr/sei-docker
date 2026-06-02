@@ -58,7 +58,7 @@ class ConfiguracaoModAssinaturaEletronica extends InfraConfiguracao
           'Assinador' => array(
             'config' => array(
                 // OID da suíte criptográfica a ser utilizada para assinatura.
-                'suite' => '1.2.840.113549.1.1.11', // algoritmo sha256WithRSA.
+                'suite' => getenv('MODULO_ASSINATURA_SUITE'), // algoritmo sha256WithRSA.
             ),
             'Pkcs12' => array(
                 // Endereço para acesso à API do serviço IntegraICP.
