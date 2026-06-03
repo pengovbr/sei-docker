@@ -13,9 +13,9 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/session-cookie-name: PIINGRESSAFFINITY
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: ${KUBERNETES_INGRESS_PROXY_CONNECT_TIMEOUT}
-    nginx.ingress.kubernetes.io/proxy-read-timeout: ${KUBERNETES_INGRESS_PROXY_READ_TIMEOUT}
-    nginx.ingress.kubernetes.io/proxy-send-timeout: ${KUBERNETES_INGRESS_PROXY_SEND_TIMEOUT}
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "${KUBERNETES_INGRESS_PROXY_CONNECT_TIMEOUT}"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "${KUBERNETES_INGRESS_PROXY_READ_TIMEOUT}"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "${KUBERNETES_INGRESS_PROXY_SEND_TIMEOUT}"
   name: ing-sei
   namespace: ${KUBERNETES_NAMESPACE}
 spec:
