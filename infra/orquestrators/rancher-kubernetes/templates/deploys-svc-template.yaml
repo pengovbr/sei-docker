@@ -16,7 +16,7 @@ spec:
     clientIP:
       timeoutSeconds: 86400
   type: ClusterIP
-  
+
 ---
 
 apiVersion: apps/v1
@@ -213,7 +213,7 @@ spec:
               - sh
               - '-c'
               - ls /sei/controlador-instalacoes/instalado.ok
-          failureThreshold: 100
+          failureThreshold: 5
           initialDelaySeconds: 5
           periodSeconds: 5
           successThreshold: 1
