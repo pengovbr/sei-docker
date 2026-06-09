@@ -287,6 +287,17 @@ spec:
         image: ${DOCKER_IMAGE_APP_AGENDADOR}
         imagePullPolicy: Always
         name: sei-app
+        startupProbe:
+          exec:
+            command:
+              - sh
+              - '-c'
+              - ls /sei/controlador-instalacoes/instalado.ok
+          failureThreshold: 10
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 5
         #resources: #kb_resources
         #  limits: #kb_resources
         #    cpu: ${KUBERNETES_LIMITS_CPU_APP_AGENDADOR} #kb_resources
