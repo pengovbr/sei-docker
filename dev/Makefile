@@ -130,13 +130,25 @@ update: prerequisites-up
 config: ## sobreescreve o arquivo env.env para uma nova base de dados / versao do sei. Ex: make base=mysql-sei4. Digite make config para listar os valores possiveis
 	@echo "$${MENSAGEM_CONFIG}" ; \
 	if [ "$(base)" = "mysql-sei4" ] || \
+	   [ "$(base)" = "mysql-sei41" ] || \
 	   [ "$(base)" = "mysql-sei5" ] || \
+	   [ "$(base)" = "mysql-sei51" ] || \
+	   [ "$(base)" = "mariadb-sei4" ] || \
+	   [ "$(base)" = "mariadb-sei41" ] || \
+	   [ "$(base)" = "mariadb-sei5" ] || \
+	   [ "$(base)" = "mariadb-sei51" ] || \
 	   [ "$(base)" = "oracle-sei4" ] || \
+	   [ "$(base)" = "oracle-sei41" ] || \
 	   [ "$(base)" = "oracle-sei5" ] || \
+	   [ "$(base)" = "oracle-sei51" ] || \
 	   [ "$(base)" = "postgres-sei4" ] || \
+	   [ "$(base)" = "postgres-sei41" ] || \
 	   [ "$(base)" = "postgres-sei5" ] || \
+	   [ "$(base)" = "postgres-sei51" ] || \
 	   [ "$(base)" = "sqlserver-sei4" ] || \
-	   [ "$(base)" = "sqlserver-sei5" ]; then \
+	   [ "$(base)" = "sqlserver-sei41" ] || \
+	   [ "$(base)" = "sqlserver-sei5" ] || \
+	   [ "$(base)" = "sqlserver-sei51" ]; then \
 		cp -f envs/env-$(base).env env.env; \
 		echo "Ambiente configurado para utilizar a base de dados/versao SEI $(base)"; \
 	else \
