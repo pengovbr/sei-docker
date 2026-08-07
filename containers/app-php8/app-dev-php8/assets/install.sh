@@ -9,7 +9,7 @@ mv /tmp/assets/scripts-e-automatizadores/command.sh \
 
 chmod +x /command.sh
 
-yum -y update
+ACCEPT_EULA=Y yum -y update
 
 #yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 
