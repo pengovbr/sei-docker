@@ -35,7 +35,7 @@ Para cada base de dados vamos:
 - rodar teste funcional simples no selenium;
 - Destruir o ambiente
 
-Verifique antes de rodar se ha algo ja levantado pois o 
+Verifique antes de rodar se ha algo ja levantado pois o
 teste vai tentar criar os ambientes do zero
 *****************************************************
 *****************************************************
@@ -49,7 +49,7 @@ help: ## Mostra essa ajuda. Voce pode usar tab para completar os comandos
 
 
 test_selenium_basico1: ## target de apoio roda um teste em selenium apontando para a instancia escolhida para criar processo com anexos
-	
+
 		@echo "$$MENSAGEM_TESTE_SELENIUM"
 
 		@echo "Subindo SeleniumChrome..."
@@ -89,7 +89,7 @@ endif
 		@echo ""
 		@echo "Testes finalizados"
 		@echo "Obrigado SeleniumChrome, mas vou te destruir..."
-		@docker stop seleniumchrome 
+		@docker stop seleniumchrome
 
 
 		@echo ""; \
@@ -120,6 +120,7 @@ tests-all-bases: ## RODE ESSE TARGET PARA TESTAR TODA A STACK DO DEV
 		@echo "$$MENSAGEM_TESTE_ALL"
 		@echo ""
 		make BASE=mysql-$(spe) tests-base
+		make BASE=mariadb-$(spe) tests-base
 		make BASE=sqlserver-$(spe) tests-base
 		make BASE=oracle-$(spe) tests-base
 		make BASE=postgres-$(spe) tests-base

@@ -1,51 +1,5 @@
 # SEI-DOCKER
 
-```
-Atenção. Mudanças Importantes
-
-01/2025
-
-Agora, a partir da versão 3.6.0, a imagem base para o SqlServer será a 2019. Havia problemas com versões do kernel específicas.
-Caso tenha um ambiente em uso nesse projeto com SqlSserver2017, não atualize a versão. Mantenha na 3.5.2 desse projeto.
-Caso use um banco de dados externo ou use outro banco de dados não precisa se preocupar.
-Verificar as alterações nas notas de release:
-https://github.com/pengovbr/sei-docker/releases
-
-=========
-
-05/2024
-Incluído suporte ao SEI5
-Algumas mudanças estruturais nos arquivos envlocal.env para o ecossitema de dev e infra.
-Verifique os detalhes na nota de release:
-https://github.com/spbgovbr/sei-docker/releases/tag/3.5.0
-
-Considere essas alterações ao ler os manuais e Readme(s), pois os mesmos ainda não foram atualizados.
-
-=========
-
-04/2024
-Incluímos o traefik como balanceador do ecossistema. Ele está substituindo o haproxy-cloud que usávamos e parou de receber atualização, o que prejudicava o uso em versões docker mais recentes.
-Portanto caso use alguma automação aponte para a tag 2.1.1, ela é a última com o haproxy como balanceador default.
-
-A partir de agora (versão 3.0.0 do projeto) iremos adotar o traefik.
-
-Esta v3 também conta com a possibilidade do SEI5, verificar notas de release.
-Observção importante: para o SEI5 foram cridas novas imagens de app, agendador, banco Mysql e Solr. Portanto será necessário alterar o envlocal.env apontando para as respectivas imagens antes de subir o SEI5.
-
-=========
-
-Mudanças Importantes - 07/2023
-
-Desde 07/2023 fizemos uma adaptação nesse projeto trazendo diversas melhorias que foram implementadas no projeto super-docker.
-Desta forma o projeto sei-docker aqui listado precisou ser modificado em sua estrutura para atender aos novos requisitos.
-É exatamente o mesmo projeto de antes, porém com novas pastas e funcionalidades, suportando por exemplo o sei4.1.
-
-Para diminuir o impacto de possíveis integrações que usam esse repositório, criamos a branch sei4-docker-inicial. Nessa branch está o projeto sei-docker em sua antiga estrutura.
-Portanto caso esteja usando alguma esteira ou automação que dependa desse repositório, e não queira fazer as adaptações necessárias para a nova estrutura, basta apontar para essa branch sei4-docker-inicial.
-
-No entanto, recomendamos usar a branch main pois será ela que vai receber novas atualizações/correções.
-```
-
 ## O que é
 
 O SEI-Docker é o projeto disponibilizado para provisionamento de ambientes do SEI usando a tecnologia docker e os orquestradores docker-compose, cattle ou kubernetes.
