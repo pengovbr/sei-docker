@@ -696,7 +696,7 @@ if [ "$MODULO_PETICIONAMENTO_INSTALAR" == "true" ]; then
         else
 
             echo "Verificando existencia do modulo de PETICIONAMENTO"
-			
+
 			# Inline try/catch
             {
                 cd /sei-modulos/peticionamento && git fetch --all
@@ -714,7 +714,7 @@ if [ "$MODULO_PETICIONAMENTO_INSTALAR" == "true" ]; then
                 echo "Catch: cd /sei-modulos/peticionamento && git checkout $MODULO_PETICIONAMENTO_VERSAO"
             }
             echo "Versao do Peticionamento eh agora: $MODULO_PETICIONAMENTO_VERSAO"
-			
+
             if [ -d "/opt/sei/web/modulos/peticionamento" ]; then
                 echo "Ja existe um diretorio para o modulo de PETICIONAMENTO. Vamos assumir que o codigo la esteja integro"
 
