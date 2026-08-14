@@ -738,9 +738,9 @@ if [ "$MODULO_PETICIONAMENTO_INSTALAR" == "true" ]; then
                 echo "Catch: cd /sei-modulos/peticionamento && git fetch --tags"
             }
             {
-                cd /sei-modulos/peticionamento && git checkout tags/$MODULO_PETICIONAMENTO_VERSAO
+                cd /sei-modulos/peticionamento && git checkout $MODULO_PETICIONAMENTO_VERSAO
             } || {
-                echo "Catch: cd /sei-modulos/peticionamento && git checkout tags/$MODULO_PETICIONAMENTO_VERSAO"
+                echo "Catch: cd /sei-modulos/peticionamento && git checkout $MODULO_PETICIONAMENTO_VERSAO"
             }
             echo "Versao do Peticionamento eh agora: $MODULO_PETICIONAMENTO_VERSAO"
             
