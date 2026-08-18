@@ -17,6 +17,16 @@ Depois disso rode o comando novamente..
 endef
 export GIT_USERPASSMSG
 
+define ORACLE12_PRESENTE
+Imagem base do Oracle12C $(IMAGEM_BASE_ORACLE12C):$(IMAGEM_BASE_ORACLE12C_VERSAO) nao encontrada no pool local
+Baixe antes a imagem base no repositorio docker da Oracle
+Imagem docker default: container-registry.oracle.com/database/enterprise:12.2.0.1-slim
+Nao podemos disponibilizar a mesma, pois a Oracle exige que cada usuario aceite
+os termos de uso para esta imagem da versao 12c.
+Apos fazer o docker pull da mesma volte a executar o comando de build da imagem oracle12c-sei51.
+endef
+export ORACLE12_PRESENTE
+
 
 help: ## Mostra essa ajuda. Voce pode usar tab para completar os comandos
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's|^\ ||'
@@ -72,10 +82,13 @@ verificar-imagem-base-sqlserver: ## target de apoio para verificar se a imagem b
 		@if [ -z "$(IMAGEM_BASE_SQLSERVER)" ]; then echo "Var IMAGEM_BASE_SQLSERVER nao definida"; make envcontainers.env; fi
 		@if [ -z "$(IMAGEM_BASE_SQLSERVER_VERSAO)" ]; then echo "Var IMAGEM_BASE_SQLSERVER_VERSAO nao definida"; exit 1; fi
 
-
 verificar-imagem-base-oracle: ## target de apoio para verificar se a imagem base do oracle foi informada
 		@if [ -z "$(IMAGEM_BASE_ORACLE)" ]; then echo "Var IMAGEM_BASE_ORACLE nao definida"; make envcontainers.env; fi
 		@if [ -z "$(IMAGEM_BASE_ORACLE_VERSAO)" ]; then echo "Var IMAGEM_BASE_ORACLE_VERSAO nao definida"; exit 1; fi
+
+verificar-imagem-base-oracle12c: ## target de apoio para verificar se a imagem base do oracle12c foi informada
+		@if [ -z "$(IMAGEM_BASE_ORACLE12C)" ]; then echo "Var IMAGEM_BASE_ORACLE12C nao definida"; make envcontainers.env; fi
+		@if [ -z "$(IMAGEM_BASE_ORACLE12C_VERSAO)" ]; then echo "Var IMAGEM_BASE_ORACLE12C_VERSAO nao definida"; exit 1; fi
 
 verificar-imagem-base-postgres: ## target de apoio para verificar se a imagem base do postgres foi informada
 		@if [ -z "$(IMAGEM_BASE_POSTGRES)" ]; then echo "Var IMAGEM_BASE_POSTGRES nao definida"; make envcontainers.env; fi
@@ -118,6 +131,13 @@ verificar-imagem-base-phpmemcachedadmin: ## target de apoio para verificar se a 
 		@if [ -z "$(IMAGEM_BASE_PHPMEMCACHEDADMIN)" ]; then echo "Var IMAGEM_BASE_PHPMEMCACHEDADMIN nao definida"; make envcontainers.env; fi
 		@if [ -z "$(IMAGEM_BASE_PHPMEMCACHEDADMIN_VERSAO)" ]; then echo "Var IMAGEM_BASE_PHPMEMCACHEDADMIN_VERSAO nao definida"; exit 1; fi
 
+verificar-imagem-base-oracle12c-presente: ## target de apoio para verificar se a imagem base do oracle12c esta presente
+		@i=$$(docker images | grep $(IMAGEM_BASE_ORACLE12C):$(IMAGEM_BASE_ORACLE12C_VERSAO) | wc -l); \
+		if [ $$i -eq 0 ]; then \
+		    echo "$$ORACLE12_PRESENTE"; \
+			echo ""; echo ""; \
+			exit 1; \
+		fi;
 
 verificar-git-parameters: ## target de apoio para verificar se usuario e token git foram passados. Necessario para a imagem app-ci
 		@if [ -z "$(GITUSER_REPO_MODULOS)" ]; then echo "$$GIT_USERPASSMSG"; exit 1; fi
@@ -297,6 +317,12 @@ pull-conteiner-oracle-sei50: verificar-imagem-base-oracle
 ## pull-conteiner-oracle-sei51 pull imagem oracle-sei51
 pull-conteiner-oracle-sei51: verificar-imagem-base-oracle
 		@make IMAGEMTMP=oracle11g-sei51 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					pull-conteiner-generic
+
+# pull-conteiner-oracle12c-sei51 pull imagem oracle12c-sei51
+pull-conteiner-oracle12c-sei51: verificar-imagem-base-oracle12c
+		@make IMAGEMTMP=oracle12c-sei51 \
 			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					pull-conteiner-generic
 
@@ -563,6 +589,9 @@ erase-conteiner-oracle-sei50: ## apagar a imagem oracle-sei50
 
 erase-conteiner-oracle-sei51: ## apagar a imagem oracle-sei51
 		@make IMAGEMTMP=oracle11g-sei51 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
+erase-conteiner-oracle12c-sei51: ## apagar a imagem oracle12c-sei51
+		@make IMAGEMTMP=oracle12c-sei51 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-base-postgres: ## apagar a imagem base-postgres
 		@make IMAGEMTMP=base-postgres15 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
@@ -866,6 +895,14 @@ build-conteiner-oracle-sei51: verificar-imagem-base-oracle
 			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/oracle-sei51 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE):$(IMAGEM_BASE_ORACLE_VERSAO) \
+					build-conteiner-generic
+
+## build-conteiner-oracle12c-sei51 construir imagem oracle12c-sei51
+build-conteiner-oracle12c-sei51: verificar-imagem-base-oracle12c verificar-imagem-base-oracle12c-presente
+		@make IMAGEMTMP=oracle12c-sei51 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/oracle12c-sei51 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE12C):$(IMAGEM_BASE_ORACLE12C_VERSAO) \
 					build-conteiner-generic
 
 build-conteiner-base-postgres: ## construir imagem base-postgres
