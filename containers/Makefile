@@ -23,7 +23,7 @@ Baixe antes a imagem base no repositorio docker da Oracle
 Imagem docker default: container-registry.oracle.com/database/enterprise:12.2.0.1-slim
 Nao podemos disponibilizar a mesma, pois a Oracle exige que cada usuario aceite
 os termos de uso para esta imagem da versao 12c.
-Apos fazer o docker pull da mesma volte a executar o comando de build da imagem oracle12c-sei51.
+Apos fazer o docker pull da mesma volte a executar o comando de build da imagem oracle12c-sei50.
 endef
 export ORACLE12_PRESENTE
 
@@ -320,6 +320,12 @@ pull-conteiner-oracle-sei51: verificar-imagem-base-oracle
 			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					pull-conteiner-generic
 
+# pull-conteiner-oracle12c-sei50 pull imagem oracle12c-sei50
+pull-conteiner-oracle12c-sei50: verificar-imagem-base-oracle12c
+		@make IMAGEMTMP=oracle12c-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					pull-conteiner-generic
+
 # pull-conteiner-oracle12c-sei51 pull imagem oracle12c-sei51
 pull-conteiner-oracle12c-sei51: verificar-imagem-base-oracle12c
 		@make IMAGEMTMP=oracle12c-sei51 \
@@ -589,6 +595,9 @@ erase-conteiner-oracle-sei50: ## apagar a imagem oracle-sei50
 
 erase-conteiner-oracle-sei51: ## apagar a imagem oracle-sei51
 		@make IMAGEMTMP=oracle11g-sei51 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
+
+erase-conteiner-oracle12c-sei50: ## apagar a imagem oracle12c-sei50
+		@make IMAGEMTMP=oracle12c-sei50 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
 
 erase-conteiner-oracle12c-sei51: ## apagar a imagem oracle12c-sei51
 		@make IMAGEMTMP=oracle12c-sei51 IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) erase-conteiner-generic
@@ -895,6 +904,14 @@ build-conteiner-oracle-sei51: verificar-imagem-base-oracle
 			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
 					IMAGEMTMP_PATH=databases/oracle-sei51 \
 					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE):$(IMAGEM_BASE_ORACLE_VERSAO) \
+					build-conteiner-generic
+
+## build-conteiner-oracle12c-sei50 construir imagem oracle12c-sei50
+build-conteiner-oracle12c-sei50: verificar-imagem-base-oracle12c verificar-imagem-base-oracle12c-presente
+		@make IMAGEMTMP=oracle12c-sei50 \
+			  IMAGEMTMP_VERSAO=$(DOCKER_CONTAINER_VERSAO_PRODUTO) \
+					IMAGEMTMP_PATH=databases/oracle12c-sei50 \
+					BUILD_ARGS=--build-arg\ IMAGEM_BASE=$(IMAGEM_BASE_ORACLE12C):$(IMAGEM_BASE_ORACLE12C_VERSAO) \
 					build-conteiner-generic
 
 ## build-conteiner-oracle12c-sei51 construir imagem oracle12c-sei51

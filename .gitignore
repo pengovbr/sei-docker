@@ -1,5 +1,6 @@
 .DS_Store
 containers/envcontainers.env
+dev/env.env
 infra/orquestrators/docker-compose/docker-compose.yml
 infra/orquestrators/docker-compose/docker-compose.yml-e
 infra/orquestrators/rancher-kubernetes/topublish/configmaps.yaml*

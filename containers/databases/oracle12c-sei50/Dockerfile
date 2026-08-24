@@ -22,8 +22,8 @@ ENV TERM=xterm \
     ORACLE_PWD=admin
 
 
-ADD --chown=oracle ${GIT_DB_REF}/oracle/v5.1.0/sei_5_1_0_BD_Ref_Exec.dmp \
-    ${GIT_DB_REF}/oracle/v5.1.0/sip_5_1_0_BD_Ref_Exec.dmp \
+ADD --chown=oracle ${GIT_DB_REF}/oracle/v5.0.0/sei_5_0_0_BD_Ref_Exec.dmp \
+    ${GIT_DB_REF}/oracle/v5.0.0/sip_5_0_0_BD_Ref_Exec.dmp \
     /tmp/
 
 COPY assets/pre-install.sql /tmp/pre-install.sql
