@@ -38,6 +38,8 @@ mysql-sei4 (default)
 mysql-sei5
 oracle-sei4
 oracle-sei5
+oracle12c-sei5
+oracle12c-sei51
 postgres-sei4
 postgres-sei5
 sqlserver-sei4
@@ -141,6 +143,8 @@ config: ## sobreescreve o arquivo env.env para uma nova base de dados / versao d
 	   [ "$(base)" = "oracle-sei41" ] || \
 	   [ "$(base)" = "oracle-sei5" ] || \
 	   [ "$(base)" = "oracle-sei51" ] || \
+	   [ "$(base)" = "oracle12c-sei5" ] || \
+	   [ "$(base)" = "oracle12c-sei51" ] || \
 	   [ "$(base)" = "postgres-sei4" ] || \
 	   [ "$(base)" = "postgres-sei41" ] || \
 	   [ "$(base)" = "postgres-sei5" ] || \

@@ -1,8 +1,7 @@
+
 # Documentação Técnica - SEI-Docker
 
 Documentação técnica completa do projeto **SEI-Docker**, solução de Infraestrutura como Código para provisionamento do Sistema Eletrônico de Informações (SEI) em ambientes de Desenvolvimento, Teste e Homologação (DTH).
-
-**Versão do projeto:** 3.6.11
 
 ---
 
@@ -17,6 +16,7 @@ Documentação técnica completa do projeto **SEI-Docker**, solução de Infraes
 | [Orquestração e Deploy](orquestracao.md) | Docker Compose, Kubernetes, Rancher Cattle, Makefiles e automação |
 | [Ambiente de Desenvolvimento](desenvolvimento.md) | Configuração do ambiente dev com XDebug, montagem de fontes e debug |
 | [Testes](testes.md) | Infraestrutura de testes: containers, infraestrutura, Selenium e CI/CD |
+| [Apêndice](apendice/README.md) | Demais informações |
 
 ---
 
@@ -30,11 +30,12 @@ sei-docker/
 │   ├── app/                     # Containers da aplicação PHP 7 (legado)
 │   ├── app-php8/                # Containers da aplicação PHP 8 (atual)
 │   ├── databases/               # Containers de banco de dados
-│   │   ├── mariadb-*/           # MariaDB 10.5 (SEI 4.0, 4.1, 5.0)
-│   │   ├── mysql8-*/            # MySQL 8 (SEI 4.1, 5.0)
-│   │   ├── oracle-*/            # Oracle 11g (SEI 4.0, 4.1, 5.0)
-│   │   ├── postgres-*/          # PostgreSQL 15 (SEI 4.0, 4.1, 5.0)
-│   │   └── sqlserver-*/         # SQL Server 2019 (SEI 4.0, 4.1, 5.0)
+│   │   ├── mariadb-*/           # MariaDB 10.5 (SEI 4.0, 4.1, 5.0, 5.1)
+│   │   ├── mysql8-*/            # MySQL 8 (SEI 4.0, 4.1, 5.0, 5.1)
+│   │   ├── oracle-*/            # Oracle 11g (SEI 4.0, 4.1, 5.0, 5.1)
+|   |   ├── oracle12c-*/         # Oracle 12c (SEI 5.0, 5.1)
+│   │   ├── postgres-*/          # PostgreSQL 15 (SEI 4.0, 4.1, 5.0, 5.1)
+│   │   └── sqlserver-*/         # SQL Server 2019 (SEI 4.0, 4.1, 5.0, 5.1)
 │   ├── solr*/                   # Apache Solr (8.2, 9.4, 9.6)
 │   ├── jod*/                    # JOD Converter (legado + 4.4.8)
 │   ├── traefik/                 # Load balancer Traefik

@@ -78,9 +78,10 @@ O SEI-Docker implementa uma arquitetura de microsserviços baseada em containers
 | **MySQL** | 8.0.21 | 3306 | Banco padrão para dev |
 | **PostgreSQL** | 15 | 5432 | Autenticação SCRAM-SHA-256 |
 | **Oracle** | 11g XE | 1521 | Versão Express |
-| **SQL Server** | 2019 | 1433 | Experimental, não para produção |
+| **Oracle 12c** | 12c | 1521 | Versão Enterprise, apenas para teste pessoal, necessario registro na Oracle |
+| **SQL Server** | 2019 | 1433 | conteiner simples da comunidade |
 
-Cada banco de dados possui imagens pré-populadas com o schema do SEI para as versões 4.0, 4.1 e 5.0.
+Cada banco de dados possui imagens pré-populadas com o schema do SEI para as versões 4.0, 4.1, 5.0 e 5.1.
 
 ### 4. Camada de Serviços Auxiliares
 
@@ -119,15 +120,24 @@ centos:7                          rockylinux:9.3
 
 mysql:8.0.21          mariadb:10.5          postgres:15
     └── base-mysql8       └── base-mariadb10.5  └── base-postgres15
-        ├── mysql8-sei41      ├── mariadb-sei40     ├── postgres-sei40
-        └── mysql8-sei50      ├── mariadb-sei41     ├── postgres-sei41
-                              └── mariadb-sei50     └── postgres-sei50
+        ├── mysql8-sei40      ├── mariadb-sei40     ├── postgres-sei40
+        ├── mysql8-sei41      ├── mariadb-sei41     ├── postgres-sei41
+        ├── mysql8-sei50      ├── mariadb-sei50     ├── postgres-sei50
+        └── mysql8-sei51      └── mariadb-sei51     └── mostgres-sei51
 
-oracleinanutshell/oracle-xe-11g       liaisonintl/mssql-server-linux:v2019
-    └── base-oracle11g                    └── base-sqlserver2019
+oracleinanutshell/oracle-xe-11g       container-registry.oracle.com/database/enterprise:12.2.0.1-slim
+    └── base-oracle11g                    └── base-oracle12c
         ├── oracle-sei40                      ├── sqlserver-sei40
         ├── oracle-sei41                      ├── sqlserver-sei41
-        └── oracle-sei50                      └── sqlserver-sei50
+        ├── oracle-sei50                      ├── sqlserver-sei50
+        └── oracle-sei51                      └── sqlserver-sei51
+
+liaisonintl/mssql-server-linux:v2019
+    └── base-sqlserver2019
+        ├── sqlserver-sei40
+        ├── sqlserver-sei41
+        ├── sqlserver-sei50
+        └── sqlserver-sei51
 
 traefik:v3.6.7                 osixia/openldap:1.2.2
     └── traefik-base               └── openldap-base

@@ -138,6 +138,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `mariadb10.5-sei40` | `containers/databases/mariadb-sei40/` | `base-mariadb10.5` | SEI 4.0 |
 | `mariadb10.5-sei41` | `containers/databases/mariadb-sei41/` | `base-mariadb10.5` | SEI 4.1 |
 | `mariadb10.5-sei50` | `containers/databases/mariadb-sei50/` | `base-mariadb10.5` | SEI 5.0 |
+| `mariadb10.5-sei51` | `containers/databases/mariadb-sei51/` | `base-mariadb10.5` | SEI 5.1 |
 
 **Características:**
 - Cria databases `sei` e `sip` com usuários dedicados
@@ -149,8 +150,10 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | Imagem | Caminho | Base | Schema |
 |--------|---------|------|--------|
 | `base-mysql8` | `containers/databases/mysql8-base/` | `mysql:8.0.21` | -- |
+| `mysql8-sei40` | `containers/databases/mysql8-sei40/` | `base-mysql8` | SEI 4.0 |
 | `mysql8-sei41` | `containers/databases/mysql8-sei41/` | `base-mysql8` | SEI 4.1 |
 | `mysql8-sei50` | `containers/databases/mysql8-sei50/` | `base-mysql8` | SEI 5.0 |
+| `mysql8-sei51` | `containers/databases/mysql8-sei51/` | `base-mysql8` | SEI 5.1 |
 
 ### PostgreSQL 15
 
@@ -160,6 +163,7 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `postgres15-sei40` | `containers/databases/postgres-sei40/` | `base-postgres15` | SEI 4.0 |
 | `postgres15-sei41` | `containers/databases/postgres-sei41/` | `base-postgres15` | SEI 4.1 |
 | `postgres15-sei50` | `containers/databases/postgres-sei50/` | `base-postgres15` | SEI 5.0 |
+| `postgres15-sei51` | `containers/databases/postgres-sei51/` | `base-postgres15` | SEI 5.1 |
 
 **Características:**
 - Autenticação SCRAM-SHA-256
@@ -173,6 +177,15 @@ Detalhamento de todas as 44 imagens Docker do projeto SEI-Docker.
 | `oracle11g-sei40` | `containers/databases/oracle-sei40/` | `base-oracle11g` | SEI 4.0 |
 | `oracle11g-sei41` | `containers/databases/oracle-sei41/` | `base-oracle11g` | SEI 4.1 |
 | `oracle11g-sei50` | `containers/databases/oracle-sei50/` | `base-oracle11g` | SEI 5.0 |
+| `oracle11g-sei51` | `containers/databases/oracle-sei51/` | `base-oracle11g` | SEI 5.1 |
+
+### Oracle 12c
+
+| Imagem | Caminho | Base | Schema |
+|--------|---------|------|--------|
+| `base-oracle12c` | `containers/databases/oracle12c-base/` | `container-registry.oracle.com/database/enterprise:12.2.0.1-slim` | -- |
+| `oracle12c-sei50` | `containers/databases/oracle12c-sei50/` | `base-oracle12c` | SEI 5.0 |
+| `oracle12c-sei51` | `containers/databases/oracle12c-sei51/` | `base-oracle12c` | SEI 5.1 |
 
 **Características:**
 - Importação via dump (.dmp) com utilitário `imp`
