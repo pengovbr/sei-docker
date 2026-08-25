@@ -27,6 +27,8 @@ dev/
 │   ├── env-mysql-sei5.env
 │   ├── env-oracle-sei4.env
 │   ├── env-oracle-sei5.env
+│   ├── env-oracle12c-sei5.env
+│   ├── env-oracle12c-sei51.env
 │   ├── env-postgres-sei4.env
 │   ├── env-postgres-sei5.env
 │   ├── env-sqlserver-sei4.env
@@ -234,10 +236,14 @@ make up
 | `mysql-sei5` | MySQL 8 | 5.0 | `mysql8-sei50` |
 | `oracle-sei4` | Oracle 11g | 4.0 | `oracle11g-sei40` |
 | `oracle-sei5` | Oracle 11g | 5.0 | `oracle11g-sei50` |
+| `oracle12c-sei5` | Oracle 12c | 5.0 | `oracle12c-sei50` |
+| `oracle12c-sei51` | Oracle 12c | 5.1 | `oracle12c-sei51` * |
 | `postgres-sei4` | PostgreSQL 15 | 4.0 | `postgres15-sei40` |
 | `postgres-sei5` | PostgreSQL 15 | 5.0 | `postgres15-sei50` |
 | `sqlserver-sei4` | SQL Server 2019 | 4.0 | `sqlserver2019-sei40` |
 | `sqlserver-sei5` | SQL Server 2019 | 5.0 | `sqlserver2019-sei50` |
+
+* [Oracle 12c](apendice/oracle12c.md)
 
 ---
 
