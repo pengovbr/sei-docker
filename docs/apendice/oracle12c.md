@@ -45,6 +45,7 @@ Caso deseje usar a imagem no ecossistema dev basta referenciar o oracle12c
 
 **Importante:**
 
+Apenas para o ecossistema dev.
 Acessar o diretorio onde os fontes estão montados e adicionar o nome do Plugabble Database (orclpdb1.localdomain) no array de banco de dados
 
 Localize:
