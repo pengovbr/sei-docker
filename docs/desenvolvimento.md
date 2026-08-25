@@ -243,7 +243,7 @@ make up
 | `sqlserver-sei4` | SQL Server 2019 | 4.0 | `sqlserver2019-sei40` |
 | `sqlserver-sei5` | SQL Server 2019 | 5.0 | `sqlserver2019-sei50` |
 
-* [Oracle 12c](apendice/oracle12c.md)
+* [Observações importantes para Oracle 12c](apendice/oracle12c.md)
 
 ---
 
