@@ -558,20 +558,42 @@ if [ "$MODULO_ESTATISTICAS_INSTALAR" == "true" ]; then
             git pull || true
             git pull --tags || true
 
+            rm -rf /opt/sei/web/modulos/mod-sei-estatisticas
+            cd /sei-modulos/mod-sei-estatisticas/
             cp -Rf /sei-modulos/mod-sei-estatisticas /opt/sei/web/modulos/
-
             cd /opt/sei/web/modulos/mod-sei-estatisticas
+
             git checkout $MODULO_ESTATISTICAS_VERSAO
-            echo "Versao do Governanca é agora: $MODULO_ESTATISTICAS_VERSAO"
-
+            echo "Versao do ESTATISTICAS é agora: $MODULO_ESTATISTICAS_VERSAO"
+            \cp envs/mysql.env .env
+            \cp envs/modulo.env .modulo.env
+            make clean
+            make dist
+            cd ..
+            mv mod-sei-estatisticas mod-sei-estatisticas.old
+            cd mod-sei-estatisticas.old/dist/
+            files=( *.zip )
+            f="${files[0]}"
+            mkdir -p temp
+            cd temp
+            mv ../$f .
+            yes | unzip $f
+            yes | cp -Rf sei sip /opt/
             cd /opt/sei/
-
             sed -i "s#/\*novomodulo\*/#'MdEstatisticas' => 'mod-sei-estatisticas', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
-            sed -i "s#/\*extramodulesconfig\*/#'MdEstatisticas' => array('url' => '$MODULO_ESTATISTICAS_URL','sigla' => '$MODULO_ESTATISTICAS_SIGLA','chave' => '$MODULO_ESTATISTICAS_CHAVE'), /\*extramodulesconfig\*/#g" config/ConfiguracaoSEI.php
+
+            mv config/mod-sei-estatisticas/ConfiguracaoModEstatisticas.exemplo.php config/mod-sei-estatisticas/ConfiguracaoModEstatisticas.php || true
+            sed -i "s#'trocar_para_url'#getenv('MODULO_ESTATISTICAS_URL')#g" config/mod-sei-estatisticas/ConfiguracaoModEstatisticas.php
+            sed -i "s#'trocar_para_sigla'#getenv('MODULO_ESTATISTICAS_SIGLA')#g" config/mod-sei-estatisticas/ConfiguracaoModEstatisticas.php
+            sed -i "s#'trocar_para_chave'#getenv('MODULO_ESTATISTICAS_CHAVE')#g" config/mod-sei-estatisticas/ConfiguracaoModEstatisticas.php
+
+            echo -ne "$APP_DB_SEI_USERNAME\n$APP_DB_SEI_PASSWORD\n" | php /opt/sei/scripts/mod-sei-estatisticas/sei_atualizar_versao_modulo_estatisticas.php
+            echo -ne "$APP_DB_SIP_USERNAME\n$APP_DB_SIP_PASSWORD\n" | php /opt/sip/scripts/mod-sei-estatisticas/sip_atualizar_versao_modulo_estatisticas.php
 
             cp /sei/files/scripts-e-automatizadores/modulos/mod-sei-estatisticas/sei_gov_configurar_ambiente.php /opt/sei/scripts
             php -c /etc/php.ini /opt/sei/scripts/sei_gov_configurar_ambiente.php
 
+            rm -rf /opt/sei/web/modulos/mod-sei-estatisticas.old
             touch /sei/controlador-instalacoes/instalado-modulo-estatisticas.ok
 
         fi
@@ -1219,7 +1241,13 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 cd /opt/sei/web/modulos
                 mv mod-sei-protocolo-integrado mod-sei-protocolo-integrado.old
 
-                cd /opt/sei/config/mod-protocolo-integrado/
+                if [ -d "/opt/sei/config/protocolo-integrado" ]; then
+                    MOD_FOLDER="protocolo-integrado"
+                else
+                    MOD_FOLDER="mod-protocolo-integrado"
+                fi
+
+                cd /opt/sei/config/${MOD_FOLDER}/
                 mv ./ConfiguracaoModProtocoloIntegrado.exemplo.php ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"WebService\" => \"\"#'WebService' => \"$MODULO_PI_URL\"#g" ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"UsuarioWebService\" => \"\"#'UsuarioWebService' => \"$MODULO_PI_USUARIO\"#g" ConfiguracaoModProtocoloIntegrado.php
@@ -1231,8 +1259,8 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 sed -i "s#/\*novomodulo\*/#'ProtocoloIntegradoIntegracao' => 'protocolo-integrado', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
 
                 cd /opt
-                echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sip/scripts/mod-protocolo-integrado/sip_atualizar_versao_modulo_protocolo_integrado.php
-                echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sei/scripts/mod-protocolo-integrado/sei_atualizar_versao_modulo_protocolo_integrado.php
+                echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sip/scripts/${MOD_FOLDER}/sip_atualizar_versao_modulo_protocolo_integrado.php
+                echo -ne "$APP_DB_ROOT_USERNAME\n$APP_DB_ROOT_PASSWORD\n" | php sei/scripts/${MOD_FOLDER}/sei_atualizar_versao_modulo_protocolo_integrado.php
 
                 rm -rf /opt/sei/web/modulos/mod-sei-protocolo-integrado.old
 

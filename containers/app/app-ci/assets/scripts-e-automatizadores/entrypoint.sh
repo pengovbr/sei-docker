@@ -222,17 +222,37 @@ if [ "$MODULO_ESTATISTICAS_INSTALAR" == "true" ]; then
 
         else
             echo "Copiando o modulo de estatisticas"
+            echo "Sincronizando nova versão do módulo de estatísticas"
+
+            cd /sei-modulos/mod-sei-estatisticas
+            git pull || true
+            git pull --tags || true
+
+            rm -rf /opt/sei/web/modulos/mod-sei-estatisticas
+            cd /sei-modulos/mod-sei-estatisticas/
             cp -Rf /sei-modulos/mod-sei-estatisticas /opt/sei/web/modulos/
+            cd /opt/sei/web/modulos/mod-sei-estatisticas
+
+            git checkout $MODULO_ESTATISTICAS_VERSAO
+            echo "Versao do ESTATISTICAS é agora: $MODULO_ESTATISTICAS_VERSAO"
+            \cp envs/mysql.env .env
+            \cp envs/modulo.env .modulo.env
+            make clean
+            make dist
+            cd ..
+            mv mod-sei-estatisticas mod-sei-estatisticas.old
+            cd mod-sei-estatisticas.old/dist/
+            files=( *.zip )
+            f="${files[0]}"
+            mkdir -p temp
+            cd temp
+            mv ../$f .
+            yes | unzip $f
+            yes | cp -Rf sei sip /opt/
+            cd /opt/sei/
+            sed -i "s#/\*novomodulo\*/#'MdEstatisticas' => 'mod-sei-estatisticas', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
+
         fi
-
-        cd /opt/sei/web/modulos/mod-sei-estatisticas
-        git checkout $MODULO_ESTATISTICAS_VERSAO
-        echo "Versao do Governanca eh agora: $MODULO_ESTATISTICAS_VERSAO"
-
-        cd /opt/sei/
-
-        sed -i "s#/\*novomodulo\*/#'MdEstatisticas' => 'mod-sei-estatisticas', /\*novomodulo\*/#g" config/ConfiguracaoSEI.php
-        sed -i "s#/\*extramodulesconfig\*/#'MdEstatisticas' => array('url' => '$MODULO_ESTATISTICAS_URL','sigla' => '$MODULO_ESTATISTICAS_SIGLA','chave' => '$MODULO_ESTATISTICAS_CHAVE'), /\*extramodulesconfig\*/#g" config/ConfiguracaoSEI.php
 
     fi
 
@@ -792,10 +812,16 @@ if [ "$MODULO_PI_INSTALAR" == "true" ]; then
                 \cp -Rf sei/* /opt/sei/
                 \cp -Rf sip/* /opt/sip/
 
+                if [ -d "/opt/sei/config/protocolo-integrado" ]; then
+                    MOD_FOLDER="protocolo-integrado"
+                else
+                    MOD_FOLDER="mod-protocolo-integrado"
+                fi
+
                 cd /opt/sei/web/modulos
                 mv mod-sei-protocolo-integrado mod-sei-protocolo-integrado.old
 
-                cd /opt/sei/config/mod-protocolo-integrado/
+                cd /opt/sei/config/${MOD_FOLDER}/
                 echo -ne "y" | mv ./ConfiguracaoModProtocoloIntegrado.exemplo.php ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"WebService\" => \"\"#'WebService' => \"$MODULO_PI_URL\"#g" ConfiguracaoModProtocoloIntegrado.php
                 sed -i "s#\"UsuarioWebService\" => \"\"#'UsuarioWebService' => \"$MODULO_PI_USUARIO\"#g" ConfiguracaoModProtocoloIntegrado.php
